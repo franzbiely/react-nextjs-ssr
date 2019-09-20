@@ -1,0 +1,15 @@
+.category-ad {
+    display:block;
+}
+.category-list {display: flex;}
+.category-list .category-item {
+    float:none;
+    width: auto !important;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+.category-list .category-item a {
+    display: flex;
+    flex-direction: column;
+}
