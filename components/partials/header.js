@@ -1,27 +1,11 @@
 import Head from 'next/head'
 import React from 'react'
 import "./header.scss"
+import Link from 'next/link';
 
 export default class Header extends React.Component {
     constructor(props) {
         super(props)
-        this.include_script = this.include_script.bind(this)
-    }
-    include_script() {
-        return {
-            __html : '<div>\
-                    <script src="./static/js/jquery.min.js"></script>\
-                    <script src="./static/js/popper.min.js"></script>\
-                    <script src="./static/js/modernizr.min.js"></script>\
-                    <script src="./static/js/bootstrap.min.js"></script>\
-                    <script src="http://maps.google.com/maps/api/js?sensor=true"></script>\
-                    <script src="./static/js/gmaps.min.js"></script>\
-                    <script src="./static/js/scrollup.min.js"></script>\
-                    <script src="./static/js/price-range.js"></script>  \
-                    <script src="./static/js/jquery.countdown.js"></script>  \
-                    <script src="./static/js/custom.js"></script>\
-                </div>'
-        }
     }
     render() {
         return (
@@ -51,7 +35,7 @@ export default class Header extends React.Component {
                     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="./static/images/ico/apple-touch-icon-57-precomposed.png" />
                     {/* JS */}
                     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-                    {/* <script src="./static/js/popper.min.js"></script>
+                    <script src="./static/js/popper.min.js"></script>
                     <script src="./static/js/modernizr.min.js"></script>
                     <script src="./static/js/bootstrap.min.js"></script>
                     <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
@@ -59,11 +43,9 @@ export default class Header extends React.Component {
                     <script src="./static/js/scrollup.min.js"></script>
                     <script src="./static/js/price-range.js"></script>  
                     <script src="./static/js/jquery.countdown.js"></script>  
-                    <script src="./static/js/custom.js"></script> */}
+                    <script src="./static/js/custom.js"></script>
                 </Head>
                 
-                {/* <div dangerouslySetInnerHTML={this.include_script()} /> */}
-
                 {/* header */}
                 <header id="header" className="clearfix">
                     {/* nav */}
