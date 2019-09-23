@@ -70,8 +70,8 @@ export default class Header extends React.Component {
                                             <li><a href="directory.html">Home Directory<span className="badge">Latest</span></a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="categories.html">Category</a></li>
-                                    <li><a href="details.html">Ad Details</a></li>
+                                    <li><Link href="/[category_name]" as={'/laptops'}>Laptop</a></li>
+                                    <li><a href="?cat=tablet">Tablet</a></li>
                                     <li><a href="faq.html">Help/Support</a></li> 
                                     <li className="dropdown"><a href="#" className="dropdown-toggle" data-toggle="dropdown">Pages <span className="caret"></span></a>
                                         <ul className="dropdown-menu">
