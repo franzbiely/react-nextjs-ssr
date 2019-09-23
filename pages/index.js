@@ -5,7 +5,17 @@ import Hero from '../components/hero'
 import CategoryAd from '../components/category-ad'
 import FeaturedAd from '../components/featured-ad'
 import { withRouter } from 'next/router';
+import Link from 'next/link';
+import { Route, BrowserRouter as Router } from 'react-router-dom'
 
+const PostLink = props => (
+  <li>
+    <Link href={`/categories?cat=${props.id}&brand=${props.brand}`} as={`${props.id}/${props.brand}`}>
+      <a>{props.id}</a>
+    </Link>
+  </li>
+);
+ 
 class Home extends React.Component {
   constructor(props) {
 
@@ -22,13 +32,20 @@ class Home extends React.Component {
       this.setState({page_template:this.render_home()});
     }
   }
+  
   render_home() {
+    console.log(props);
     return (
+      
       <section id="home-one-info" className="clearfix home-one">
         <Hero />
         <div className="container">
           <CategoryAd />
           <FeaturedAd />
+        </div>
+        <div>
+          <PostLink id="Laptop" brand="Asus"/>
+          <PostLink id="Tablet" brand="Acer"/>
         </div>
       </section>
     )
