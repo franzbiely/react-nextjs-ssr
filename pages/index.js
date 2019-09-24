@@ -6,15 +6,17 @@ import CategoryAd from '../components/category-ad'
 import FeaturedAd from '../components/featured-ad'
 import { withRouter } from 'next/router';
 import Link from 'next/link';
-import { Route, BrowserRouter as Router } from 'react-router-dom'
+// import { Route, BrowserRouter as Router } from 'react-router-dom'
+
+
 
 const PostLink = props => (
   <li>
-    <Link href={`/categories?cat=${props.id}&brand=${props.brand}`} as={`${props.id}/${props.brand}`}>
+    <Link href={{ pathname:'/categories', query: {name: props.brand, cat: props.id} }} >
       <a>{props.id}</a>
     </Link>
   </li>
-);
+); 
  
 class Home extends React.Component {
   constructor(props) {
@@ -34,7 +36,6 @@ class Home extends React.Component {
   }
   
   render_home() {
-    console.log(props);
     return (
       
       <section id="home-one-info" className="clearfix home-one">
