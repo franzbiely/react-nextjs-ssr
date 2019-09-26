@@ -1,49 +1,83 @@
 import Head from 'next/head'
 import React from 'react'
 import "./header.scss"
-import Link from 'next/link';
-
+// import Link from 'next/link';
+import { Link } from '../../routes';
 export default class Header extends React.Component {
     constructor(props) {
         super(props)
     }
+    state = {
+        Laptops : [{
+                name : 'Asus'
+            },
+            {
+                name : 'Acer'
+            }
+        ],
+        Tablets : [{
+            name : 'Lenovo'
+        },
+        {
+            name : 'HP'
+        }
+    ]
+    }
+    
+
     render() {
+
+        // const PostLink = props => (
+        //     <li className="dropdown">
+        //       <Link href={{ pathname:'/categories', query: { cat: props.id} }} ><a className="dropdown-toggle" data-toggle="dropdown">{props.id}</a></Link>
+        //       <ul className="dropdown-menu">
+
+        //         {this.state.brands.map((value, index) => {
+        //             return (
+        //             <li key={index}><Link href={{ pathname:'/categories', query: { cat: value.name} }} ><a>{value.name}</a></Link></li>
+        //             );
+        //         })}
+
+        //       </ul>
+        //     </li>
+        //   ); 
+
         return (
             <div>
                 <Head>
                     <title>Trade | World's Largest Classifieds Portal</title>
                     {/* CSS */}
-                    <link rel="stylesheet" href="./static/css/bootstrap.min.css" ></link> 
-                    <link rel="stylesheet" href="./static/css/font-awesome.min.css" />
-                    <link rel="stylesheet" href="./static/css/icofont.css" />
-                    <link rel="stylesheet" href="./static/css/owl.carousel.css" />  
-                    <link rel="stylesheet" href="./static/css/slidr.css" />
-                    <link rel="stylesheet" href="./static/css/main.css" />
-                    <link id="preset" rel="stylesheet" href="./static/css/presets/preset1.css" />
-                    <link rel="stylesheet" href="./static/css/responsive.css" />
-                    <link rel="stylesheet" href="./static/css/custom.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/static/css/bootstrap.min.css" ></link> 
+                    <link rel="stylesheet" href="http://localhost:3000/static/css/font-awesome.min.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/static/css/icofont.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/static/css/owl.carousel.css" />  
+                    <link rel="stylesheet" href="http://localhost:3000/static/css/slidr.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/static/css/main.css" />
+                    <link id="preset" rel="stylesheet" href="http://localhost:3000/static/css/presets/preset1.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/static/css/responsive.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/static/css/custom.css" />
 
                     {/* Font */}
                     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,300' rel='stylesheet' type='text/css' />
 	                <link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css' />
 
                     {/* Icon */}
-                    <link rel="icon" href="./static/images/ico/favicon.ico" />	
-                    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./static/images/ico/apple-touch-icon-144-precomposed.png" />
-                    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="./static/images/ico/apple-touch-icon-114-precomposed.png" />
-                    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="./static/images/ico/apple-touch-icon-72-precomposed.png" />
-                    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="./static/images/ico/apple-touch-icon-57-precomposed.png" />
+                    <link rel="icon" href="http://localhost:3000/static/images/ico/favicon.ico" />	
+                    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:3000/static/images/ico/apple-touch-icon-144-precomposed.png" />
+                    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:3000/static/images/ico/apple-touch-icon-114-precomposed.png" />
+                    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:3000/static/images/ico/apple-touch-icon-72-precomposed.png" />
+                    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="http://localhost:3000/static/images/ico/apple-touch-icon-57-precomposed.png" />
                     {/* JS */}
                     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-                    <script src="./static/js/popper.min.js"></script>
-                    <script src="./static/js/modernizr.min.js"></script>
-                    <script src="./static/js/bootstrap.min.js"></script>
+                    <script src="http://localhost:3000/static/js/popper.min.js"></script>
+                    <script src="http://localhost:3000/static/js/modernizr.min.js"></script>
+                    <script src="http://localhost:3000/static/js/bootstrap.min.js"></script>
                     <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
-                    <script src="./static/js/gmaps.min.js"></script>
-                    <script src="./static/js/scrollup.min.js"></script>
-                    <script src="./static/js/price-range.js"></script>  
-                    <script src="./static/js/jquery.countdown.js"></script>  
-                    <script src="./static/js/custom.js"></script>
+                    <script src="http://localhost:3000/static/js/gmaps.min.js"></script>
+                    <script src="http://localhost:3000/static/js/scrollup.min.js"></script>
+                    <script src="http://localhost:3000/static/js/price-range.js"></script>  
+                    <script src="http://localhost:3000/static/js/jquery.countdown.js"></script>  
+                    <script src="http://localhost:3000/static/js/custom.js"></script>
                 </Head>
                 
                 {/* header */}
@@ -56,10 +90,10 @@ export default class Header extends React.Component {
                             </button>
                             <a className="navbar-brand" href="index.html">
                                 Techlitic
-                            </a>
+                            </a>  
                             <div className="collapse navbar-collapse" id="tr-mainmenu">
                                 <ul className="nav navbar-nav">
-                                    <li className="active dropdown"><a href="#" className="dropdown-toggle" data-toggle="dropdown">Home <span className="caret"></span></a>
+                                    <li className="active dropdown"><a href="/#" className="dropdown-toggle" data-hover="dropdown">Home <span className="caret"></span></a>
                                         <ul className="dropdown-menu">
                                             <li><a href="index.html">Home Default </a></li>
                                             <li className="active"><a href="index-one.html">Home Version-1</a></li>
@@ -70,8 +104,26 @@ export default class Header extends React.Component {
                                             <li><a href="directory.html">Home Directory<span className="badge">Latest</span></a></li>
                                         </ul>
                                     </li>
-                                    <li><Link href="/[category_name]" as={'/laptops'}><a>Laptop</a></Link></li>
-                                    <li><a href="?cat=tablet">Tablet</a></li>
+                                    <li className="dropdown laptop-toggle">
+                                        <Link route="categories" params={{slug: 'Laptops'}} ><a className="dropdown-toggle" >Laptops</a></Link>
+                                        <ul className='dropdown-menu laptop-items' >
+                                            {this.state.Laptops.map((value, index) => {
+                                                return (
+                                                <li key={index}><Link href={{ pathname:'/brands', query: { category:'Laptop', brand: value.name} }} ><a>{value.name}</a></Link></li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </li>
+                                    <li className="dropdown tablet-toggle">
+                                        <Link route="categories" params={{slug: 'Tablets'}} ><a className="dropdown-toggle" >Tablets</a></Link>
+                                        <ul className="dropdown-menu tablet-items">
+                                            {this.state.Tablets.map((value, index) => {
+                                                return (
+                                                <li key={index}><Link href={{ pathname:'/brands', query: { category:'Tablets', brand: value.name} }} ><a>{value.name}</a></Link></li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </li>
                                     <li><a href="faq.html">Help/Support</a></li> 
                                     <li className="dropdown"><a href="#" className="dropdown-toggle" data-toggle="dropdown">Pages <span className="caret"></span></a>
                                         <ul className="dropdown-menu">
