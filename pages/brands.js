@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Link from 'next/link';
+import { Link } from '../routes';
 import Header from '../components/partials/header'
 import Footer from '../components/partials/footer'
 import Products from '../SampleData';
@@ -16,7 +16,7 @@ export default class extends Component {
     // console.log(x[0].Laptops[0].family);
     const PostLink = props => (
       <li>
-        <Link href={{ pathname:`/${props.page}`, query: { family: props.id} }} >
+        <Link route="family" params={{brand: this.props.brand , family: props.id }} >
           <a style={{color: 'white'}}>{props.id}</a>
         </Link>
       </li>
@@ -32,6 +32,7 @@ export default class extends Component {
               console.log(values);
           })
         } */}
+        {/* ///FAMILY */}
         <PostLink id="Zenbook" page="family"/>
         <PostLink id="Republic Of Gamers" page="family"/>
         </div>

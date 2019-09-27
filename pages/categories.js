@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Header from '../components/partials/header'
 import Footer from '../components/partials/footer'
-import Link from 'next/link';
+import { Link } from '../routes';
 import Products from '../SampleData';
 import "./styles.scss";
 import Layout from '../components/layout';
@@ -21,34 +21,34 @@ export default class Categories extends Component {
    let x = Object.values(this.state.Products);
     const { icon } = this.state
     const PostLink = props => (
-      <Link href={{ pathname:`/categories`, query: {cat: props.category, brand: props.id, slug: props.slug} }} >
-        {/* as={`/${props.page}/${props.id}`} */}
+      <Link route={`/${props.slug}/${props.id}`}  params={{cat: props.category, brand: props.id, slug: props.slug}} >
         <a>{props.id}</a>
       </Link>
     ); 
     let product_output = [];
     if(this.props.brand === 'Asus'){
       x[0].Laptops[0].products.map(value => {
-       product_output.push(<div><h1>{value.product_name}</h1><hr /></div>)
+       product_output.push(<div style={{display:'flex', alignItems: 'center'}}><img src={value.product_image} width='100px'/><h1>{value.product_name}</h1><hr/></div>)
      })
     }
     else if(this.props.brand === 'Acer'){
       x[0].Laptops[1].products.map(value => {
-        product_output.push(<div><h1>{value.product_name}</h1><hr /></div>)
+        product_output.push(<div style={{display:'flex', alignItems: 'center'}}><img src={value.product_image} width='100px'/><h1>{value.product_name}</h1><hr/></div>)
       })
     }
     else if(this.props.brand === 'Lenovo'){
       x[0].Laptops[2].products.map(value => {
-        product_output.push(<div><h1>{value.product_name}</h1><hr /></div>)
-      })
+        // if(value.product_name){
+          product_output.push(<div style={{display:'flex', alignItems: 'center'}}><img src={value.product_image} width='100px'/><h1>{value.product_name}</h1><hr/></div>)
+        })
     }
 
     return (
       <div className="category-page page-body">
         <Header />
         <div className="container content">
-          <span style={{color: 'white'}}> Home </span>
-          <h1>{this.props.test}</h1>
+          <Link  route="/"><a style={{color: 'white'}}>Home</a></Link>
+          <h1 style={{color: 'white'}}>{this.props.test}</h1>
           <h1 style={{color: 'white'}}>{this.props.categoryName}</h1>
           <div className="search-container">
               <input className="form-control" type="text" placeholder="Type Your key word" aria-label="Search"/><button className="btn btn-success">Search</button>
