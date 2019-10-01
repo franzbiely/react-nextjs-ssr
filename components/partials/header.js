@@ -89,13 +89,13 @@ export default class Header extends React.Component {
                                         </ul>
                                     </li>
                                     <li className="dropdown laptop-toggle">
-                                        <Link route="categoryPage" params={{slug:'Laptops'}} ><a className="dropdown-toggle" >Laptops</a></Link>
+                                        <Link href='/Laptops'><a className="dropdown-toggle">Laptops</a></Link>
                                         <ul className='dropdown-menu laptop-items' >
                                             {this.state.Laptops.map((value, index) => {
                                                 return (
-                                                <li key={index}><Link route="brands" params={{brand: value.name}}  ><a>{value.name}</a></Link></li>
+                                                <li key={index}><Link href={`/${value.name}`}  ><a>{value.name}</a></Link></li>
                                                 );
-                                            })}
+                                            })} 
                                         </ul>
                                     </li>
                                     <li className="dropdown tablet-toggle">

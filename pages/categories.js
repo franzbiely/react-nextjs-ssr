@@ -26,6 +26,7 @@ export default class Categories extends Component {
       </Link>
     ); 
     let product_output = [];
+    console.log(product_output)
     if(this.props.brand === 'Asus'){
       x[0].Laptops[0].products.map(value => {
        product_output.push(<div style={{display:'flex', alignItems: 'center'}}><img src={value.product_image} width='100px'/><h1>{value.product_name}</h1><hr/></div>)
@@ -44,10 +45,10 @@ export default class Categories extends Component {
     }
 
     return (
-      <div className="category-page page-body">
+      <div className="page-body category-page">
         <Header />
         <div className="container content">
-          <Link  route="/"><a style={{color: 'white'}}>Home</a></Link>
+          <Link route="/"><a style={{color: 'white'}}>Home</a></Link>
           <h1 style={{color: 'white'}}>{this.props.test}</h1>
           <h1 style={{color: 'white'}}>{this.props.categoryName}</h1>
           <div className="search-container">
@@ -103,10 +104,9 @@ export default class Categories extends Component {
           </div>
         </div>
         
-        </div>
+        </div>  
         <Footer />
-      </div>
-    
+    </div>
     )
   }
 }

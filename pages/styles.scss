@@ -150,33 +150,33 @@ ul.breadcrumb li a:hover {
 .model-container .p_bestprices div:first-of-type > div:not(:last-child) {
   margin-bottom: 10px;
 }
-.row {
+.model-page .row {
   margin: 30px 0;
 }
-.row .col-sm-9 > div,
-.row .col-sm-3 > div {
+.model-page .row .col-sm-9 > div,
+.model-page .row .col-sm-3 > div {
   background-color: white;
   padding: 20px;
   border-radius: 6px;
 }
-.row .col-sm-9 > div {
+.model-page .row .col-sm-9 > div {
   margin-right: 30px;
 }
-.row > div {
+.model-page .row > div {
   padding: 0;
 }
-.row .col-sm-9 table {
+.model-page .row .col-sm-9 table {
   border-color: rgba(150, 150, 150, 0.4) !important;
 }
-.row .col-sm-9 table * {
+.model-page .row .col-sm-9 table * {
   text-align: center;
   border-color: rgba(150, 150, 150, 0.8);
 }
-.product-image-section .col-sm-12.product-gallery {
+.model-page .product-image-section .col-sm-12.product-gallery {
   display: flex;
   justify-content: space-between;
 }
-.product-image-section .col-sm-12.product-gallery .overlay {
+.model-page .product-image-section .col-sm-12.product-gallery .overlay {
     z-index: 1;
     position: absolute;
     top: 0;
@@ -186,7 +186,7 @@ ul.breadcrumb li a:hover {
     background-color: rgba(255,255,255,0.5);
     transition: 1s; 
 }
-.product-image-section .col-sm-12.product-gallery > div {
+.model-page .product-image-section .col-sm-12.product-gallery > div {
   width: 23%;
   display: flex;
   align-items: center;
@@ -194,7 +194,7 @@ ul.breadcrumb li a:hover {
   cursor: pointer;
   position: relative;
 }
-.product-image-section {
+.model-page .product-image-section {
     .col-sm-12.product-gallery > div img {
         height: 100px;
         object-fit: contain;

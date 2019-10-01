@@ -27,6 +27,7 @@ export default class extends Component {
             <li><Link route="family" params={{brand: this.props.brand, family: this.props.family}}><a>{this.props.family}</a></Link></li>
         </ul> */}
         <h1 style={{color: 'white'}}><Link route="model" params={{model: this.props.series}}>{this.props.series}</Link> </h1>
+        
         </div>
         <Footer />
       </div>

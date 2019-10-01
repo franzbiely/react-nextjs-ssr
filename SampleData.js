@@ -4,7 +4,7 @@ export default {
             {
                 name : 'Asus',
                 products: [
-                   {product_name: 'Asus AXX12-23', product_image: 'http://localhost:3000/static/images/http://localhost:3000/static/images/laptop_sample.jpg'},
+                   {product_name: 'Asus AXX12-23', product_image: 'http://localhost:3000/static/images/laptop_sample.jpg'},
                    {product_name: 'ASUS ROG 77x', product_image: 'http://localhost:3000/static/images/laptop_sample.jpg'},
                 ],
                 family: [
