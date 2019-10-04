@@ -1,5 +1,6 @@
 {
   "name": "react-next",
+  "main": "./lib/db",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,18 +8,22 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js"
   },
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "isomorphic-unfetch": "^3.0.0",
     "jquery": "^3.4.1",
     "mysql": "^2.17.1",
-    "next": "9.0.6",
+    "next": "^9.0.6",
     "next-routes": "^1.4.2",
     "node-sass": "^4.12.0",
-    "react": "16.9.0",
-    "react-dom": "16.9.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react-owl-carousel2": "^0.3.0",
-    "react-router-dom": "^5.0.1"
+    "react-router-dom": "^5.0.1",
+    "serverless-mysql": "^1.5.1",
+    "sql-template-strings": "^2.2.2"
   }
 }

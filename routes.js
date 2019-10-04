@@ -4,7 +4,7 @@ module.exports = routes()
 .add('categoryPage', '/:slug', '/') 
 .add('brands','/:slug', '/')
 .add('categoryBrandFilter', '/:slug/:brand', '/')
-// .add('family','/:brand/:family', '/')
+.add('family','/:slug/:brand/:series', '/')
 // .add('series','/:series', 'index')
 // .add('model','/:index')
  

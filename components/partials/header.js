@@ -89,21 +89,21 @@ export default class Header extends React.Component {
                                         </ul>
                                     </li>
                                     <li className="dropdown laptop-toggle">
-                                        <Link href='/Laptops'><a className="dropdown-toggle">Laptops</a></Link>
+                                        <Link href='/Laptops' params={{slug: 'Laptops'}} ><a className="dropdown-toggle">Laptops</a></Link>
                                         <ul className='dropdown-menu laptop-items' >
                                             {this.state.Laptops.map((value, index) => {
                                                 return (
-                                                <li key={index}><Link href={`/${value.name}`}  ><a>{value.name}</a></Link></li>
+                                                <li key={index}><Link href={`/${value.name}`} params={{slug: value.name}}><a>{value.name}</a></Link></li>
                                                 );
                                             })} 
                                         </ul>
                                     </li>
                                     <li className="dropdown tablet-toggle">
-                                        <Link route="Tablets" params={{slug: 'Tablets'}} ><a className="dropdown-toggle" >Tablets</a></Link>
+                                        <Link href='/Tablets' params={{slug: 'Tablets'}} ><a className="dropdown-toggle" >Tablets</a></Link>
                                         <ul className="dropdown-menu tablet-items">
                                             {this.state.Tablets.map((value, index) => {
                                                 return (
-                                                <li key={index}><Link route={`/${value.name}`} params={{ category:'Tablets', brand: value.name}} ><a>{value.name}</a></Link></li>
+                                                <li key={index}><Link href={`/${value.name}`} params={{slug: value.name}}><a>{value.name}</a></Link></li>
                                                 );
                                             })}
                                         </ul>
