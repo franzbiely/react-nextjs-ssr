@@ -30,7 +30,8 @@ class Home extends React.Component {
       Brand: props.brand,
       product_output: [],
       Series: props.series,
-      data: {}
+      data: {},
+      Family: null 
     };
   }
   handleClick = e => {
@@ -52,11 +53,11 @@ class Home extends React.Component {
         throw res;
       }
       // Convert serialized response into json
-      
+   
       return res.json()
     }).then(data => {
-      
-      this.setState({data:{categories: data.categories, brands : data.brands, families : data.families}});
+     
+      this.setState({data:{categories: data.categories, brands : data.brands, families : data.families, series: data.series}});
     }).catch(err => {
       // Handle any errors
       console.error(err);
@@ -86,8 +87,7 @@ class Home extends React.Component {
     let categoryNames = [];
     let familyNames = [];
     let brandNames = [];
-    
-    console.log(this.state.data.categories)
+    let seriesNames = [];
     const { data } = this.state;
     if ( this.state.data.categories ) 
     {
@@ -97,7 +97,9 @@ class Home extends React.Component {
       data.families.map(function(values, key){
         familyNames.push(values.name)
       })
-    console.log(familyNames);
+      data.series.map(function(values,key){
+        seriesNames.push(values.name)
+      })
     if (this.state.Slug) {
       if (categoryNames.indexOf(this.state.Slug) !== -1) {
         pageTemplate = (
@@ -105,10 +107,37 @@ class Home extends React.Component {
         );
       } else {
         if (familyNames.indexOf(this.state.Brand) !== -1) {
-          pageTemplate = (
-            <Family brandName={this.state.Slug} familyName={this.state.Brand} />
+          const PostLink = props => (
+            <li >
+              <Link
+                key={props.id}
+                href={`/${this.state.Slug}/${props.id}`}
+                params={{ series: props.id }}
+              >
+                <a style={{ color: "white" }}>{props.id}</a>
+              </Link>
+            </li>
           );
-        } else if (this.state.Brand === "Zenbook S12") {
+          let seriesContainer = [];
+            if (this.state.data.series || this.state.data.families){
+              for(let x=0; x<this.state.data.families.length; x++){
+                for(let y=0; y<this.state.data.series.length; y++){
+                  if(this.state.data.families[x].parent_ID === this.state.data.series[y].parent_ID){
+                    if(this.state.data.families[x].name === this.state.Brand){
+                        seriesContainer.push(this.state.data.series[y].name)
+                    }
+                  }
+                }
+              }
+            }
+          pageTemplate = (
+            <Family brandName={this.state.Slug} familyName={this.state.Brand}>
+              {seriesContainer.map(function(values,keys){
+                return <PostLink  id={values} />
+              })}  
+            </Family>
+          );
+        } else if (seriesNames.indexOf(this.state.Brand) !== -1) {
           if (this.state.Series !== "undefined" && this.state.Series) {
             pageTemplate = <Model />;
           } else {

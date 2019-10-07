@@ -18,11 +18,11 @@ export default class Series extends Component {
     return (
    
         <div className="container content">
-        <ul className="breadcrumb">
+        {/* <ul className="breadcrumb">
             <li><a href="/">Home</a></li>
             <li><Link href={`/${this.props.brandName}`} params={{brand: this.props.brand}}><a>{this.props.brandName}</a></Link></li>
             <li><Link href={`/${this.props.brandName}/${this.props.familyName}`} params={{brand: this.props.brand, family: this.props.familyName}}><a>{this.props.familyName}</a></Link></li>
-        </ul>
+        </ul> */}
         <h1 style={{color: 'white'}}>{this.props.seriesName}</h1>
           <PostLink id="Zenbook S12 UX33"/>
           <PostLink id="Zenbook S12 UV92"/>

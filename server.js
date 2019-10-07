@@ -27,11 +27,11 @@ const server = express();
 server.use(cors());
 server.get("/data", (req, res) => {
   connection.query(
-    "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'"
-    , [1,2,3], (error, results, fields) => {
+    "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'; SELECT * from products where type='series'"
+    , [1,2,3,4], (error, results, fields) => {
   //  console.log(results)
     if (error) throw error;
-    return res.send({ categories: results[0], brands: results[1], families: results[2]});
+    return res.send({ categories: results[0], brands: results[1], families: results[2], series: results[3]});
   });
 });
 
