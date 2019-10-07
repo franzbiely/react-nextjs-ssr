@@ -11,6 +11,7 @@ const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
 const express = require("express");
 var mysql = require("mysql");
 const connection = mysql.createConnection({
+  multipleStatements: true,
   host: "localhost",
   user: "root",
   password: "",
@@ -24,22 +25,13 @@ connection.connect(function(err) {
 
 const server = express();
 server.use(cors());
-server.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 server.get("/data", (req, res) => {
-  connection.query("SELECT * from categories", (error, results, fields) => {
-    let arr = [];
-    results.map(function(key, values) {
-      arr.push(results[values].name);
-    });
+  connection.query(
+    "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'"
+    , [1,2,3], (error, results, fields) => {
+  //  console.log(results)
     if (error) throw error;
-    return res.send({ name: arr });
+    return res.send({ categories: results[0], brands: results[1], families: results[2]});
   });
 });
 

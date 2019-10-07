@@ -30,32 +30,40 @@ class Home extends React.Component {
       Brand: props.brand,
       product_output: [],
       Series: props.series,
-      data: []
+      data: {}
     };
   }
   handleClick = e => {
     const { icon } = this.state;
     this.setState({ icon: !icon });
   };
-  componentDidMount(){
-    fetch('http://localhost:3000/data')
-    .then(res => { console.log(res);// <-- The `results` response object from your backend
+   componentDidMount(){
+    var request = new Request('http://localhost:3000/data', {
+        method: 'GET', 
+        mode: 'cors', 
+        headers: new Headers({
+          'Content-Type': 'text/plain'
+        })
+      });
+    fetch(request)
+    .then(res => {// <-- The `results` response object from your backend
       // fetch handles errors a little unusually
       if (!res.ok) {
         throw res;
       }
       // Convert serialized response into json
+      
       return res.json()
     }).then(data => {
-      // setState triggers re-render
-      this.setState({data});
+      
+      this.setState({data:{categories: data.categories, brands : data.brands, families : data.families}});
     }).catch(err => {
       // Handle any errors
       console.error(err);
       this.setState({loading: false, error: true});
     });
 
-    
+    // 
 }
   
   render_home() {
@@ -71,15 +79,32 @@ class Home extends React.Component {
       </section>
     );
   }
+
+
   render() {
     let pageTemplate;
+    let categoryNames = [];
+    let familyNames = [];
+    let brandNames = [];
+    
+    console.log(this.state.data.categories)
+    const { data } = this.state;
+    if ( this.state.data.categories ) 
+    {
+      data.categories.map(function(values, key){
+        categoryNames.push(values.name)
+      })
+      data.families.map(function(values, key){
+        familyNames.push(values.name)
+      })
+    console.log(familyNames);
     if (this.state.Slug) {
-      if (this.state.Slug === "Laptops" || this.state.Slug === "Tablets") {
+      if (categoryNames.indexOf(this.state.Slug) !== -1) {
         pageTemplate = (
           <Categories categoryName={this.state.Slug} brand={this.state.Brand} />
         );
       } else {
-        if (this.state.Brand === "Zenbook") {
+        if (familyNames.indexOf(this.state.Brand) !== -1) {
           pageTemplate = (
             <Family brandName={this.state.Slug} familyName={this.state.Brand} />
           );
@@ -91,6 +116,7 @@ class Home extends React.Component {
               <Series
                 brandName={this.state.Slug}
                 seriesName={this.state.Brand}
+                familyName={this.state.Brand}
               />
             );
           }
@@ -101,11 +127,13 @@ class Home extends React.Component {
     } else {
       pageTemplate = this.state.page_template;
     }
+  }
     return (
       <div className={`page-body ${this.state.Series ? "model-page" : ""}`}>
         <Header />
-        {/* {this.state.data} */}
+         
         {pageTemplate}
+        
         <Footer />
       </div>
     );

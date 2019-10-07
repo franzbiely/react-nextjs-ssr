@@ -8,7 +8,6 @@ export default class Series extends Component {
   }
   
   render () {
-      // console.log(this.props)
     const PostLink = props => (
       <li>
         <Link href={`/${this.props.brandName}/${this.props.seriesName}/${props.id}`} params={{model: this.props.series}}>
@@ -19,11 +18,11 @@ export default class Series extends Component {
     return (
    
         <div className="container content">
-        {/* <ul class="breadcrumb">
+        <ul className="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li><Link route="brands" params={{brand: this.props.brand}}><a>{this.props.brand}</a></Link></li>
-            <li><Link route="family" params={{brand: this.props.brand, family: this.props.family}}><a>{this.props.family}</a></Link></li>
-        </ul> */}
+            <li><Link href={`/${this.props.brandName}`} params={{brand: this.props.brand}}><a>{this.props.brandName}</a></Link></li>
+            <li><Link href={`/${this.props.brandName}/${this.props.familyName}`} params={{brand: this.props.brand, family: this.props.familyName}}><a>{this.props.familyName}</a></Link></li>
+        </ul>
         <h1 style={{color: 'white'}}>{this.props.seriesName}</h1>
           <PostLink id="Zenbook S12 UX33"/>
           <PostLink id="Zenbook S12 UV92"/>
