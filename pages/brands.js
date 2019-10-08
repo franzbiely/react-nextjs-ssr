@@ -10,7 +10,7 @@ export default class Brands extends Component {
     families: {}
   };
   componentDidMount() {
-    var request = new Request("http://localhost:3000/data", {
+    var request = new Request("http://www.techlitic.com/data", {
       method: "GET",
       mode: "cors",
       headers: new Headers({

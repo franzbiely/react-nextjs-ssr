@@ -39,7 +39,7 @@ class Home extends React.Component {
     this.setState({ icon: !icon });
   };
    componentDidMount(){
-    var request = new Request('http://localhost:3000/data', {
+    var request = new Request('http://www.techlitic.com/data', {
         method: 'GET', 
         mode: 'cors', 
         headers: new Headers({

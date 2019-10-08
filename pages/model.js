@@ -9,7 +9,7 @@ export default class Model extends Component {
           <div className="model-container">
             <div className="product-image-section">
               <img
-                src={"http://localhost:3000/static/images/laptop_sample.png"}
+                src={"http://www.techlitic.com/static/images/laptop_sample.png"}
                 alt="laptop"
               ></img>
               <div className="col-sm-12 product-gallery">
@@ -18,7 +18,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://localhost:3000/static/images/laptop_sample.png"
+                        "http://www.techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -29,7 +29,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://localhost:3000/static/images/laptop_sample.png"
+                        "http://www.techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -40,7 +40,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://localhost:3000/static/images/laptop_sample.png"
+                        "http://www.techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -51,7 +51,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://localhost:3000/static/images/laptop_sample.png"
+                        "http://www.techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
