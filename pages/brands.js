@@ -5,11 +5,24 @@ import Footer from "../components/partials/footer";
 import Products from "../SampleData";
 
 export default class Brands extends Component {
-  state = {
-    Products,
-    families: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      Products,
+      families: {},
+      isLoading: true
+    };
+  }
+
   componentDidMount() {
+    
+    this.getData();
+    this.interval = setInterval(this.getData, 6000);    
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+}
+  getData = () => {
     var request = new Request("http://localhost:3000/data", {
       method: "GET",
       mode: "cors",
@@ -25,7 +38,7 @@ export default class Brands extends Component {
         return res.json();
       })
       .then(data => {
-        this.setState({ families: data.families });
+        this.setState({ families: data.families, isLoading: false });
       })
       .catch(err => {
         // Handle any errors
@@ -33,7 +46,9 @@ export default class Brands extends Component {
         this.setState({ loading: false, error: true });
       });
   }
+  
   render() {
+    
     let x = Object.values(this.state.Products);
     const PostLink = props => (
       <li>
@@ -45,14 +60,19 @@ export default class Brands extends Component {
         </Link>
       </li>
     );
+    
     return (
       <div className="container content">
         <h3 style={{ color: "white" }}>{this.props.brandName}</h3>
-        {this.state.families[0]
-          ? this.state.families.map(value => {
+
+        {
+           (!this.state.isLoading) ?
+           
+           this.state.families.map(value => {
               return <PostLink id={value.name} />;
-            })
-          : "no data found"}
+            }) :
+            'no data'
+        }
       </div>
     );
   }

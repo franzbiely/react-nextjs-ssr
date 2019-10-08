@@ -8,6 +8,8 @@ export default class Header extends React.Component {
         super(props)
     }
     state = {
+        // Laptops : [],
+        // Tablets : []
         Laptops : [{
                 name : 'Asus'
             },
@@ -23,6 +25,34 @@ export default class Header extends React.Component {
         }
     ]
     }
+    // componentDidMount(){
+    //     var request = new Request('http://localhost:3000/data', {
+    //         method: 'GET', 
+    //         mode: 'cors', 
+    //         headers: new Headers({
+    //           'Content-Type': 'text/plain'
+    //         })
+    //       });
+    //     fetch(request)
+    //     .then(res => {// <-- The `results` response object from your backend
+    //       // fetch handles errors a little unusually
+    //       if (!res.ok) {
+    //         throw res;
+    //       }
+    //       // Convert serialized response into json
+          
+    //       return res.json()
+    //     }).then(data => {
+          
+    //       this.setState({data:{categories: data.categories, brands : data.brands, families : data.families}});
+    //     }).catch(err => {
+    //       // Handle any errors
+    //       console.error(err);
+    //       this.setState({loading: false, error: true});
+    //     });
+    
+    //     // 
+    // }
     
 
     render() {

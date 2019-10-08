@@ -23,6 +23,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      pageTemplate: null,
       page_template: this.render_home(),
       Products,
       Slug: props.slug,
@@ -31,21 +32,22 @@ class Home extends React.Component {
       product_output: [],
       Series: props.series,
       data: {},
-      Family: null 
+      Family: null, 
+      isLoading: true
     };
   }
   handleClick = e => {
     const { icon } = this.state;
     this.setState({ icon: !icon });
   };
-   componentDidMount(){
+  componentDidMount(){
     var request = new Request('http://localhost:3000/data', {
-        method: 'GET', 
-        mode: 'cors', 
-        headers: new Headers({
-          'Content-Type': 'text/plain'
-        })
-      });
+      method: 'GET', 
+      mode: 'cors', 
+      headers: new Headers({
+        'Content-Type': 'text/plain'
+      })
+    });
     fetch(request)
     .then(res => {// <-- The `results` response object from your backend
       // fetch handles errors a little unusually
@@ -53,22 +55,19 @@ class Home extends React.Component {
         throw res;
       }
       // Convert serialized response into json
-   
+  
       return res.json()
     }).then(data => {
-     
-      this.setState({data:{categories: data.categories, brands : data.brands, families : data.families, series: data.series}});
+    
+      this.setState({isLoading: false, data:{categories: data.categories, brands : data.brands, families : data.families, series: data.series, models: data.models}});
+      this.pageTemplateAssignation()
     }).catch(err => {
       // Handle any errors
       console.error(err);
       this.setState({loading: false, error: true});
     });
-
-    // 
-}
-  
+  }
   render_home() {
-    
     return (
       <section id="home-one-info" className="clearfix home-one">
         <Hero />
@@ -80,31 +79,35 @@ class Home extends React.Component {
       </section>
     );
   }
-
-
-  render() {
-    let pageTemplate;
+  pageTemplateAssignation(){
+    
     let categoryNames = [];
     let familyNames = [];
-    let brandNames = [];
+    let modelNames = [];
     let seriesNames = [];
+    
     const { data } = this.state;
-    if ( this.state.data.categories ) 
+    if ( !this.state.isLoading ) 
     {
-      data.categories.map(function(values, key){
+      data.categories.map(values => {
         categoryNames.push(values.name)
       })
-      data.families.map(function(values, key){
+      data.families.map(values =>{
         familyNames.push(values.name)
       })
-      data.series.map(function(values,key){
+      data.series.map(values =>{
         seriesNames.push(values.name)
       })
+      data.models.map(values =>{
+        modelNames.push(values.name)
+      })
+
+      console.log(seriesNames)
     if (this.state.Slug) {
       if (categoryNames.indexOf(this.state.Slug) !== -1) {
-        pageTemplate = (
+        this.setState({pageTemplate : 
           <Categories categoryName={this.state.Slug} brand={this.state.Brand} />
-        );
+        });
       } else {
         if (familyNames.indexOf(this.state.Brand) !== -1) {
           const PostLink = props => (
@@ -128,40 +131,40 @@ class Home extends React.Component {
                     }
                   }
                 }
-              }
+              }  
             }
-          pageTemplate = (
+            this.setState({pageTemplate :
             <Family brandName={this.state.Slug} familyName={this.state.Brand}>
               {seriesContainer.map(function(values,keys){
                 return <PostLink  id={values} />
               })}  
             </Family>
-          );
+            });
         } else if (seriesNames.indexOf(this.state.Brand) !== -1) {
           if (this.state.Series !== "undefined" && this.state.Series) {
-            pageTemplate = <Model />;
+          this.setState({pageTemplate : <Model modelName={this.props.series}/> });
           } else {
-            pageTemplate = (
-              <Series
-                brandName={this.state.Slug}
-                seriesName={this.state.Brand}
-                familyName={this.state.Brand}
-              />
-            );
+            this.setState({pageTemplate : <Series brandName={this.state.Slug} seriesName={this.state.Brand} familyName={this.state.Brand} /> });
           }
         } else {
-          pageTemplate = <Brands brandName={this.state.Slug} />;
+        this.setState({pageTemplate : <Brands brandName={this.state.Slug} />});
         }
       }
     } else {
-      pageTemplate = this.state.page_template;
+      this.setState({pageTemplate : this.state.page_template})   ;
     }
   }
+  }
+
+  render() {
+    const { data, pageTemplate } = this.state;
+    console.log(pageTemplate)
+    
     return (
       <div className={`page-body ${this.state.Series ? "model-page" : ""}`}>
         <Header />
          
-        {pageTemplate}
+        {this.state.pageTemplate}
         
         <Footer />
       </div>
