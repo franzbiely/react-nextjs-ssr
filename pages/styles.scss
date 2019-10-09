@@ -88,10 +88,13 @@
 //  content: '>';
 //  padding: 0 10px;
 // }
+ul.breadcrumbs{
+  margin-bottom: 15px;
+}
 ul.breadcrumbs li {
   display: inline;
   font-size: 15px;
-  margin-bottom: 15px;
+ 
 }
 ul.breadcrumbs li:nth-child(n+2):before {
   padding: 0 8px;

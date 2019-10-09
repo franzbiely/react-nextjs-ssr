@@ -11,22 +11,23 @@ export default class Series extends Component {
   }
   render() {
     const { models, series } = this.props;
-    let modelArr = [];
-    let seriesArr = [];
-    let modelContainer = [];
-    models.map(values => {
-      modelArr.push(values);
-    });
-    series.map(values => {
-      seriesArr.push(values.name);
-    });
-    for (let y = 0; y < modelArr.length; y++) {
-      if (modelArr[y]) {
-        if (this.props.seriesName.substring(0, 7) === modelArr[y].name.substring(0, 7)) {
-          modelContainer.push(modelArr[y]);
-        }
-      }
-    }
+    let q = this.props.modelContainer;
+    // let modelArr = [];
+    // let seriesArr = [];
+    // let modelContainer = [];
+    // models.map(values => {
+    //   modelArr.push(values);
+    // });
+    // series.map(values => {
+    //   seriesArr.push(values.name);
+    // });
+    // for (let y = 0; y < modelArr.length; y++) {
+    //   if (modelArr[y]) {
+    //     if (this.props.seriesName.substring(0, 7) === modelArr[y].name.substring(0, 7)) {
+    //       modelContainer.push(modelArr[y]);
+    //     }
+    //   }
+    // }
     const PostLink = props => (
       <li>
         <Link
@@ -57,7 +58,7 @@ export default class Series extends Component {
         </div>
         <h1 style={{ color: "white" }}>{this.props.seriesName}</h1>
         <ul className="postLink">
-          {modelContainer.map(function(values, key) {
+          {q.map(function(values, key) {
             return <PostLink key={key} id={values.name} slug={values.slug} />;
           })}
         </ul>
