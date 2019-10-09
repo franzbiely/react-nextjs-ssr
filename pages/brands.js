@@ -12,44 +12,11 @@ export default class Brands extends Component {
       families: {},
       isLoading: true
     };
-  }
-
-  componentDidMount() {
-    
-    this.getData();
-    this.interval = setInterval(this.getData, 6000);    
-  }
-  componentWillUnmount() {
-    clearInterval(this.interval);
-}
-  getData = () => {
-    var request = new Request("http://localhost:3000/data", {
-      method: "GET",
-      mode: "cors",
-      headers: new Headers({
-        "Content-Type": "text/plain"
-      })
-    });
-    fetch(request)
-      .then(res => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res.json();
-      })
-      .then(data => {
-        this.setState({ families: data.families, isLoading: false });
-      })
-      .catch(err => {
-        // Handle any errors
-        console.error(err);
-        this.setState({ loading: false, error: true });
-      });
-  }
-  
+  }  
   render() {
-    
+    console.log(this.props.data)
     let x = Object.values(this.state.Products);
+    let u = this.props.families;
     const PostLink = props => (
       <li>
         <Link
@@ -66,12 +33,9 @@ export default class Brands extends Component {
         <h3 style={{ color: "white" }}>{this.props.brandName}</h3>
 
         {
-           (!this.state.isLoading) ?
-           
-           this.state.families.map(value => {
+            u.map(value => {
               return <PostLink id={value.name} />;
-            }) :
-            'no data'
+            }) 
         }
       </div>
     );

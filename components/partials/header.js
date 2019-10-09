@@ -59,7 +59,7 @@ export default class Header extends React.Component {
         return (
             <div>
                 <Head>
-                    <title>Trade | World's Largest Classifieds Portal</title>
+                    {/* <title></title> */}
                     {/* CSS */}
                     <link rel="stylesheet" href="http://localhost:3000/static/css/bootstrap.min.css" ></link> 
                     <link rel="stylesheet" href="http://localhost:3000/static/css/font-awesome.min.css" />

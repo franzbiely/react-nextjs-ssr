@@ -1,3 +1,4 @@
+
 // server.js
 const next = require("next");
 const routes = require("./routes");
@@ -29,14 +30,16 @@ server.get("/data", (req, res) => {
   connection.query(
     "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'; SELECT * from products where type='series'; SELECT * from products where type='model'"
     , [1,2,3,4,5], (error, results, fields) => {
-  //  console.log(results)
     if (error) throw error;
     return res.send({ categories: results[0], brands: results[1], families: results[2], series: results[3], models: results[4]});
   });
 });
-
+server.get("/metatags", (req,res) =>{
+  app.render(req, res, '/metatags');
+})
 app.prepare().then(() => {
   server.use(handler).listen(3000, function() {
     console.log("Go to http://localhost:3000/users so you can see the data.");
   });
 });
+
