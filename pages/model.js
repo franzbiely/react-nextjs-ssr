@@ -61,7 +61,7 @@ export default class Model extends Component {
             </div>
             <div className="product-details-section">
               <div className="p_heading">
-                <h2>Asus Zenbook S13 UX392</h2>
+                <h2>{this.props.modelName}</h2>
                 <span>
                   Brand: &nbsp;<span style={{ color: "black" }}>Asus</span>
                 </span>{" "}

@@ -6,7 +6,14 @@ export default class Categories extends Component {
   // static getInitialProps ({ query: { cat, brand, slug } }) {
   //   return { categoryName: cat, brand: brand, test: slug }
   // }
-  state = { icon: true, Products };
+  constructor(props){
+    super(props);
+    this.state = {
+      icon: true, 
+      Products
+    }
+  }
+  
 
   handleClick = e => {
     const { icon } = this.state;
@@ -24,7 +31,6 @@ export default class Categories extends Component {
       </Link>
     );
     let product_output = [];
-    // console.log(product_output)
     if (this.props.brand === "Asus") {
       x[0].Laptops[0].products.map(value => {
         product_output.push(
