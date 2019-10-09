@@ -46,33 +46,6 @@ class Home extends React.Component {
     const { icon } = this.state;
     this.setState({ icon: !icon });
   };
-  componentDidMount(){
-    var request = new Request('http://localhost:3000/data', {
-      method: 'GET', 
-      mode: 'cors', 
-      headers: new Headers({
-        'Content-Type': 'text/plain'
-      })
-    });
-    fetch(request)
-    .then(res => {
-      // fetch handles errors a little unusually
-      if (!res.ok) {
-        throw res;
-      }
-      // Convert serialized response into json
-  
-      return res.json()
-    }).then(data => {
-    
-      this.setState({isLoading: false, data:{categories: data.categories, brands : data.brands, families : data.families, series: data.series, models: data.models}});
-      this.pageTemplateAssignation()
-    }).catch(err => {
-      // Handle any errors
-      console.error(err);
-      this.setState({loading: false, error: true});
-    });
-  }
   render_home() {
     return (
       <section id="home-one-info" className="clearfix home-one">
@@ -85,41 +58,64 @@ class Home extends React.Component {
       </section>
     );
   }
-  pageTemplateAssignation(){
-    
+  slugChecker(page){
+    let x;
+    const { data } = this.props;
+    page.map(values => {
+      if(values.slug === this.state.Slug){
+        if(values.name){
+          x =  values.name;
+        }
+      }
+    });
+    return x;
   }
-  
+  secondUrlChecker(page){
+    let x;
+    const { data } = this.props;
+    page.map(values => {
+      if(values.slug === this.state.Brand){
+        if(values.name){
+          x =  values.name;
+        }
+      }
+    });
+    return x;
+  }
+
   render() {
     // console.log(this.props.data)
+    
     let categoryNames = [];
     let familyNames = [];
     let modelNames = [];
     let seriesNames = [];
     let page; 
     const { data } = this.props;
+   
       data.categories.map(values => {
-        categoryNames.push(values.name)
+        categoryNames.push(values.slug)
       })
       data.families.map(values =>{
-        familyNames.push(values.name)
+        familyNames.push(values.slug)
       })
       data.series.map(values =>{
-        seriesNames.push(values.name)
+        seriesNames.push(values.slug)
       })
       data.models.map(values =>{
-        modelNames.push(values.name)
+        modelNames.push(values.slug)
       })
+      console.log(this.state.Slug)
     if (this.state.Slug) {
       if (categoryNames.indexOf(this.state.Slug) !== -1) {
-        page =  <Categories categoryName={this.state.Slug} brand={this.state.Brand} />;
-       
+        page =  <Categories categoryName={this.slugChecker(data.categories)} brand={this.state.Brand} />;
       } else {
         if (familyNames.indexOf(this.state.Brand) !== -1) {
           const PostLink = props => (
             <li >
               <Link
                 key={props.id}
-                href={`/${this.state.Slug}/${props.id}`}
+                href={`/${this.state.Slug}/${props.slug}`}
                 params={{ series: props.id }}
               >
                 <a style={{ color: "white" }}>{props.id}</a>
@@ -127,39 +123,40 @@ class Home extends React.Component {
             </li>
           );
           let seriesContainer = [];
-            if (this.state.data.series || this.state.data.families){
-              for(let x=0; x<this.state.data.families.length; x++){
-                for(let y=0; y<this.state.data.series.length; y++){
-                  if(this.state.data.families[x].parent_ID === this.state.data.series[y].parent_ID){
-                    if(this.state.data.families[x].name === this.state.Brand){
-                        seriesContainer.push(this.state.data.series[y].name)
+            if (data.series || data.families){
+              for(let x=0; x<data.families.length; x++){
+                
+                for(let y=0; y<data.series.length; y++){
+                  if(data.families[x].parent_ID === data.series[y].parent_ID){
+                    if(data.families[x].slug === this.state.Brand){
+                        seriesContainer.push(data.series[y])
                     }
                   }
                 }
               }  
             }
+            console.log(seriesContainer)
             page =  
-            <Family brandName={this.state.Slug} familyName={this.state.Brand}>
+            <Family brandName={this.state.Slug} familyName={this.secondUrlChecker(data.families)}>
               {seriesContainer.map(function(values,keys){
-                return <PostLink  id={values} />
+                return <PostLink  id={values.name} slug={values.slug} />
               })}  
             </Family>
             ;
         } else if (seriesNames.indexOf(this.state.Brand) !== -1) {
-          if (this.state.Series !== "undefined" && this.state.Series) {
-            page = <Model modelName={this.props.series}/>;
-          } else {
-            page = <Series brandName={this.state.Slug} seriesName={this.state.Brand} familyName={this.state.Brand} />;
-          }
-        } else {
-          page = <Brands families={data.families} brandName={this.state.Slug} />;
+            page = <Series models={data.models} series={data.series} brandName={this.state.Slug} seriesName={this.secondUrlChecker(data.series)} familyName={this.state.Brand} />;
+        } else if(modelNames.indexOf(this.state.Brand) !== -1) {
+            page = <Model modelName={this.secondUrlChecker(data.models)}/>; 
+        } 
+         else {
+          page = <Brands families={data.families} brandSlug={this.state.Slug} brandName={this.slugChecker(data.brands)} />;
         }
       }
     } else {
       page =   this.state.page_template ;
     }
     return (
-      <div className={`page-body ${this.state.Series ? "model-page" : ""}`}>
+      <div className={`page-body ${(modelNames.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
         <Header />
          <Layout>
           {page}

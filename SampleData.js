@@ -2,7 +2,7 @@ export default {
     Products: {
         Laptops : [
             {
-                name : 'Asus',
+                name : 'asus',
                 products: [
                    {product_name: 'Asus AXX12-23', product_image: 'http://localhost:3000/static/images/laptop_sample.jpg'},
                    {product_name: 'ASUS ROG 77x', product_image: 'http://localhost:3000/static/images/laptop_sample.jpg'},
@@ -13,7 +13,7 @@ export default {
                 ]
             },
             {
-                name : 'Acer',
+                name : 'acer',
                 products: [
                     {product_name: 'Acer QQw177', product_image: 'http://localhost:3000/static/images/laptop_sample.jpg'},
                     {product_name: 'Acer Predator 12', product_image: 'http://localhost:3000/static/images/laptop_sample.jpg'},
@@ -25,7 +25,7 @@ export default {
                 ]
             },
             {
-                name : 'Lenovo',
+                name : 'lenovo',
                 products: [
                     {product_name: 'Lenovo QQw177', product_image: 'http://localhost:3000/static/images/laptop_sample.jpg'},
                     {product_name: 'Lenovo Predator 12', product_image: 'http://localhost:3000/static/images/laptop_sample.jpg'},
@@ -42,10 +42,10 @@ export default {
             ],
         Tablets : [
             {
-                name : 'Lenovo'
+                name : 'lenovo'
             },
             {
-                name : 'HP'
+                name : 'hp'
             }
         ]
 }

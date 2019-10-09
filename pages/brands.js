@@ -20,7 +20,7 @@ export default class Brands extends Component {
     const PostLink = props => (
       <li>
         <Link
-          href={`/${this.props.brandName}/${props.id}`}
+          href={`/${this.props.brandSlug}/${props.slug}`}
           params={{ brand: this.props.brand, family: props.id }}
         >
           <a style={{ color: "white" }}>{props.id}</a>
@@ -34,7 +34,7 @@ export default class Brands extends Component {
 
         {
             u.map(value => {
-              return <PostLink id={value.name} />;
+              return <PostLink id={value.name} slug={value.slug}/>;
             }) 
         }
       </div>
