@@ -13,13 +13,18 @@ import Model from "./model";
 import fetch from "isomorphic-unfetch";
 // import Link from 'next/link';
 import { Link } from "../routes";
+import Layout from "./metatags";
 import Products from "../SampleData";
 import "./styles.scss";
 
 class Home extends React.Component {
   static getInitialProps = async ({ req, query }) => {
-    return { slug: query.slug, brand: query.brand, series: query.series };
+    const res = await fetch('http://localhost:3000/data')
+    const data = await res.json()
+
+    return { data: data, slug: query.slug, brand: query.brand, series: query.series };
   }
+  static getInitialState 
   constructor(props) {
     super(props);
     this.state = {
@@ -34,6 +39,7 @@ class Home extends React.Component {
       data: {},
       Family: null, 
       isLoading: true
+      
     };
   }
   handleClick = e => {
@@ -49,7 +55,7 @@ class Home extends React.Component {
         })
       });
     fetch(request)
-    .then(res => {// <-- The `results` response object from your backend
+    .then(res => {
       // fetch handles errors a little unusually
       if (!res.ok) {
         throw res;
@@ -81,14 +87,16 @@ class Home extends React.Component {
   }
   pageTemplateAssignation(){
     
+  }
+  
+  render() {
+    // console.log(this.props.data)
     let categoryNames = [];
     let familyNames = [];
     let modelNames = [];
     let seriesNames = [];
-    
-    const { data } = this.state;
-    if ( !this.state.isLoading ) 
-    {
+    let page; 
+    const { data } = this.props;
       data.categories.map(values => {
         categoryNames.push(values.name)
       })
@@ -101,13 +109,10 @@ class Home extends React.Component {
       data.models.map(values =>{
         modelNames.push(values.name)
       })
-
-      console.log(seriesNames)
     if (this.state.Slug) {
       if (categoryNames.indexOf(this.state.Slug) !== -1) {
-        this.setState({pageTemplate : 
-          <Categories categoryName={this.state.Slug} brand={this.state.Brand} />
-        });
+        page =  <Categories categoryName={this.state.Slug} brand={this.state.Brand} />;
+       
       } else {
         if (familyNames.indexOf(this.state.Brand) !== -1) {
           const PostLink = props => (
@@ -133,42 +138,41 @@ class Home extends React.Component {
                 }
               }  
             }
-            this.setState({pageTemplate :
+            page =  
             <Family brandName={this.state.Slug} familyName={this.state.Brand}>
               {seriesContainer.map(function(values,keys){
                 return <PostLink  id={values} />
               })}  
             </Family>
-            });
+            ;
         } else if (seriesNames.indexOf(this.state.Brand) !== -1) {
           if (this.state.Series !== "undefined" && this.state.Series) {
-          this.setState({pageTemplate : <Model modelName={this.props.series}/> });
+            page = <Model modelName={this.props.series}/>;
           } else {
-            this.setState({pageTemplate : <Series brandName={this.state.Slug} seriesName={this.state.Brand} familyName={this.state.Brand} /> });
+            page = <Series brandName={this.state.Slug} seriesName={this.state.Brand} familyName={this.state.Brand} />;
           }
         } else {
-        this.setState({pageTemplate : <Brands brandName={this.state.Slug} />});
+          page = <Brands families={data.families} brandName={this.state.Slug} />;
         }
       }
     } else {
-      this.setState({pageTemplate : this.state.page_template})   ;
+      page =   this.state.page_template ;
     }
-  }
-  }
-
-  render() {
-    const { data, pageTemplate } = this.state;
-    console.log(pageTemplate)
-    
     return (
       <div className={`page-body ${this.state.Series ? "model-page" : ""}`}>
         <Header />
-         
-        {this.state.pageTemplate}
-        
+         <Layout>
+          {page}
+        </Layout>
         <Footer />
       </div>
     );
   }
+
+
+
+
+
+
 }
 export default withRouter(Home);
