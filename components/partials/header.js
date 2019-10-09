@@ -11,17 +11,21 @@ export default class Header extends React.Component {
         // Laptops : [],
         // Tablets : []
         Laptops : [{
-                name : 'Asus'
+                name : 'Asus',
+                slug: 'asus'
             },
             {
-                name : 'Acer'
+                name : 'Acer',
+                slug: 'acer'
             }
         ],
         Tablets : [{
-            name : 'Lenovo'
+            name : 'Lenovo',
+            slug: 'lenovo'
         },
         {
-            name : 'HP'
+            name : 'HP',
+            slug: 'hp'
         }
     ]
     }
@@ -119,21 +123,21 @@ export default class Header extends React.Component {
                                         </ul>
                                     </li>
                                     <li className="dropdown laptop-toggle">
-                                        <Link href='/Laptops' params={{slug: 'Laptops'}} ><a className="dropdown-toggle">Laptops</a></Link>
+                                        <Link href='/laptops' params={{slug: 'Laptops'}} ><a className="dropdown-toggle">Laptops</a></Link>
                                         <ul className='dropdown-menu laptop-items' >
                                             {this.state.Laptops.map((value, index) => {
                                                 return (
-                                                <li key={index}><Link href={`/${value.name}`} params={{slug: value.name}}><a>{value.name}</a></Link></li>
+                                                <li key={index}><Link href={`/${value.slug}`} params={{slug: value.name}}><a>{value.name}</a></Link></li>
                                                 );
                                             })} 
                                         </ul>
                                     </li>
                                     <li className="dropdown tablet-toggle">
-                                        <Link href='/Tablets' params={{slug: 'Tablets'}} ><a className="dropdown-toggle" >Tablets</a></Link>
+                                        <Link href='/tablets' params={{slug: 'Tablets'}} ><a className="dropdown-toggle" >Tablets</a></Link>
                                         <ul className="dropdown-menu tablet-items">
                                             {this.state.Tablets.map((value, index) => {
                                                 return (
-                                                <li key={index}><Link href={`/${value.name}`} params={{slug: value.name}}><a>{value.name}</a></Link></li>
+                                                <li key={index}><Link href={`/${value.slug}`} params={{slug: value.name}}><a>{value.name}</a></Link></li>
                                                 );
                                             })}
                                         </ul>

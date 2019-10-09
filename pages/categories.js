@@ -3,9 +3,9 @@ import { Link } from "../routes";
 import Products from "../SampleData";
 import "./styles.scss";
 export default class Categories extends Component {
-  // static getInitialProps ({ query: { cat, brand, slug } }) {
-  //   return { categoryName: cat, brand: brand, test: slug }
-  // }
+  static getInitialProps ({ query: { cat, brand, slug } }) {
+    return { categoryName: cat, brand: brand, test: slug }
+  }
   constructor(props){
     super(props);
     this.state = {
@@ -31,7 +31,7 @@ export default class Categories extends Component {
       </Link>
     );
     let product_output = [];
-    if (this.props.brand === "Asus") {
+    if (this.props.brand === "asus") {
       x[0].Laptops[0].products.map(value => {
         product_output.push(
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -41,7 +41,7 @@ export default class Categories extends Component {
           </div>
         );
       });
-    } else if (this.props.brand === "Acer") {
+    } else if (this.props.brand === "acer") {
       x[0].Laptops[1].products.map(value => {
         product_output.push(
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -51,7 +51,7 @@ export default class Categories extends Component {
           </div>
         );
       });
-    } else if (this.props.brand === "Lenovo") {
+    } else if (this.props.brand === "lenovo") {
       x[0].Laptops[2].products.map(value => {
         // if(value.product_name){
         product_output.push(
@@ -106,8 +106,8 @@ export default class Categories extends Component {
                               <div className="brand-item-container">
                                 <PostLink
                                   id={index.name}
-                                  category="Laptops"
-                                  slug="Laptops"
+                                  category="laptops"
+                                  slug="laptops"
                                   page="categories"
                                 />
                                 &nbsp; <i>({p})</i>
@@ -125,7 +125,7 @@ export default class Categories extends Component {
                               <div className="brand-item-container">
                                 <PostLink
                                   id={index.name}
-                                  category="Tablets"
+                                  category="tablets"
                                   page="categories"
                                 />
                                 &nbsp; <i>({p})</i>
