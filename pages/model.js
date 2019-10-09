@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 import "./styles.scss";
+import { Link } from '../routes'
 
 export default class Model extends Component {
   render() {
     return (
       <div className="container content">
+          <div className="breadcrumbs">
+            <ul className = "breadcrumbs">
+              <li><Link href={`/${this.props.bc_brandSlug}`}><a style={{ color: 'white'}}>{this.props.bc_brandName}</a></Link></li>
+              <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a style={{ color: 'white'}}>{this.props.bc_familyName}</a></Link></li>
+              <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_seriesSlug}`}><a style={{ color: 'white'}}>{this.props.bc_seriesName}</a></Link></li>
+            </ul>
+          </div>
         <div className="col-sm-12">
           <div className="model-container">
             <div className="product-image-section">
@@ -63,17 +71,17 @@ export default class Model extends Component {
               <div className="p_heading">
                 <h2>{this.props.modelName}</h2>
                 <span>
-                  Brand: &nbsp;<span style={{ color: "black" }}>Asus</span>
+                  Brand: &nbsp;<span style={{ color: "black" }}>{this.props.bc_brandName}</span>
                 </span>{" "}
                 &nbsp;
                 <span>
                   Family: &nbsp;
-                  <span style={{ color: "black" }}>Zenbook</span>
+                  <span style={{ color: "black" }}>{this.props.bc_familyName}</span>
                 </span>{" "}
                 &nbsp;
                 <span>
                   Series: &nbsp;
-                  <span style={{ color: "black" }}>Zenbook S13</span>
+                  <span style={{ color: "black" }}>{this.props.bc_seriesName}</span>
                 </span>{" "}
                 &nbsp;
               </div>
@@ -133,7 +141,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>More about the Asus Zenbook S13 UX392</h4>
+              <h4>More about the {this.props.bc_brandName}</h4>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
