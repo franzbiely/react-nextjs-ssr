@@ -9,12 +9,14 @@ export default class Category_Ad extends React.Component {
         categories : [{
                 icon : './static/images/icon/2.png',
                 title : 'Laptops',
-                quantity : 1298
+                quantity : 1298,
+                slug : 'laptops'
             },
             {
                 icon : './static/images/icon/2.png',
                 title : 'Tablets',
-                quantity : 76212
+                quantity : 76212,
+                slug:'tablets'
             }
         ]
     }
@@ -28,7 +30,7 @@ export default class Category_Ad extends React.Component {
                     {this.state.categories.map((value, index) => {
                         return (
                             <li key={index} className="category-item">
-                                <a href="categories.html">
+                                <a href={`/${value.slug}`}>
                                     <div className="category-icon"><img src={value.icon} alt="images" className="img-fluid" /></div>
                                     <span className="category-title">{value.title}</span>
                                     <span className="category-quantity">({value.quantity})</span>
