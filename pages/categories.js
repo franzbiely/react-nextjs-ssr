@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Link } from "../routes";
 import Products from "../SampleData";
 import "./styles.scss";
+import SearchBar from "../components/search-bar"
 export default class Categories extends Component {
-  static getInitialProps ({ query: { cat, brand, slug } }) {
-    return { categoryName: cat, brand: brand, test: slug }
+  static getInitialProps = async ({ query }) => {
+    return { top: query.slug};
   }
   constructor(props){
     super(props);
@@ -13,75 +14,157 @@ export default class Categories extends Component {
       Products
     }
   }
-  
-
   handleClick = e => {
     const { icon } = this.state;
     this.setState({ icon: !icon });
   };
-  render() {
-    let x = Object.values(this.state.Products);
-    const { icon } = this.state;
-    const PostLink = props => (
-      <Link
-        href={`/${props.slug}/${props.id}`}
-        params={{ cat: props.category, brand: props.id, slug: props.slug }}
-      >
-        <a>{props.id}</a>
-      </Link>
-    );
-    let product_output = [];
-    if (this.props.brand === "asus") {
-      x[0].Laptops[0].products.map(value => {
-        product_output.push(
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img src={value.product_image} width="100px" />
-            <h1>{value.product_name}</h1>
-            <hr />
-          </div>
-        );
-      });
-    } else if (this.props.brand === "acer") {
-      x[0].Laptops[1].products.map(value => {
-        product_output.push(
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img src={value.product_image} width="100px" />
-            <h1>{value.product_name}</h1>
-            <hr />
-          </div>
-        );
-      });
-    } else if (this.props.brand === "lenovo") {
-      x[0].Laptops[2].products.map(value => {
-        // if(value.product_name){
-        product_output.push(
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img src={value.product_image} width="100px" />
-            <h1>{value.product_name}</h1>
-            <hr />
-          </div>
-        );
-      });
+  getPageChildChildren(x, y){
+    let t = []
+    
+    for(let z=0; z<x.length; z++){
+      if(x[z].slug === this.props.brand){
+        for(let v=0; v<y.length; v++){
+          if(x[z].ID === y[v].parent_ID){
+            t.push(y[v]);
+          }
+        }
+      }
     }
+    return t;
+  }
+  getPageName(x){
+    let f;
+    for(let i=0; i<x.length; i++){
+      if(this.props.brand === x[i].slug){
+        f = x[i].name
+      }
+    }
+    return f;
+  }
+  getParentPageName(x){
+    let f;
+    for(let i=0; i<x.length; i++){
+      if(this.props.pageSlug === x[i].slug){
+        f = x[i].name
+      }
+    }
+    return f;
+  }
+  
+  getPageChildren(x, y){
+    let t = []
+    for(let z=0; z<x.length; z++){
+      if(x[z].slug === this.props.pageSlug){
+        for(let s=0; s<y.length; s++){
+          if(x[z].ID === y[s].parent_ID){
+            t.push(y[s]);
+          }
+        }
+      }
+    }
+    return t;
+  }
+  render() {
+    const { icon } = this.state;
+    let PostLink;
+    let pageChildren;
+    let childrenName;
+    let pageName;
+    let c = this.props.category;
+    let b = this.props.brands;
+    let f = this.props.families;
+    let s = this.props.series;
+    let m = this.props.models;
+    let brandNamesArr = [];
+    let categoryNamesArr = [];
+    let brandSlugsArr = [];
+    let categorySlugsArr = [];
+    let familyNamesArr = [];
+    let familySlugsArr = [];
+    let seriesNamesArr = [];
+    let seriesSlugsArr = [];
+    let modelNamesArr = [];
+    let modelSlugsArr = [];
+    
+    b.map(values=>{
+      brandNamesArr.push(values.name)
+      brandSlugsArr.push(values.slug)
+    });
+    c.map(values=>{
+      categoryNamesArr.push(values.name)
+      categorySlugsArr.push(values.slug)
+    });
+    f.map(values=>{
+      familyNamesArr.push(values.name)
+      familySlugsArr.push(values.slug)
+    })
+    s.map(values=>{
+      seriesNamesArr.push(values.name)
+      seriesSlugsArr.push(values.slug)
+    })
+    m.map(values=>{
+      modelNamesArr.push(values.name)
+      modelSlugsArr.push(values.slug)
+    })
+    if(categorySlugsArr.indexOf(this.props.pageSlug) !== -1){
+      childrenName = 'Brands';
+      pageName = this.getParentPageName(c)
+      PostLink = props => (
+        <Link href={`/${props.slug}`}
+          params={{ cat: props.category, brand: props.id, slug: props.slug }}
+        >
+          <a>{props.id}</a>
+        </Link>
+      );
+      pageChildren = this.getPageChildren(c,b)
+    }
+    else if(brandSlugsArr.indexOf(this.props.pageSlug) !== -1){
+      PostLink = props => (
+        <Link href={`/${this.props.pageSlug}/${props.slug}`}
+          params={{ cat: props.category, brand: props.id, slug: props.slug }}
+        >
+          <a>{props.id}</a>
+        </Link>
+      );
+      
+      if(this.props.brand){
+        if(familySlugsArr.indexOf(this.props.brand) !== -1){
+          childrenName = 'Series';
+          pageName = this.getPageName(f)
+          pageChildren = this.getPageChildChildren(f,s)
 
+        
+        }
+        else if(seriesSlugsArr.indexOf(this.props.brand) !== -1){
+          childrenName = 'Models';
+          pageName = this.getPageName(s)
+          pageChildren = this.getPageChildChildren(s,m)
+        }
+      }
+      else{
+        pageName = this.getParentPageName(b)
+        childrenName = 'Families';
+        pageChildren = this.getPageChildren(b,f)
+      }
+    };
     return (
       <div className="page-body category-page">
         <div className="container content">
-          <Link route="/">
-            <a style={{ color: "white" }}>Home</a>
-          </Link>
-          <h1 style={{ color: "white" }}>{this.props.test}</h1>
-          <h1 style={{ color: "white" }}>{this.props.categoryName}</h1>
-          <div className="search-container">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="Type Your key word"
-              aria-label="Search"
-            />
-            <button className="btn btn-success">Search</button>
+         
+         
+          <div className="breadcrumbs">
+            <ul className = "breadcrumbs">
+              {this.props.bc_CategoryName ? '' :  <li><Link route="/"><a>Home</a></Link></li> }
+              {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> : ''}
+              {this.props.brand ? <li><Link href={`/${this.props.bc_CategorySlug}/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
+              {this.props.bc_familyName ? <li><Link href={`/${this.props.bc_CategorySlug}/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''}
+            </ul>
           </div>
-
+         
+          <h1 style={{ color: "white" }}>{pageName}</h1>
+          <h3></h3> 
+            
+          <SearchBar />
           <div className="row">
             <div className="col-sm-3">
               <div className="panel-group">
@@ -89,7 +172,7 @@ export default class Categories extends Component {
                   <a data-toggle="collapse" href="#collapse1">
                     <div className="panel-heading" onClick={this.handleClick}>
                       <span className="panel-title">
-                        All Brands
+                        All {childrenName}
                         <span className="large material-icons">
                           {icon ? "+" : "-"}
                         </span>
@@ -98,47 +181,26 @@ export default class Categories extends Component {
                   </a>
                   <div id="collapse1" className="panel-collapse collapse">
                     <div>
-                      {this.props.categoryName === "Laptops"
-                        ? x[0].Laptops.map((index, value) => {
-                            let p = x[0].Laptops[value].products.length;
-
+                      {
+                        // console.log(pageChildren)
+                        pageChildren.map((value, key) => {
                             return (
                               <div className="brand-item-container">
                                 <PostLink
-                                  id={index.name}
-                                  category="laptops"
-                                  slug="laptops"
-                                  page="categories"
+                                  id={value.name}
+                                  slug={value.slug}
                                 />
-                                &nbsp; <i>({p})</i>
                               </div>
                             );
                           })
-                        : x[0].Tablets.map((index, value) => {
-                            let p = 0;
-                            if (x[0].Tablets[value].products) {
-                              p = x[0].Tablets[value].products.length;
-                            } else {
-                              p = 0;
-                            }
-                            return (
-                              <div className="brand-item-container">
-                                <PostLink
-                                  id={index.name}
-                                  category="tablets"
-                                  page="categories"
-                                />
-                                &nbsp; <i>({p})</i>
-                              </div>
-                            );
-                          })}
+                      }
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div className="col-sm-9 product-container">
-              <div className="products">{product_output}</div>
+              <div className="products"></div>
             </div>
           </div>
         </div>
@@ -146,18 +208,4 @@ export default class Categories extends Component {
     );
   }
 }
-// export default class Categories extends React.Component {
-//   static async getInitialProps ({query:{slug}}) {
-//     return { test: slug }
-//   }
-//   render () {
-//     console.log(this.props.test)
-//     return (
-//       <div>
-//         <Header />
-//         {this.props.test}
-//         <Footer />
-//       </div>
-//     )
-//   }
-// }
+

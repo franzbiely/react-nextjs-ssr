@@ -8,6 +8,7 @@ export default class Model extends Component {
       <div className="container content">
           <div className="breadcrumbs">
             <ul className = "breadcrumbs">
+              <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li>
               <li><Link href={`/${this.props.bc_brandSlug}`}><a style={{ color: 'white'}}>{this.props.bc_brandName}</a></Link></li>
               <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a style={{ color: 'white'}}>{this.props.bc_familyName}</a></Link></li>
               <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_seriesSlug}`}><a style={{ color: 'white'}}>{this.props.bc_seriesName}</a></Link></li>
