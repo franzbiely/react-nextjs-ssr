@@ -78,8 +78,9 @@ class Home extends React.Component {
     let familyNames = [];
     let modelNames = [];
     let seriesNames = [];
+    let modelsContainer = [];
     const { data } = this.props;
-    let bc_brandName, bc_brandSlug, bc_seriesName, bc_seriesSlug, bc_familyName, bc_familySlug ;
+    let bc_brandName, bc_brandSlug, bc_seriesName, bc_seriesSlug, bc_familyName, bc_familySlug;
     //Assign per data
     data.categories.map(values => {
       categoryNames.push(values.slug)
@@ -93,6 +94,17 @@ class Home extends React.Component {
     data.models.map(values =>{
       modelNames.push(values.slug)
     })
+    for(let q=0; q<data.series.length; q++ ){
+      if(data.series[q].slug === this.state.Brand){
+        console.log('true')
+        for(let x=0; x<data.models.length; x++){
+          if(data.models[x].parent_ID === data.series[q].ID){
+            modelsContainer.push(data.models[x])
+          }
+        }
+      }
+    }
+    
 
     //breadcrumb get brand name
     for(let p=0; p<data.brands.length; p++ ){
@@ -106,7 +118,7 @@ class Home extends React.Component {
       for(let a=0; a<data.series.length; a++){
         if(data.series[a].slug === this.state.Brand){
           for(let x=0; x<data.families.length; x++){
-            if(data.series[a].parent_ID === data.families[x].parent_ID){
+            if(data.series[a].parent_ID === data.families[x].ID){
               bc_familyName = data.families[x].name;
               bc_familySlug = data.families[x].slug;
             }
@@ -117,25 +129,20 @@ class Home extends React.Component {
     else if(modelNames.indexOf(this.state.Brand) !== -1){
       for(let q=0; q<data.models.length; q++ ){
         if(data.models[q].slug === this.state.Brand){
-          for(let x=0; x<data.families.length; x++){
-            if(data.models[q].parent_ID === data.families[x].parent_ID){
-              bc_familyName = data.families[x].name;
-              bc_familySlug = data.families[x].slug;
+          for(let x=0; x<data.series.length; x++){
+            if(data.models[q].parent_ID === data.series[x].ID){
+              bc_seriesName = data.series[x].name;
+              bc_seriesSlug = data.series[x].slug;
+              for(let i=0; i<data.families.length; i++){
+                if(data.series[x].parent_ID === data.families[i].ID){
+                  bc_familyName = data.families[i].name;
+                  bc_familySlug = data.families[i].slug;
+                }
+              }
             }
           }
         }
       }
-    }
-    //breadcrumb get series name
-    for(let q=0; q<data.models.length; q++){
-     if(data.models[q].slug === this.state.Brand){
-      for(let y=0; y<data.series.length; y++){
-        if(data.models[q].name.substr(0,7) === data.series[y].name.substr(0,7)){
-          bc_seriesName = data.series[y].name;
-          bc_seriesSlug = data.series[y].slug;
-        }
-      }
-     }
     }
     if (this.state.Slug) {
       if (categoryNames.indexOf(this.state.Slug) !== -1) {
@@ -155,10 +162,10 @@ class Home extends React.Component {
               </li>
           );
           let seriesContainer = [];
-            if (data.series || data.families){
+            if (data.series && data.families){
               for(let x=0; x<data.families.length; x++){
                 for(let y=0; y<data.series.length; y++){
-                  if(data.families[x].parent_ID === data.series[y].parent_ID){
+                  if(data.families[x].ID === data.series[y].parent_ID){
                     if(data.families[x].slug === this.state.Brand){
                         seriesContainer.push(data.series[y])
                     }
@@ -166,6 +173,7 @@ class Home extends React.Component {
                 }
               }  
             }
+            console.log(seriesContainer)
             page = 
               <Family bc_brandName={bc_brandName} bc_brandSlug={bc_brandSlug}  brandName={this.state.Slug} familyName={this.secondUrlChecker(data.families)}>
                 <ul className="postLink">
@@ -179,6 +187,7 @@ class Home extends React.Component {
         } 
         else if (seriesNames.indexOf(this.state.Brand) !== -1) {
           page = <Series 
+          modelContainer = {modelsContainer}
           bc_brandName={bc_brandName} 
           bc_brandSlug={bc_brandSlug} 
           bc_familyName = {bc_familyName} 
