@@ -75,11 +75,11 @@ class Home extends React.Component {
     let pageTitle;
     let pageDescription;
     let pageDescriptions = [];
-    let categoryNames = [];
-    let familyNames = [];
-    let modelNames = [];
-    let seriesNames = [];
-    let brandNames = [];
+    let categorySlugs = [];
+    let familySlugs = [];
+    let modelSlugs = [];
+    let seriesSlugs = [];
+    let brandSlugs = [];
     let modelsContainer = [];
     let productMeta = [];
     const { data } = this.props;
@@ -97,19 +97,19 @@ class Home extends React.Component {
     })
     //Assign per data
     data.categories.map(values => {
-      categoryNames.push(values.slug)
+      categorySlugs.push(values.slug)
     })
     data.families.map(values =>{
-      familyNames.push(values.slug)
+      familySlugs.push(values.slug)
     })
     data.series.map(values =>{
-      seriesNames.push(values.slug)
+      seriesSlugs.push(values.slug)
     })
     data.models.map(values =>{
-      modelNames.push(values.slug)
+      modelSlugs.push(values.slug)
     })
     data.brands.map(values =>{
-      brandNames.push(values.slug)
+      brandSlugs.push(values.slug)
     })
     for(let q=0; q<data.series.length; q++ ){
       if(data.series[q].slug === this.state.Brand){
@@ -120,9 +120,9 @@ class Home extends React.Component {
         }
       }
     }
-   
+    
     //breadcrumb get brand name
-    if(categoryNames.indexOf(this.state.Slug) !== -1){
+    if(categorySlugs.indexOf(this.state.Slug) !== -1){
       pageType = 'category';
       for(let h=0; h<data.categories.length; h++){
         if(data.categories[h].slug === this.state.Slug){
@@ -130,7 +130,7 @@ class Home extends React.Component {
         }
       }
     }
-    if(brandNames.indexOf(this.state.Slug) !== -1){
+    if(brandSlugs.indexOf(this.state.Slug) !== -1){
       pageType = 'brand';
       for(let p=0; p<data.brands.length; p++ ){
         if(data.brands[p].slug === this.state.Slug){
@@ -146,11 +146,11 @@ class Home extends React.Component {
         }
       }
     }
-    if(familyNames.indexOf(this.state.Brand) !== -1){
+    if(familySlugs.indexOf(this.state.Brand) !== -1){
       pageType = 'family';
     }
     //breadcrumb get family name
-    if(seriesNames.indexOf(this.state.Brand) !== -1){
+    if(seriesSlugs.indexOf(this.state.Brand) !== -1){
       pageType = 'series';
       for(let a=0; a<data.series.length; a++){
         if(data.series[a].slug === this.state.Brand){
@@ -164,7 +164,7 @@ class Home extends React.Component {
         }
       }
     }
-    else if(modelNames.indexOf(this.state.Brand) !== -1){
+    else if(modelSlugs.indexOf(this.state.Brand) !== -1){
       pageType = 'model';
       for(let q=0; q<data.models.length; q++ ){
         if(data.models[q].slug === this.state.Brand){
@@ -182,6 +182,7 @@ class Home extends React.Component {
           }
         }
       }
+ 
     }
     for(let k=0; k<productMeta.length; k++){
       if(productMeta[k].meta_key === 'meta-description'){
@@ -200,8 +201,8 @@ class Home extends React.Component {
         }
       }
     }
-    if (this.state.Slug) {
-      if (!(modelNames.indexOf(this.state.Brand) !== -1)) {
+    if (categorySlugs.indexOf(this.state.Slug) !== -1 || brandSlugs.indexOf(this.state.Slug) !== -1 ) {
+      if (!(modelSlugs.indexOf(this.state.Brand) !== -1)) {
         page = 
         <Categories 
         brands={data.brands} 
@@ -236,12 +237,15 @@ class Home extends React.Component {
           bc_CategorySlug = {bc_CategorySlug}
           />; 
       }
+    }
+    else if(this.state.Slug && categorySlugs.indexOf(this.state.Slug) === -1 || this.state.Slug && brandSlugs.indexOf(this.state.Slug) === -1 ){
+      page = <h1> 404 </h1>
     } 
     else {
       page = this.state.page_template;
     }
     return (
-      <div className={`page-body ${(modelNames.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
+      <div className={`page-body ${(modelSlugs.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
         <MetaTags>
             <meta name="description" content={pageDescription} />
         </MetaTags>
