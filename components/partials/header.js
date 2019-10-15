@@ -43,13 +43,7 @@ export default class Header extends React.Component {
                     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="http://localhost:3000/static/images/ico/apple-touch-icon-57-precomposed.png" />
                     {/* JS */}
                     <script src="http://localhost:3000/static/js/jquery-3.2.1.slim.min.js"></script>
-                    <script src="http://localhost:3000/static/js/popper.min.js"></script>
-                    <script src="http://localhost:3000/static/js/modernizr.min.js"></script>
                     <script src="http://localhost:3000/static/js/bootstrap.min.js"></script>
-                    <script src="http://localhost:3000/static/js/scrollup.min.js"></script>
-                    <script src="http://localhost:3000/static/js/price-range.js"></script>  
-                    <script src="http://localhost:3000/static/js/jquery.countdown.js"></script>  
-                    <script src="http://localhost:3000/static/js/custom.js"></script>
                 </Head>
                 {/* header */}
                 <header id="header" className="clearfix">
