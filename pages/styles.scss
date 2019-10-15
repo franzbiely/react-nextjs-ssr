@@ -70,10 +70,7 @@
   display: flex;
   padding: 0 !important;
 }
-.laptop-toggle:hover .dropdown-menu.laptop-items {
-  display: block !important;
-}
-.tablet-toggle:hover .dropdown-menu.tablet-items {
+.category-nav-toggle:hover .dropdown-menu.category-item {
   display: block !important;
 }
 .dropdown-menu {

@@ -6,13 +6,10 @@ import CategoryAd from "../components/category-ad";
 import FeaturedAd from "../components/featured-ad";
 import { withRouter } from "next/router";
 import Categories from "./categories";
-import Brands from "./brands";
-import Family from "./family";
-import Series from "./series";
 import Model from "./model";
 import fetch from "isomorphic-unfetch";
-import { Link } from "../routes";
 import "./styles.scss";
+import MetaTags from 'react-meta-tags';
 
 class Home extends React.Component {
   static getInitialProps = async ({ req, query }) => {
@@ -21,7 +18,6 @@ class Home extends React.Component {
 
     return { data: data, slug: query.slug, brand: query.brand};
   }
-  static getInitialState 
   constructor(props) {
     super(props);
     this.state = {
@@ -75,12 +71,17 @@ class Home extends React.Component {
   render() {
     let page;
     let pageName; 
+    let pageType;
+    let pageTitle;
+    let pageDescription;
+    let pageDescriptions = [];
     let categoryNames = [];
     let familyNames = [];
     let modelNames = [];
     let seriesNames = [];
     let brandNames = [];
     let modelsContainer = [];
+    let productMeta = [];
     const { data } = this.props;
     let bc_brandName, 
     bc_brandSlug, 
@@ -91,6 +92,9 @@ class Home extends React.Component {
     bc_CategoryName,
     bc_CategorySlug
 
+    data.product_meta.map(value => {
+      productMeta.push(value)
+    })
     //Assign per data
     data.categories.map(values => {
       categoryNames.push(values.slug)
@@ -116,9 +120,10 @@ class Home extends React.Component {
         }
       }
     }
-  
+   
     //breadcrumb get brand name
     if(categoryNames.indexOf(this.state.Slug) !== -1){
+      pageType = 'category';
       for(let h=0; h<data.categories.length; h++){
         if(data.categories[h].slug === this.state.Slug){
           pageName = data.categories[h].name
@@ -126,6 +131,7 @@ class Home extends React.Component {
       }
     }
     if(brandNames.indexOf(this.state.Slug) !== -1){
+      pageType = 'brand';
       for(let p=0; p<data.brands.length; p++ ){
         if(data.brands[p].slug === this.state.Slug){
           bc_brandName = data.brands[p].name
@@ -140,8 +146,12 @@ class Home extends React.Component {
         }
       }
     }
+    if(familyNames.indexOf(this.state.Brand) !== -1){
+      pageType = 'family';
+    }
     //breadcrumb get family name
     if(seriesNames.indexOf(this.state.Brand) !== -1){
+      pageType = 'series';
       for(let a=0; a<data.series.length; a++){
         if(data.series[a].slug === this.state.Brand){
           for(let x=0; x<data.families.length; x++){
@@ -155,6 +165,7 @@ class Home extends React.Component {
       }
     }
     else if(modelNames.indexOf(this.state.Brand) !== -1){
+      pageType = 'model';
       for(let q=0; q<data.models.length; q++ ){
         if(data.models[q].slug === this.state.Brand){
           for(let x=0; x<data.series.length; x++){
@@ -168,6 +179,23 @@ class Home extends React.Component {
                 }
               }
             }
+          }
+        }
+      }
+    }
+    for(let k=0; k<productMeta.length; k++){
+      if(productMeta[k].meta_key === 'meta-description'){
+        pageDescriptions.push(productMeta[k])
+      }
+    }
+    // get page title and description from product_meta 
+    for(let g=0; g<productMeta.length; g++){
+      if(pageType === productMeta[g].meta_value){
+        pageTitle = productMeta[g].meta_value.charAt(0).toUpperCase() + 
+        productMeta[g].meta_value.slice(1); 
+        for(let x=0; x<pageDescriptions.length; x++){
+          if(pageDescriptions[x].product_ID === productMeta[g].ID){
+            pageDescription = pageDescriptions[x].meta_value;
           }
         }
       }
@@ -214,7 +242,10 @@ class Home extends React.Component {
     }
     return (
       <div className={`page-body ${(modelNames.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
-        <Header />
+        <MetaTags>
+            <meta name="description" content={pageDescription} />
+        </MetaTags>
+        <Header title={pageTitle} metaDescription={pageDescription} categories={data.categories} brands={data.brands} />
           {page}
         <Footer />
       </div>

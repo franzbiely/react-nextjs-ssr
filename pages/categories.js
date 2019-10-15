@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "../routes";
-import Products from "../SampleData";
 import "./styles.scss";
-import SearchBar from "../components/search-bar"
+import SearchBar from "../components/search-bar";
+
 export default class Categories extends Component {
   static getInitialProps = async ({ query }) => {
     return { top: query.slug};
@@ -10,8 +10,7 @@ export default class Categories extends Component {
   constructor(props){
     super(props);
     this.state = {
-      icon: true, 
-      Products
+      icon: true
     }
   }
   handleClick = e => {
@@ -85,7 +84,7 @@ export default class Categories extends Component {
     let seriesSlugsArr = [];
     let modelNamesArr = [];
     let modelSlugsArr = [];
-    
+    let products = [];
     b.map(values=>{
       brandNamesArr.push(values.name)
       brandSlugsArr.push(values.slug)
@@ -110,17 +109,21 @@ export default class Categories extends Component {
       childrenName = 'Brands';
       pageName = this.getParentPageName(c)
       PostLink = props => (
-        <Link href={`/${props.slug}`}
+        <Link href={`/${props.slug}/`}
           params={{ cat: props.category, brand: props.id, slug: props.slug }}
         >
           <a>{props.id}</a>
         </Link>
       );
       pageChildren = this.getPageChildren(c,b)
+      //If Slug is Category - show all models from that category
+      for(let p=0; p<m.length; p++){
+        products.push(m[p])
+      }
     }
     else if(brandSlugsArr.indexOf(this.props.pageSlug) !== -1){
       PostLink = props => (
-        <Link href={`/${this.props.pageSlug}/${props.slug}`}
+        <Link href={`/${this.props.pageSlug}/${props.slug}/`}
           params={{ cat: props.category, brand: props.id, slug: props.slug }}
         >
           <a>{props.id}</a>
@@ -132,38 +135,85 @@ export default class Categories extends Component {
           childrenName = 'Series';
           pageName = this.getPageName(f)
           pageChildren = this.getPageChildChildren(f,s)
-
+             for(let o=0; o<f.length; o++){
+              if(f[o].slug === this.props.brand){
+                for(let q=0; q<s.length; q++){
+                  if(f[o].ID === s[q].parent_ID){
+                    for(let p=0; p<m.length; p++){
+                      if(s[q].ID === m[p].parent_ID){
+                        products.push(m[p])
+                      }
+                    }
+                  }
+                }
+              }
+            }
         
         }
         else if(seriesSlugsArr.indexOf(this.props.brand) !== -1){
           childrenName = 'Models';
           pageName = this.getPageName(s)
           pageChildren = this.getPageChildChildren(s,m)
+          for(let q=0; q<s.length; q++){
+            if(s[q].slug === this.props.brand){
+              for(let p=0; p<m.length; p++){
+                if(s[q].ID === m[p].parent_ID){
+                  products.push(m[p])
+                }
+              }
+            }
+          }
         }
       }
       else{
         pageName = this.getParentPageName(b)
         childrenName = 'Families';
         pageChildren = this.getPageChildren(b,f)
+        //If no child page show all results based on the selected brand
+        for(let i=0; i<b.length; i++){
+          if(b[i].slug === this.props.pageSlug){
+            for(let o=0; o<f.length; o++){
+              if(b[i].ID === f[o].parent_ID){
+                for(let q=0; q<s.length; q++){
+                  if(f[o].ID === s[q].parent_ID){
+                    for(let p=0; p<m.length; p++){
+                      if(s[q].ID === m[p].parent_ID){
+                        products.push(m[p])
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     };
+
+    //matched items to result div
+    if(categorySlugsArr.indexOf(this.props.pageSlug) !== -1){
+     
+    }
+    if(brandSlugsArr.indexOf(this.props.pageSlug) !== -1){
+     
+      
+    }
+
     return (
       <div className="page-body category-page">
+         
         <div className="container content">
          
          
           <div className="breadcrumbs">
             <ul className = "breadcrumbs">
-              {this.props.bc_CategoryName ? '' :  <li><Link route="/"><a>Home</a></Link></li> }
-              {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> : ''}
-              {this.props.brand ? <li><Link href={`/${this.props.bc_CategorySlug}/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
-              {this.props.bc_familyName ? <li><Link href={`/${this.props.bc_CategorySlug}/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''}
+              {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> :  <li><Link route="/"><a>Home</a></Link></li> }
+              {this.props.brand ? <li><Link href={`/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
+              {this.props.bc_familyName ? <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''}
             </ul>
-          </div>
+          </div> 
          
           <h1 style={{ color: "white" }}>{pageName}</h1>
-          <h3></h3> 
-            
           <SearchBar />
           <div className="row">
             <div className="col-sm-3">
@@ -185,7 +235,7 @@ export default class Categories extends Component {
                         // console.log(pageChildren)
                         pageChildren.map((value, key) => {
                             return (
-                              <div className="brand-item-container">
+                              <div key={key} className="brand-item-container">
                                 <PostLink
                                   id={value.name}
                                   slug={value.slug}
@@ -200,7 +250,14 @@ export default class Categories extends Component {
               </div>
             </div>
             <div className="col-sm-9 product-container">
-              <div className="products"></div>
+              <div className="products">
+                <h1>Products:</h1>
+                <ul type="none">
+                {products.map(value=>{
+                  return <li><h3>{value.name}</h3></li>
+                })}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
