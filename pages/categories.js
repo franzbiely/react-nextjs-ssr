@@ -117,30 +117,33 @@ export default class Categories extends Component {
       );
       pageChildren = this.getPageChildren(c,b)
       //If Slug is Category - show all models from that category
-      // for(let p=0; p<c.length; p++){
-      //   if(c[p].slug === this.props.pageSlug){
-      //     for(let i=0; i<b.length; i++){
-      //       if(b[i].parent_ID === c[p].ID){
-      //         for(let o=0; o<f.length; o++){
-      //           if(b[i].ID === f[o].parent_ID){
-      //             for(let q=0; q<s.length; q++){
-      //               if(f[o].ID === s[q].parent_ID){
-      //                 for(let p=0; p<m.length; p++){
-      //                   if(s[q].ID === m[p].parent_ID){
-                          
-      //                     products.push(m[p])
-      //                   }
-      //                 }
-      //               }
-      //             }
-      //           }
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
+      for(let p=0; p<c.length; p++){
+        if(c[p].slug === this.props.pageSlug){
+          for(let i=0; i<b.length; i++){
+            if(b[i].parent_ID === c[p].ID){
+              for(let o=0; o<f.length; o++){
+                if(b[i].ID === f[o].parent_ID){
+                  for(let q=0; q<s.length; q++){
+                    if(f[o].ID === s[q].parent_ID){
+                      for(let p=0; p<m.length; p++){
+                        if(s[q].ID === m[p].parent_ID){
+                          products.push(m[p])
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        
+      }
+      console.log(products)
     }
+    
     else if(brandSlugsArr.indexOf(this.props.pageSlug) !== -1){
+      
       PostLink = props => (
         <Link href={`/${this.props.pageSlug}/${props.slug}/`}
           params={{ cat: props.category, brand: props.id, slug: props.slug }}
@@ -148,8 +151,13 @@ export default class Categories extends Component {
           <a>{props.id}</a>
         </Link>
       );
-      
+     
       if(this.props.brand){
+
+        
+
+
+
         if(familySlugsArr.indexOf(this.props.brand) !== -1){
           childrenName = 'Series';
           pageName = this.getPageName(f)
@@ -208,16 +216,6 @@ export default class Categories extends Component {
         }
       }
     };
-
-    //matched items to result div
-    if(categorySlugsArr.indexOf(this.props.pageSlug) !== -1){
-     
-    }
-    if(brandSlugsArr.indexOf(this.props.pageSlug) !== -1){
-     
-      
-    }
-
     return (
       <div className="page-body category-page">
          
@@ -273,6 +271,9 @@ export default class Categories extends Component {
                 <h1>Products:</h1>
                 <ul type="none">
                   {products.map(value=>{
+                    b.map(value=>{
+                      console.log(value)
+                    })
                     return <li><Link href={`/${this.props.pageSlug}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
                   })}
                 </ul>

@@ -9,7 +9,7 @@ import Categories from "./categories";
 import Model from "./model";
 import fetch from "isomorphic-unfetch";
 import "./styles.scss";
-import MetaTags from 'react-meta-tags';
+import PageNotFound from '../components/404'
 
 class Home extends React.Component {
   static getInitialProps = async ({ req, query }) => {
@@ -69,6 +69,7 @@ class Home extends React.Component {
   }
 
   render() {
+    const { data } = this.props;
     let page;
     let pageName; 
     let pageType;
@@ -82,7 +83,6 @@ class Home extends React.Component {
     let brandSlugs = [];
     let modelsContainer = [];
     let productMeta = [];
-    const { data } = this.props;
     let bc_brandName, 
     bc_brandSlug, 
     bc_seriesName, 
@@ -91,6 +91,7 @@ class Home extends React.Component {
     bc_familySlug,
     bc_CategoryName,
     bc_CategorySlug
+    //Components with props
 
     data.product_meta.map(value => {
       productMeta.push(value)
@@ -120,7 +121,7 @@ class Home extends React.Component {
         }
       }
     }
-    
+  
     //breadcrumb get brand name
     if(categorySlugs.indexOf(this.state.Slug) !== -1){
       pageType = 'category';
@@ -201,55 +202,157 @@ class Home extends React.Component {
         }
       }
     }
+    //Components with props
+    const modelComponent = <Model 
+    modelName={this.secondUrlChecker(data.models)}
+    bc_brandName={bc_brandName} 
+    bc_brandSlug={bc_brandSlug} 
+    bc_familyName = {bc_familyName} 
+    bc_familySlug = {bc_familySlug}
+    bc_seriesName = {bc_seriesName}
+    bc_seriesSlug = {bc_seriesSlug}
+    bc_CategoryName = {bc_CategoryName}
+    bc_CategorySlug = {bc_CategorySlug}
+    />;
+    const categoryComponent = <Categories 
+    brands={data.brands} 
+    category={data.categories} 
+    pageName={pageName} 
+    families={data.families}
+    brand=  {this.state.Brand}
+    pageSlug = {this.state.Slug}
+    series = {data.series}
+    models = {data.models}
+    bc_brandName={bc_brandName} 
+    bc_brandSlug={bc_brandSlug} 
+    bc_familyName = {bc_familyName} 
+    bc_familySlug = {bc_familySlug}
+    bc_seriesName = {bc_seriesName}
+    bc_seriesSlug = {bc_seriesSlug}
+    bc_CategoryName = {bc_CategoryName}
+    bc_CategorySlug = {bc_CategorySlug}
+     />;
+
+
+
     if (categorySlugs.indexOf(this.state.Slug) !== -1 || brandSlugs.indexOf(this.state.Slug) !== -1 ) {
-      if (!(modelSlugs.indexOf(this.state.Brand) !== -1)) {
-        page = 
-        <Categories 
-        brands={data.brands} 
-        category={data.categories} 
-        pageName={pageName} 
-        families={data.families}
-        brand=  {this.state.Brand}
-        pageSlug = {this.state.Slug}
-        series = {data.series}
-        models = {data.models}
-        bc_brandName={bc_brandName} 
-        bc_brandSlug={bc_brandSlug} 
-        bc_familyName = {bc_familyName} 
-        bc_familySlug = {bc_familySlug}
-        bc_seriesName = {bc_seriesName}
-        bc_seriesSlug = {bc_seriesSlug}
-        bc_CategoryName = {bc_CategoryName}
-        bc_CategorySlug = {bc_CategorySlug}
-         />
-         ;
+      if(brandSlugs.indexOf(this.state.Slug) !== -1){
+        if(this.state.Brand && familySlugs.indexOf(this.state.Brand) === -1 && seriesSlugs.indexOf(this.state.Brand) === -1){
+          let tempArr = [];
+          for(let o=0; o<data.brands.length; o++){
+            if(data.brands[o].slug === this.state.Slug){
+              for(let t=0; t<data.families.length; t++){
+                if(data.families[t].parent_ID === data.brands[o].ID){
+                  for(let q=0; q<data.series.length; q++){
+                    if(data.families[t].ID === data.series[q].parent_ID){
+                      for(let k=0; k<data.models.length; k++){
+                        if(data.models[k].parent_ID === data.series[q].ID)
+                        tempArr.push(data.models[k].slug)
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          if(tempArr.indexOf(this.state.Brand) === -1){
+            page = <PageNotFound />
+          }
+          else{
+            page = modelComponent;
+          }
+        }
+        else if(this.state.Brand && familySlugs.indexOf(this.state.Brand) !== -1){
+          let familyCatArr = [];
+          for(let o=0; o<data.brands.length; o++){
+            if(data.brands[o].slug === this.state.Slug){
+              for(let t=0; t<data.families.length; t++){
+                if(data.families[t].parent_ID === data.brands[o].ID){
+                  familyCatArr.push(data.families[t].slug)
+                }
+              }
+            }
+          }
+          if(familyCatArr.indexOf(this.state.Brand) !== -1){
+            page = categoryComponent
+          }else{
+            page = <PageNotFound/>
+          }
+        }
+        else if(this.state.Brand && seriesSlugs.indexOf(this.state.Brand) !== -1){
+          let seriesCatArr = [];
+          for(let o=0; o<data.brands.length; o++){
+            if(data.brands[o].slug === this.state.Slug){
+              for(let t=0; t<data.families.length; t++){
+                if(data.families[t].parent_ID === data.brands[o].ID){
+                  for(let q=0; q<data.series.length; q++){
+                    if(data.families[t].ID === data.series[q].parent_ID){
+                      seriesCatArr.push(data.series[q].slug)
+                    }
+                  }
+                }
+              }
+            }
+          }
+          console.log(seriesCatArr, this.state.Brand)
+          if(seriesCatArr.indexOf(this.state.Brand) !== -1){
+            page = categoryComponent
+          }else{
+            page = <PageNotFound/>
+          }
+        }
+        else{
+            page = categoryComponent
+        }
+      }
+      else if(categorySlugs.indexOf(this.state.Slug) !== -1){
+        let catSlugArr = [];
+        if(this.state.Brand){
+          for(let a=0; a<data.categories.length; a++){
+            if(data.categories[a].parent_ID){
+              for(let c=0; c<data.categories.length; c++){
+                if(data.categories[c].slug === this.state.Slug){
+                  if(data.categories[a].parent_ID === data.categories[c].ID){
+                    catSlugArr.push(data.categories[a].slug);
+                  }
+                }
+              }
+            }
+            if(catSlugArr.indexOf(this.state.Brand) === -1){
+              page = <PageNotFound />
+            }
+            else{
+              page = categoryComponent;
+            }
+          }
+        }
+        else{
+          page = categoryComponent;
+        }
+      }
+      else if (modelSlugs.indexOf(this.state.Brand === -1)) {
+        page = categoryComponent
+        
       } 
       else {
-          page = <Model 
-          modelName={this.secondUrlChecker(data.models)}
-          bc_brandName={bc_brandName} 
-          bc_brandSlug={bc_brandSlug} 
-          bc_familyName = {bc_familyName} 
-          bc_familySlug = {bc_familySlug}
-          bc_seriesName = {bc_seriesName}
-          bc_seriesSlug = {bc_seriesSlug}
-          bc_CategoryName = {bc_CategoryName}
-          bc_CategorySlug = {bc_CategorySlug}
-          />; 
+          page = modelComponent; 
       }
     }
+    // if slug not matched with categories or brands show 404
     else if(this.state.Slug && categorySlugs.indexOf(this.state.Slug) === -1 || this.state.Slug && brandSlugs.indexOf(this.state.Slug) === -1 ){
-      page = <h1> 404 </h1>
+      page = <PageNotFound />
     } 
-    else {
+    //no slug and page child show home
+    else { 
       page = this.state.page_template;
     }
+
+
+
+
     return (
       <div className={`page-body ${(modelSlugs.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
-        <MetaTags>
-            <meta name="description" content={pageDescription} />
-        </MetaTags>
-        <Header title={pageTitle} metaDescription={pageDescription} categories={data.categories} brands={data.brands} />
+        <Header meta_description={pageDescription} title={pageTitle} metaDescription={pageDescription} categories={data.categories} brands={data.brands} />
           {page}
         <Footer />
       </div>

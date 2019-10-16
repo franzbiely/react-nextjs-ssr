@@ -2,7 +2,6 @@ import Head from 'next/head'
 import React from 'react'
 import "./header.scss"
 import { Link } from '../../routes';
-
 export default class Header extends React.Component {
     constructor(props) {
         super(props)
@@ -21,7 +20,7 @@ export default class Header extends React.Component {
             <div>
                 <Head>
                     <title>{this.props.title}</title>
-                   
+                    <meta name="meta-description" content={this.props.meta_description} />
                     {/* CSS */}
                     <link rel="stylesheet" href="http://localhost:3000/static/css/bootstrap.min.css" ></link> 
                     <link rel="stylesheet" href="http://localhost:3000/static/css/font-awesome.min.css" />
