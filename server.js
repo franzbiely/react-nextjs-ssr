@@ -3,7 +3,6 @@
 const next = require("next");
 const routes = require("./routes");
 const bodyParser = require("body-parser");
-const cors = require("cors");
 const app = next({ dev: process.env.NODE_ENV !== "production" });
 const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
   app.render(req, res, route.page, query);
@@ -25,7 +24,6 @@ connection.connect(function(err) {
 });
 
 const server = express();
-server.use(cors());
 server.get("/data", (req, res) => {
   connection.query(
     "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'; SELECT * from products where type='series'; SELECT * from products where type='model'; SELECT * from product_meta;"
