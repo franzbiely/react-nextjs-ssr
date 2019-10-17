@@ -34,15 +34,13 @@ server.get("/data", (req, res) => {
 server.get("/metatags", (req,res) =>{
   app.render(req, res, '/metatags');
 })
-server.get('/*', function(req, res, next) {
-  if (req.headers.host.match(/www/) !== null ) {
-    console.log('without www' + req.headers.host)
-    res.redirect('http://' + req.headers.host.replace(/www\./, '') + req.url);
+server.all('/*', function(req, res, next) {
+  if(/^www\./.test(req.headers.host)) {
+   res.redirect(req.protocol + '://' + req.headers.host.replace(/^www\./,'') + req.url,301);
   } else {
-    console.log('with www' + req.headers.host)
-    next();     
+   next();
   }
-})
+ });
 app.prepare().then(() => {
   server.use(handler).listen(3000, function() {
     console.log("Go to http://localhost:3000/users so you can see the data.");
