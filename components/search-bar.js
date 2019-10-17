@@ -8,7 +8,7 @@ export default class SearchBar extends React.Component {
                 <input
                 className="form-control"
                 type="text"
-                placeholder="Type Your key word"
+                placeholder="Type your search terms"
                 aria-label="Search"
                 />
                 <button className="btn btn-success">Search</button>
