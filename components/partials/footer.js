@@ -12,7 +12,7 @@ export default class Footer extends React.Component {
                     </section> */}
                     <div className="footer-bottom clearfix text-center">
                         <div className="container">
-                            <p>Copyright &copy; 2018. Developed by <a href="http://themeregion.com/">ThemeRegion</a></p>
+                            <p>Copyright &copy; 2019. All rights reserved.</p>
                         </div>
                     </div>{/* footer-bottom */}
                 </footer>{/* footer */}
