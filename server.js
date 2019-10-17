@@ -35,9 +35,11 @@ server.get("/metatags", (req,res) =>{
   app.render(req, res, '/metatags');
 })
 server.get('/*', function(req, res, next) {
-  if (req.headers.host.match(/^www/) !== null ) {
-    res.redirect('http://' + req.headers.host.replace(/^www\./, '') + req.url);
+  if (req.headers.host.match(/www/) !== null ) {
+    console.log('without www' + req.headers.host)
+    res.redirect('http://' + req.headers.host.replace(/www\./, '') + req.url);
   } else {
+    console.log('with www' + req.headers.host)
     next();     
   }
 })
