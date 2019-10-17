@@ -2,7 +2,6 @@
 // server.js
 const next = require("next");
 const routes = require("./routes");
-const bodyParser = require("body-parser");
 const app = next({ dev: process.env.NODE_ENV !== "production" });
 const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
   app.render(req, res, route.page, query);
@@ -15,7 +14,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "techletic"
+  database: "techlitic"
 });
 
 connection.connect(function(err) {
@@ -34,6 +33,13 @@ server.get("/data", (req, res) => {
 });
 server.get("/metatags", (req,res) =>{
   app.render(req, res, '/metatags');
+})
+server.get('/*', function(req, res, next) {
+  if (req.headers.host.match(/^www/) !== null ) {
+    res.redirect('http://' + req.headers.host.replace(/^www\./, '') + req.url);
+  } else {
+    next();     
+  }
 })
 app.prepare().then(() => {
   server.use(handler).listen(3000, function() {
