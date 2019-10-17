@@ -43,6 +43,17 @@ class Home extends React.Component {
       </section>
     );
   }
+  getMetaTitleDesc(data, titles, page){
+    for(let y=0; y<data.length; y++){
+      if(data[y].slug === page){
+        for(let w=0; w<titles.length; w++){
+          if(titles[w].product_ID === data[y].ID){
+            return titles[w].meta_value;
+          }
+        }
+      }
+    }
+  }
   slugChecker(page){
     let x;
     const { data } = this.props;
@@ -75,6 +86,7 @@ class Home extends React.Component {
     let pageType;
     let pageTitle;
     let pageDescription;
+    let pageTitles = [];
     let pageDescriptions = [];
     let categorySlugs = [];
     let familySlugs = [];
@@ -186,22 +198,25 @@ class Home extends React.Component {
  
     }
     for(let k=0; k<productMeta.length; k++){
-      if(productMeta[k].meta_key === 'meta-description'){
+      if(productMeta[k].meta_key === 'description'){
         pageDescriptions.push(productMeta[k])
+      }
+      if(productMeta[k].meta_key === 'page-title'){
+        pageTitles.push(productMeta[k])
       }
     }
     // get page title and description from product_meta 
-    for(let g=0; g<productMeta.length; g++){
-      if(pageType === productMeta[g].meta_value){
-        pageTitle = productMeta[g].meta_value.charAt(0).toUpperCase() + 
-        productMeta[g].meta_value.slice(1); 
-        for(let x=0; x<pageDescriptions.length; x++){
-          if(pageDescriptions[x].product_ID === productMeta[g].ID){
-            pageDescription = pageDescriptions[x].meta_value;
-          }
-        }
-      }
-    }
+    // for(let g=0; g<productMeta.length; g++){
+    //   if(pageType === productMeta[g].meta_value){
+    //     pageTitle = productMeta[g].meta_value.charAt(0).toUpperCase() + 
+    //     productMeta[g].meta_value.slice(1); 
+    //     for(let x=0; x<pageDescriptions.length; x++){
+    //       if(pageDescriptions[x].product_ID === productMeta[g].ID){
+    //         pageDescription = pageDescriptions[x].meta_value;
+    //       }
+    //     }
+    //   }
+    // }
     //Components with props
     const modelComponent = <Model 
     modelName={this.secondUrlChecker(data.models)}
@@ -232,9 +247,6 @@ class Home extends React.Component {
     bc_CategoryName = {bc_CategoryName}
     bc_CategorySlug = {bc_CategorySlug}
      />;
-
-
-
     if (categorySlugs.indexOf(this.state.Slug) !== -1 || brandSlugs.indexOf(this.state.Slug) !== -1 ) {
       if(brandSlugs.indexOf(this.state.Slug) !== -1){
         if(this.state.Brand && familySlugs.indexOf(this.state.Brand) === -1 && seriesSlugs.indexOf(this.state.Brand) === -1){
@@ -255,11 +267,14 @@ class Home extends React.Component {
               }
             }
           }
-          if(tempArr.indexOf(this.state.Brand) === -1){
-            page = <PageNotFound />
+          if(tempArr.indexOf(this.state.Brand) !== -1){
+            //Page title when in Model page
+            pageTitle = this.getMetaTitleDesc(data.models, pageTitles, this.state.Brand);
+            pageDescription = this.getMetaTitleDesc(data.models, pageDescriptions, this.state.Brand);
+            page = modelComponent;
           }
           else{
-            page = modelComponent;
+            page = <PageNotFound />
           }
         }
         else if(this.state.Brand && familySlugs.indexOf(this.state.Brand) !== -1){
@@ -274,6 +289,9 @@ class Home extends React.Component {
             }
           }
           if(familyCatArr.indexOf(this.state.Brand) !== -1){
+            //Page title when in family page
+            pageTitle = this.getMetaTitleDesc(data.families, pageTitles, this.state.Brand);
+            pageDescription = this.getMetaTitleDesc(data.families, pageDescriptions, this.state.Brand)
             page = categoryComponent
           }else{
             page = <PageNotFound/>
@@ -294,35 +312,44 @@ class Home extends React.Component {
               }
             }
           }
-          console.log(seriesCatArr, this.state.Brand)
           if(seriesCatArr.indexOf(this.state.Brand) !== -1){
+            //Page title when series exists
+            pageTitle = this.getMetaTitleDesc(data.series, pageTitles, this.state.Brand);
+            pageDescription = this.getMetaTitleDesc(data.series, pageDescriptions, this.state.Brand);
             page = categoryComponent
           }else{
             page = <PageNotFound/>
           }
         }
         else{
-            page = categoryComponent
+          //Page title when page title is a brand - child page
+          pageTitle = this.getMetaTitleDesc(data.brands, pageTitles, this.state.Slug);
+          pageDescription = this.getMetaTitleDesc(data.brands, pageDescriptions, this.state.Slug);
+          page = categoryComponent
         }
       }
       else if(categorySlugs.indexOf(this.state.Slug) !== -1){
-        let catSlugArr = [];
+        pageTitle = this.state.Slug.charAt(0).toUpperCase() + this.state.Slug.slice(1);
+        let categorySubCatArr = [];
         if(this.state.Brand){
           for(let a=0; a<data.categories.length; a++){
             if(data.categories[a].parent_ID){
               for(let c=0; c<data.categories.length; c++){
                 if(data.categories[c].slug === this.state.Slug){
                   if(data.categories[a].parent_ID === data.categories[c].ID){
-                    catSlugArr.push(data.categories[a].slug);
+                    categorySubCatArr.push(data.categories[a].slug);
                   }
                 }
               }
             }
-            if(catSlugArr.indexOf(this.state.Brand) === -1){
-              page = <PageNotFound />
+            
+            if(categorySubCatArr.indexOf(this.state.Brand) !== -1){
+              //Page Title when in Category page
+
+              page = categoryComponent;
             }
             else{
-              page = categoryComponent;
+              page = <PageNotFound />
             }
           }
         }
@@ -330,9 +357,8 @@ class Home extends React.Component {
           page = categoryComponent;
         }
       }
-      else if (modelSlugs.indexOf(this.state.Brand === -1)) {
+      else if (modelSlugs.indexOf(this.state.Brand) === -1) {
         page = categoryComponent
-        
       } 
       else {
           page = modelComponent; 
@@ -344,15 +370,12 @@ class Home extends React.Component {
     } 
     //no slug and page child show home
     else { 
+      pageTitle = 'Home'
       page = this.state.page_template;
     }
-
-
-
-
     return (
       <div className={`page-body ${(modelSlugs.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
-        <Header meta_description={pageDescription} title={pageTitle} metaDescription={pageDescription} categories={data.categories} brands={data.brands} />
+        <Header meta_description={pageDescription} title={pageTitle} categories={data.categories} brands={data.brands} />
           {page}
         <Footer />
       </div>
