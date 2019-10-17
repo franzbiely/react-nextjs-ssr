@@ -70,7 +70,7 @@ export default class Model extends Component {
             </div>
             <div className="product-details-section">
               <div className="p_heading">
-                <h2>{this.props.modelName}</h2>
+                <h1 style={{ color: "black" }}>{this.props.modelName}</h1>
                 <span>
                   Brand: &nbsp;<span style={{ color: "black" }}>{this.props.bc_brandName}</span>
                 </span>{" "}
@@ -142,7 +142,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>More about the {this.props.bc_brandName}</h4>
+              <h2>More about the {this.props.bc_brandName} {this.props.modelName}</h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -173,7 +173,7 @@ export default class Model extends Component {
           </div>
           <div className="col-sm-3 product_series_section">
             <div>
-              <h4>Product Series</h4>
+              <h3>{this.props.bc_seriesName} {this.props.bc_CategoryName}</h3>
               <ul type="none">
                 <li>Zenbook S11</li>
                 <li>Zenbook S12</li>
@@ -187,7 +187,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>Zenbook S13 UX392 Specifications</h4>
+              <h2>{this.props.modelName} Specifications</h2>
               <hr />
               <table width="100%" border="1">
                 <thead>
@@ -259,7 +259,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>Laptops similar to the Asus Zenbook S13 UX392</h4>
+              <h3>{this.props.bc_CategoryName} similar to the {this.props.bc_brandName} {this.props.modelName}</h3>
               <hr />
             </div>
           </div>
