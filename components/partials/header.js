@@ -19,8 +19,8 @@ export default class Header extends React.Component {
         return (
             <div>
                 <Head>
-                    <title>{this.props.title}</title>
-                    <meta name="meta-description" content={this.props.meta_description} />
+                    <title> {this.props.title ? this.props.title : 'No title'}</title>
+                    <meta name="description" content={this.props.meta_description ? this.props.meta_description : 'This is category page'} />
                     {/* CSS */}
                     <link rel="stylesheet" href="http://localhost:3000/static/css/bootstrap.min.css" ></link> 
                     <link rel="stylesheet" href="http://localhost:3000/static/css/font-awesome.min.css" />

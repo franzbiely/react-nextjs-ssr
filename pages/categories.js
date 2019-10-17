@@ -116,7 +116,7 @@ export default class Categories extends Component {
         </Link>
       );
       pageChildren = this.getPageChildren(c,b)
-      //If Slug is Category - show all models from that category
+      // If Slug is Category - show all models from that category
       for(let p=0; p<c.length; p++){
         if(c[p].slug === this.props.pageSlug){
           for(let i=0; i<b.length; i++){
@@ -137,9 +137,7 @@ export default class Categories extends Component {
             }
           }
         }
-        
       }
-      console.log(products)
     }
     
     else if(brandSlugsArr.indexOf(this.props.pageSlug) !== -1){
@@ -270,12 +268,27 @@ export default class Categories extends Component {
               <div className="products">
                 <h1>Products:</h1>
                 <ul type="none">
-                  {products.map(value=>{
-                    b.map(value=>{
-                      console.log(value)
+                  {
+                    
+                    products.map(value=>{
+                      let modelBrand;
+                      for(let y=0; y<s.length; y++){
+                        if(value.parent_ID === s[y].ID){
+                          for(let o=0; o<f.length;o++){
+                            if(s[y].parent_ID === f[o].ID){
+                              for(let q=0; q<b.length; q++){
+                                if(f[o].parent_ID === b[q].ID){
+                                  modelBrand = b[q].slug; 
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                      return <li><Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
+                  
                     })
-                    return <li><Link href={`/${this.props.pageSlug}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
-                  })}
+                  }
                 </ul>
               </div>
             </div>
