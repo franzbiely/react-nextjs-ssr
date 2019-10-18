@@ -34,15 +34,21 @@ server.get("/data", (req, res) => {
 server.get("/metatags", (req,res) =>{
   app.render(req, res, '/metatags');
 })
-server.get('/*', function(req, res, next) {
-  if (req.headers.host.match(/www/) !== null ) {
-    console.log('without www' + req.headers.host)
-    res.redirect('http://' + req.headers.host.replace(/www\./, '') + req.url);
+server.all('/*', function(req, res, next) {
+  if(/^www\./.test(req.headers.host)) {
+   res.redirect(301,  req.headers.host.replace(/^www\./,req.protocol + '://') + req.url);
   } else {
-    console.log('with www' + req.headers.host)
-    next();     
+   next();
   }
-})
+ });
+ server.use((req, res, next) => {
+  const test = /\?[^]*\//.test(req.url);
+  if (req.url.substr(-1) !== '/' && req.url.length > 1 && !test)
+    res.redirect(301, req.url + '/');
+  else
+    next();
+});
+
 app.prepare().then(() => {
   server.use(handler).listen(3000, function() {
     console.log("Go to http://www.techlitic.com/users so you can see the data.");

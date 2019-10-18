@@ -275,6 +275,7 @@ class Home extends React.Component {
           }
           else{
             page = <PageNotFound />
+            pageTitle = "404 Page not found"
           }
         }
         else if(this.state.Brand && familySlugs.indexOf(this.state.Brand) !== -1){
@@ -295,6 +296,7 @@ class Home extends React.Component {
             page = categoryComponent
           }else{
             page = <PageNotFound/>
+            pageTitle = "404 Page not found"
           }
         }
         else if(this.state.Brand && seriesSlugs.indexOf(this.state.Brand) !== -1){
@@ -319,6 +321,7 @@ class Home extends React.Component {
             page = categoryComponent
           }else{
             page = <PageNotFound/>
+            pageTitle = "404 Page not found"
           }
         }
         else{
@@ -350,6 +353,7 @@ class Home extends React.Component {
             }
             else{
               page = <PageNotFound />
+              pageTitle = "404 Page not found"
             }
           }
         }
@@ -367,6 +371,7 @@ class Home extends React.Component {
     // if slug not matched with categories or brands show 404
     else if(this.state.Slug && categorySlugs.indexOf(this.state.Slug) === -1 || this.state.Slug && brandSlugs.indexOf(this.state.Slug) === -1 ){
       page = <PageNotFound />
+      pageTitle = "404 Page not found"
     } 
     //no slug and page child show home
     else { 
