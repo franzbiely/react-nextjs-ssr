@@ -36,11 +36,19 @@ server.get("/metatags", (req,res) =>{
 })
 server.all('/*', function(req, res, next) {
   if(/^www\./.test(req.headers.host)) {
-   res.redirect(req.protocol + '://' + req.headers.host.replace(/^www\./,'') + req.url,301);
+   res.redirect(301,  req.headers.host.replace(/^www\./,req.protocol + '://') + req.url);
   } else {
    next();
   }
  });
+ server.use((req, res, next) => {
+  const test = /\?[^]*\//.test(req.url);
+  if (req.url.substr(-1) !== '/' && req.url.length > 1 && !test)
+    res.redirect(301, req.url + '/');
+  else
+    next();
+});
+
 app.prepare().then(() => {
   server.use(handler).listen(3000, function() {
     console.log("Go to http://localhost:3000/users so you can see the data.");
