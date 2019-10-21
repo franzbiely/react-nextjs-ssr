@@ -84,6 +84,10 @@ class Home extends React.Component {
     let page;
     let pageName; 
     let pageType;
+    let p_display_size;
+    let p_processors; 
+    let p_gpu; 
+    let p_ram;
     let pageTitle;
     let pageDescription;
     let pageTitles = [];
@@ -124,6 +128,7 @@ class Home extends React.Component {
     data.brands.map(values =>{
       brandSlugs.push(values.slug)
     })
+    
     for(let q=0; q<data.series.length; q++ ){
       if(data.series[q].slug === this.state.Brand){
         for(let x=0; x<data.models.length; x++){
@@ -133,7 +138,6 @@ class Home extends React.Component {
         }
       }
     }
-  
     //breadcrumb get brand name
     if(categorySlugs.indexOf(this.state.Slug) !== -1){
       pageType = 'category';
@@ -197,6 +201,10 @@ class Home extends React.Component {
       }
  
     }
+    let product_display_size = [];
+    let product_processors = []; 
+    let product_gpu = []; 
+    let product_ram = [];
     for(let k=0; k<productMeta.length; k++){
       if(productMeta[k].meta_key === 'description'){
         pageDescriptions.push(productMeta[k])
@@ -204,7 +212,23 @@ class Home extends React.Component {
       if(productMeta[k].meta_key === 'page-title'){
         pageTitles.push(productMeta[k])
       }
+      if(productMeta[k].meta_key === 'display-size'){
+        product_display_size.push(productMeta[k])
+      }
+      if(productMeta[k].meta_key === 'processors'){
+        product_processors.push(productMeta[k])
+      }
+      if(productMeta[k].meta_key === 'gpu'){
+        product_gpu.push(productMeta[k])
+      }
+      if(productMeta[k].meta_key === 'ram'){
+        product_ram.push(productMeta[k])
+      }
     }
+    p_display_size = this.getMetaTitleDesc(data.models, product_display_size, this.state.Brand);
+    p_processors = this.getMetaTitleDesc(data.models, product_processors, this.state.Brand);
+    p_gpu = this.getMetaTitleDesc(data.models, product_gpu, this.state.Brand);
+    p_ram = this.getMetaTitleDesc(data.models, product_ram, this.state.Brand);
     // get page title and description from product_meta 
     // for(let g=0; g<productMeta.length; g++){
     //   if(pageType === productMeta[g].meta_value){
@@ -218,6 +242,16 @@ class Home extends React.Component {
     //   }
     // }
     //Components with props
+    const productSeries = [];
+    for(let s=0; s<data.series.length; s++ ){
+      if(data.series[s].name === bc_seriesName){
+        for(let c=0; c<data.models.length; c++){
+          if(data.models[c].parent_ID === data.series[s].ID){
+            productSeries.push(data.models[c])
+          }
+        }
+      }
+    }
     const modelComponent = <Model 
     modelName={this.secondUrlChecker(data.models)}
     bc_brandName={bc_brandName} 
@@ -228,6 +262,11 @@ class Home extends React.Component {
     bc_seriesSlug = {bc_seriesSlug}
     bc_CategoryName = {bc_CategoryName}
     bc_CategorySlug = {bc_CategorySlug}
+    series_models = {productSeries}
+    display_size = {p_display_size}
+    processors = {p_processors}
+    gpu = {p_gpu}
+    ram = {p_ram}
     />;
     const categoryComponent = <Categories 
     brands={data.brands} 
@@ -378,6 +417,8 @@ class Home extends React.Component {
       pageTitle = 'Home'
       page = this.state.page_template;
     }
+
+
     return (
       <div className={`page-body ${(modelSlugs.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
         <Header meta_description={pageDescription} title={pageTitle} categories={data.categories} brands={data.brands} />
