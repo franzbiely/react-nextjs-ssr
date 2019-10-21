@@ -72,36 +72,36 @@ export default class Model extends Component {
               <div className="p_heading">
                 <h2>{this.props.modelName}</h2>
                 <span>
-                  Brand: &nbsp;<span style={{ color: "black" }}>{this.props.bc_brandName}</span>
+                  Brand: &nbsp;<Link href={`/${this.props.bc_brandSlug}/`}><a style={{ color: "black" }}>{this.props.bc_brandName}</a></Link>
                 </span>{" "}
                 &nbsp;
                 <span>
                   Family: &nbsp;
-                  <span style={{ color: "black" }}>{this.props.bc_familyName}</span>
+                  <Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}/`}><a style={{ color: 'black'}}>{this.props.bc_familyName}</a></Link>
                 </span>{" "}
                 &nbsp;
                 <span>
                   Series: &nbsp;
-                  <span style={{ color: "black" }}>{this.props.bc_seriesName}</span>
+                  <Link href={`/${this.props.bc_brandSlug}/${this.props.bc_seriesSlug}/`}><a style={{ color: 'black'}}>{this.props.bc_seriesName}</a></Link>
                 </span>{" "}
                 &nbsp;
               </div>
               <div className="p_details">
                 <p>
                   <strong>Display Size:&nbsp;</strong>
-                  <span>13.9 inch</span>
+                  <span>{this.props.display_size}</span>
                 </p>
                 <p>
                   <strong>Processors:&nbsp;</strong>
-                  <span>i5 8th Generation</span>
+                  <span>{this.props.processors}</span>
                 </p>
                 <p>
                   <strong>Graphics:&nbsp;</strong>
-                  <span>Nvidia 1050ti</span>
+                  <span>{this.props.gpu}</span>
                 </p>
                 <p>
                   <strong>Memory:&nbsp;</strong>
-                  <span>8gb ram</span>
+                  <span>{this.props.ram}</span>
                 </p>
               </div>
               <div className="p_bestprices">
@@ -175,11 +175,13 @@ export default class Model extends Component {
             <div>
               <h4>Product Series</h4>
               <ul type="none">
-                <li>Zenbook S11</li>
-                <li>Zenbook S12</li>
-                <li>Zenbook S14</li>
-                <li>Zenbook S15</li>
-                <li>Zenbook S16</li>
+                {
+                  
+                  this.props.series_models.map((value, key) => {
+                    return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}><a>{value.name}</a></Link></li>
+                  })
+                }
+                
               </ul>
             </div>
           </div>

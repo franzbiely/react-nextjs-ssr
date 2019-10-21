@@ -151,11 +151,6 @@ export default class Categories extends Component {
       );
      
       if(this.props.brand){
-
-        
-
-
-
         if(familySlugsArr.indexOf(this.props.brand) !== -1){
           childrenName = 'Series';
           pageName = this.getPageName(f)

@@ -31,12 +31,9 @@ server.get("/data", (req, res) => {
     return res.send({ categories: results[0], brands: results[1], families: results[2], series: results[3], models: results[4], product_meta: results[5]});
   });
 });
-server.get("/metatags", (req,res) =>{
-  app.render(req, res, '/metatags');
-})
 server.all('/*', function(req, res, next) {
   if(/^www\./.test(req.headers.host)) {
-   res.redirect(301,  req.headers.host.replace(/^www\./,req.protocol + '://') + req.url);
+   res.redirect(301,  req.headers.host.replace(/www\./, req.protocol) + req.url);
   } else {
    next();
   }
@@ -44,7 +41,6 @@ server.all('/*', function(req, res, next) {
  server.use((req, res, next) => {
   const test = /\?[^]*\//.test(req.url);
   const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-  console.log(fullUrl, req.url)
   if (req.url.substr(-1) !== '/' && req.url.length > 1 && !test && !fullUrl.match(/\/static\//))
     res.redirect(301, req.url + '/');
   else
