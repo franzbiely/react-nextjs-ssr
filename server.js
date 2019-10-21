@@ -43,7 +43,9 @@ server.all('/*', function(req, res, next) {
  });
  server.use((req, res, next) => {
   const test = /\?[^]*\//.test(req.url);
-  if (req.url.substr(-1) !== '/' && req.url.length > 1 && !test && !req.url.match(/\/static\//))
+  const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  console.log(fullUrl, req.url)
+  if (req.url.substr(-1) !== '/' && req.url.length > 1 && !test && !fullUrl.match(/\/static\//))
     res.redirect(301, req.url + '/');
   else
     next();
