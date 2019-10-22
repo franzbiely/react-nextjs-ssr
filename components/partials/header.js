@@ -22,27 +22,27 @@ export default class Header extends React.Component {
                     <title> {this.props.title ? this.props.title : 'No title'}</title>
                     <meta name="description" content={this.props.meta_description ? this.props.meta_description : 'This is category page'} />
                     {/* CSS */}
-                    <link rel="stylesheet" href="http://www.techlitic.com/static/css/bootstrap.min.css" ></link> 
-                    <link rel="stylesheet" href="http://www.techlitic.com/static/css/font-awesome.min.css" />
-                    <link rel="stylesheet" href="http://www.techlitic.com/static/css/icofont.css" />
-                    <link rel="stylesheet" href="http://www.techlitic.com/static/css/owl.carousel.css" />  
-                    <link rel="stylesheet" href="http://www.techlitic.com/static/css/slidr.css" />
-                    <link rel="stylesheet" href="http://www.techlitic.com/static/css/main.css" />
-                    {/* <link id="preset" rel="stylesheet" href="http://www.techlitic.com/static/css/presets/preset1.css" /> */}
-                    <link rel="stylesheet" href="http://www.techlitic.com/static/css/responsive.css" />
-                    <link rel="stylesheet" href="http://www.techlitic.com/static/css/custom.css" />
+                    <link rel="stylesheet" href="http://techlitic.com/static/css/bootstrap.min.css" ></link> 
+                    <link rel="stylesheet" href="http://techlitic.com/static/css/font-awesome.min.css" />
+                    <link rel="stylesheet" href="http://techlitic.com/static/css/icofont.css" />
+                    <link rel="stylesheet" href="http://techlitic.com/static/css/owl.carousel.css" />  
+                    <link rel="stylesheet" href="http://techlitic.com/static/css/slidr.css" />
+                    <link rel="stylesheet" href="http://techlitic.com/static/css/main.css" />
+                    <link id="preset" rel="stylesheet" href="http://techlitic.com/static/css/presets/preset1.css" />
+                    <link rel="stylesheet" href="http://techlitic.com/static/css/responsive.css" />
+                    <link rel="stylesheet" href="http://techlitic.com/static/css/custom.css" />
                     {/* Font */}
                     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,300' rel='stylesheet' type='text/css' />
 	                <link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css' />
                     {/* Icon */}
-                    <link rel="icon" href="http://www.techlitic.com/static/images/ico/favicon.ico" />	
-                    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.techlitic.com/static/images/ico/apple-touch-icon-144-precomposed.png" />
-                    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://www.techlitic.com/static/images/ico/apple-touch-icon-114-precomposed.png" />
-                    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://www.techlitic.com/static/images/ico/apple-touch-icon-72-precomposed.png" />
-                    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="http://www.techlitic.com/static/images/ico/apple-touch-icon-57-precomposed.png" />
+                    <link rel="icon" href="http://techlitic.com/static/images/ico/favicon.ico" />	
+                    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://techlitic.com/static/images/ico/apple-touch-icon-144-precomposed.png" />
+                    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://techlitic.com/static/images/ico/apple-touch-icon-114-precomposed.png" />
+                    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://techlitic.com/static/images/ico/apple-touch-icon-72-precomposed.png" />
+                    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="http://techlitic.com/static/images/ico/apple-touch-icon-57-precomposed.png" />
                     {/* JS */}
-                    <script src="http://www.techlitic.com/static/js/jquery-3.2.1.slim.min.js"></script>
-                    <script src="http://www.techlitic.com/static/js/bootstrap.min.js"></script>
+                    <script src="http://techlitic.com/static/js/jquery-3.2.1.slim.min.js"></script>
+                    <script src="http://techlitic.com/static/js/bootstrap.min.js"></script>
                 </Head>
                 {/* header */}
                 <header id="header" className="clearfix">
