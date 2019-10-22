@@ -53,7 +53,8 @@ export default class Model extends Component {
         }
       }
     }
-    console.log(display_size, processors, gpu, ram, storage, keyboard,wifi, weight,operating_system, where_to_buy);
+    console.log(variantContainer)
+    
     return (
       <div className="container content">
           <div className="breadcrumbs">
@@ -240,7 +241,8 @@ export default class Model extends Component {
               <h4>Zenbook S13 UX392 Specifications</h4>
               <hr />
               <div class="compare-table">
-                <table width="100%" border="1">
+                {
+                  (Array.isArray(variantContainer) && variantContainer.length) ? <table width="100%" border="1">
                   <thead>
                     <tr>
                       <th>&nbsp;</th>
@@ -333,7 +335,12 @@ export default class Model extends Component {
                       }
                     </tr>
                   </tbody>
-                </table>
+                </table> 
+                : 
+                  <table>
+                    <em>No Variants available for this model</em>
+                  </table>
+                }
               </div>
             </div>
           </div>
@@ -344,7 +351,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>Laptops similar to the Asus Zenbook S13 UX392</h4>
+              <h4>Laptops similar to the {this.props.modelName}</h4>
               <hr />
             </div>
           </div>
