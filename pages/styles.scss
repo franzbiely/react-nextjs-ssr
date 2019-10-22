@@ -226,7 +226,34 @@ ul.postLink{
   display: block;
   white-space: nowrap;
   overflow-x: auto;
+
+}
+.model-page .compare-table > table {
+  margin-bottom: 10px;
 }
 .model-page table th{
   min-width: 253px;;
+}
+.model-page{
+  /* width */
+  ::-webkit-scrollbar {
+    
+    height: 9px;
+    border-radius: 3px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f7f7f7;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #e8e8e8;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #097972;
+  }
 }
