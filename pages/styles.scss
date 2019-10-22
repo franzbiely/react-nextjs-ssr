@@ -221,4 +221,46 @@ ul.postLink{
   font-size: 90pt;
   font-weight: 900;
   color: white;
+  text-align: center;
+}
+
+.col-sm-4{ 
+  font-size: 20px;
+  font-weight: 900;
+  //color: rgb(12, 8, 8);
+  //font-family:Arial, Helvetica, sans-serif;
+  margin-top: 10px;
+  text-align: center;
+}
+.col-sm-4 p{ 
+  padding: 20px;
+  border-radius: 6px;
+}
+
+
+.model-page{
+  .compare-table{
+    display: block;
+    white-space: nowrap;
+    overflow-x: auto;
+      table {
+        margin-bottom: 10px;
+        th{
+          min-width: 253px;;
+        }
+      }
+  }
+  ::-webkit-scrollbar {
+    height: 9px;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f7f7f7;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #e8e8e8;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #097972;
+  }
 }

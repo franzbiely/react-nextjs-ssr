@@ -25,10 +25,10 @@ connection.connect(function(err) {
 const server = express();
 server.get("/data", (req, res) => {
   connection.query(
-    "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'; SELECT * from products where type='series'; SELECT * from products where type='model'; SELECT * from product_meta;"
-    , [1,2,3,4,5,6], (error, results, fields) => {
+    "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'; SELECT * from products where type='series'; SELECT * from products where type='model'; SELECT * from product_meta; SELECT * from products where type='variant'"
+    , [1,2,3,4,5,6,7], (error, results, fields) => {
     if (error) throw error;
-    return res.send({ categories: results[0], brands: results[1], families: results[2], series: results[3], models: results[4], product_meta: results[5]});
+    return res.send({ categories: results[0], brands: results[1], families: results[2], series: results[3], models: results[4], product_meta: results[5], variants: results[6]});
   });
 });
 server.all('/*', function(req, res, next) {

@@ -267,6 +267,9 @@ class Home extends React.Component {
     processors = {p_processors}
     gpu = {p_gpu}
     ram = {p_ram}
+    variants = {data.variants}
+    models = {data.models}
+    productMeta = {productMeta}
     />;
     const categoryComponent = <Categories 
     brands={data.brands} 
