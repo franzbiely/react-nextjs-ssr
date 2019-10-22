@@ -261,7 +261,7 @@ export default class Categories extends Component {
             </div>
             <div className="col-sm-9 product-container">
               <div className="products">
-                <h1>Products:</h1>
+                <h2>Results:</h2>
                 <ul type="none">
                   {
                     
@@ -280,7 +280,7 @@ export default class Categories extends Component {
                           }
                         }
                       }
-                      return <li><Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
+                      return <li><Link href={`/${modelBrand}/${value.slug}/`}><a><p>{value.name}</p></a></Link></li>
                   
                     })
                   }
