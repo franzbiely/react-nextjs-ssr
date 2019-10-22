@@ -70,38 +70,38 @@ export default class Model extends Component {
             </div>
             <div className="product-details-section">
               <div className="p_heading">
-                <h2>{this.props.modelName}</h2>
+                <h1 style={{ color: "black" }}>{this.props.modelName}</h1>
                 <span>
-                  Brand: &nbsp;<span style={{ color: "black" }}>{this.props.bc_brandName}</span>
+                  Brand: &nbsp;<Link href={`/${this.props.bc_brandSlug}/`}><a style={{ color: "black" }}>{this.props.bc_brandName}</a></Link>
                 </span>{" "}
                 &nbsp;
                 <span>
                   Family: &nbsp;
-                  <span style={{ color: "black" }}>{this.props.bc_familyName}</span>
+                  <Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}/`}><a style={{ color: 'black'}}>{this.props.bc_familyName}</a></Link>
                 </span>{" "}
                 &nbsp;
                 <span>
                   Series: &nbsp;
-                  <span style={{ color: "black" }}>{this.props.bc_seriesName}</span>
+                  <Link href={`/${this.props.bc_brandSlug}/${this.props.bc_seriesSlug}/`}><a style={{ color: 'black'}}>{this.props.bc_seriesName}</a></Link>
                 </span>{" "}
                 &nbsp;
               </div>
               <div className="p_details">
                 <p>
                   <strong>Display Size:&nbsp;</strong>
-                  <span>13.9 inch</span>
+                  <span>{this.props.display_size}</span>
                 </p>
                 <p>
                   <strong>Processors:&nbsp;</strong>
-                  <span>i5 8th Generation</span>
+                  <span>{this.props.processors}</span>
                 </p>
                 <p>
                   <strong>Graphics:&nbsp;</strong>
-                  <span>Nvidia 1050ti</span>
+                  <span>{this.props.gpu}</span>
                 </p>
                 <p>
                   <strong>Memory:&nbsp;</strong>
-                  <span>8gb ram</span>
+                  <span>{this.props.ram}</span>
                 </p>
               </div>
               <div className="p_bestprices">
@@ -142,7 +142,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>More about the {this.props.bc_brandName}</h4>
+              <h2>More about the {this.props.bc_brandName} {this.props.modelName}</h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -173,13 +173,15 @@ export default class Model extends Component {
           </div>
           <div className="col-sm-3 product_series_section">
             <div>
-              <h4>Product Series</h4>
+              <h3>{this.props.bc_seriesName} {this.props.bc_CategoryName}</h3>
               <ul type="none">
-                <li>Zenbook S11</li>
-                <li>Zenbook S12</li>
-                <li>Zenbook S14</li>
-                <li>Zenbook S15</li>
-                <li>Zenbook S16</li>
+                {
+                  
+                  this.props.series_models.map((value, key) => {
+                    return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}><a>{value.name}</a></Link></li>
+                  })
+                }
+                
               </ul>
             </div>
           </div>
@@ -187,7 +189,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>Zenbook S13 UX392 Specifications</h4>
+              <h2>{this.props.modelName} Specifications</h2>
               <hr />
               <table width="100%" border="1">
                 <thead>
@@ -259,7 +261,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>Laptops similar to the Asus Zenbook S13 UX392</h4>
+              <h3>{this.props.bc_CategoryName} similar to the {this.props.bc_brandName} {this.props.modelName}</h3>
               <hr />
             </div>
           </div>

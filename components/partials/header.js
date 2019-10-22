@@ -11,7 +11,7 @@ export default class Header extends React.Component {
             return <li className="dropdown category-nav-toggle">
                 <Link href={`/${props.slug}/`} params={{slug: `${props.id}`}} ><a className="dropdown-toggle">{props.id}</a></Link>
                 
-                <ul className='dropdown-menu category-item' >
+                <ul className={`category-item ${props.children ? 'dropdown-menu' : '' }`}>
                     {props.children}
                 </ul>
             </li>
@@ -63,11 +63,16 @@ export default class Header extends React.Component {
                                         this.props.categories.map((value, index) =>{
                                             if(!value.parent_ID){
                                                 let x = value.ID
+                                                let y = value.slug
                                                 return <Category_nav key={index} slug={value.slug} id={value.name}>
                                                         {   
-                                                        this.props.brands.map((value, index) =>{
-                                                            if(x==value.parent_ID){
-                                                                return <li key={index}><Link href={`/${value.slug}/`} params={{slug: value.name}}><a>{value.name}</a></Link></li>
+                                                        this.props.categories.map((value, index) =>{
+                                                            if(value.parent_ID){
+                                                                if(x==value.parent_ID){
+                                                                    return <li key={index}><Link href={`/${y}/${value.slug}/`} params={{slug: value.name}}><a>{value.name}</a></Link></li>
+                                                                }
+                                                            }else{
+                                                                return;
                                                             }
                                                         })
                                                         }
