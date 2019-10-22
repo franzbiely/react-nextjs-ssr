@@ -228,7 +228,7 @@ export default class Model extends Component {
                 {
                   
                   this.props.series_models.map((value, key) => {
-                    return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}><a>{value.name}</a></Link></li>
+                    return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}>/<a>{value.name}</a></Link></li>
                   })
                 }
                 
