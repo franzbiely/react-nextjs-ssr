@@ -3,7 +3,57 @@ import "./styles.scss";
 import { Link } from '../routes'
 
 export default class Model extends Component {
+  
+  assignSpecs(productMeta, spec, container){
+    if(productMeta.meta_key === spec){
+      if(productMeta.meta_value){
+        container.push(productMeta.meta_value)
+      }
+      else{
+        container.push('')
+      }
+    }
+  }
   render() {
+    let variantContainer = [];
+    let 
+    display_size = [], 
+    processors = [], 
+    gpu = [],
+    ram = [],
+    storage = [],
+    keyboard = [],
+    wifi = [],
+    weight = [],
+    operating_system = [],
+    where_to_buy =[];
+
+    for(let x=0; x<this.props.models.length; x++){
+      if(this.props.models[x].name === this.props.modelName){
+        for(let z=0; z<this.props.variants.length; z++){
+          if(this.props.variants[z].parent_ID === this.props.models[x].ID){
+            variantContainer.push(this.props.variants[z]);
+          }
+        }
+      }
+    } 
+    for(let n=0; n<variantContainer.length; n++){
+      for(let m=0; m<this.props.productMeta.length; m++){
+        if(variantContainer[n].ID === this.props.productMeta[m].product_ID){
+          this.assignSpecs(this.props.productMeta[m],'display-size', display_size, );
+          this.assignSpecs(this.props.productMeta[m],'processors', processors, );
+          this.assignSpecs(this.props.productMeta[m],'gpu', gpu, );
+          this.assignSpecs(this.props.productMeta[m],'ram', ram, );
+          this.assignSpecs(this.props.productMeta[m],'storage', storage, );
+          this.assignSpecs(this.props.productMeta[m],'keyboard', keyboard, );
+          this.assignSpecs(this.props.productMeta[m],'wifi', wifi, );
+          this.assignSpecs(this.props.productMeta[m],'weight', weight, );
+          this.assignSpecs(this.props.productMeta[m],'operating-system', operating_system, );
+          this.assignSpecs(this.props.productMeta[m],'where-to-buy', where_to_buy, );
+        }
+      }
+    }
+    console.log(display_size, processors, gpu, ram, storage, keyboard,wifi, weight,operating_system, where_to_buy);
     return (
       <div className="container content">
           <div className="breadcrumbs">
@@ -176,12 +226,10 @@ export default class Model extends Component {
               <h4>Product Series</h4>
               <ul type="none">
                 {
-                  
                   this.props.series_models.map((value, key) => {
                     return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}><a>{value.name}</a></Link></li>
                   })
                 }
-                
               </ul>
             </div>
           </div>
@@ -191,67 +239,102 @@ export default class Model extends Component {
             <div>
               <h4>Zenbook S13 UX392 Specifications</h4>
               <hr />
-              <table width="100%" border="1">
-                <thead>
-                  <tr>
-                    <th>&nbsp;</th>
-                    <th>Zenbook S13 UX392FN</th>
-                    <th>Zenbook S13 UX392FA</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Display</td>
-                    <td>13.9 inches 1366x768</td>
-                    <td>15.6 inches Full HD</td>
-                  </tr>
-                  <tr>
-                    <td>Processor</td>
-                    <td>i5 8th Gen</td>
-                    <td>i7 7th Gen</td>
-                  </tr>
-                  <tr>
-                    <td>Ram</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>Storage</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>GPU</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>Keyboard</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>WiFi</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>Operating System</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>Weight</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>Where to buy</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="compare-table">
+                <table width="100%" border="1">
+                  <thead>
+                    <tr>
+                      <th>&nbsp;</th>
+                      {
+                        variantContainer.map(values=>{
+                          return <th>{values.name}</th>
+                        })
+                      }
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Display</td>
+                      {
+                        display_size.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                    <tr>
+                      <td>Processor</td>
+                      {
+                        processors.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                    <tr>
+                      <td>Ram</td>
+                      {
+                        ram.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                    <tr>
+                      <td>Storage</td>
+                      {
+                        storage.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                    <tr>
+                      <td>GPU</td>
+                      {
+                        gpu.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                    <tr>
+                      <td>Keyboard</td>
+                      {
+                        keyboard.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                    <tr>
+                      <td>WiFi</td>
+                      {
+                        wifi.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                    <tr>
+                      <td>Operating System</td>
+                      {
+                        operating_system.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                    <tr>
+                      <td>Weight</td>
+                      {
+                        weight.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                    <tr>
+                      <td>Where to buy</td>
+                      {
+                        where_to_buy.map(values=>{
+                          return <th>{values}</th>
+                        })
+                      }
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
           <div className="col-sm-3 product_series_section">

@@ -128,7 +128,6 @@ class Home extends React.Component {
     data.brands.map(values =>{
       brandSlugs.push(values.slug)
     })
-    
     for(let q=0; q<data.series.length; q++ ){
       if(data.series[q].slug === this.state.Brand){
         for(let x=0; x<data.models.length; x++){
@@ -267,6 +266,9 @@ class Home extends React.Component {
     processors = {p_processors}
     gpu = {p_gpu}
     ram = {p_ram}
+    variants = {data.variants}
+    models = {data.models}
+    productMeta = {productMeta}
     />;
     const categoryComponent = <Categories 
     brands={data.brands} 
@@ -387,7 +389,6 @@ class Home extends React.Component {
             
             if(categorySubCatArr.indexOf(this.state.Brand) !== -1){
               //Page Title when in Category page
-
               page = categoryComponent;
             }
             else{

@@ -222,3 +222,11 @@ ul.postLink{
   font-weight: 900;
   color: white;
 }
+.model-page .compare-table{
+  display: block;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.model-page table th{
+  min-width: 253px;;
+}
