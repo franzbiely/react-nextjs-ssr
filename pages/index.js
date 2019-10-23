@@ -128,6 +128,32 @@ class Home extends React.Component {
     data.brands.map(values =>{
       brandSlugs.push(values.slug)
     })
+    //Get all subcategories and subcategories slugs
+    let subcategorySlugs = [];
+    let subcategories = [];
+    for(let a=0; a<data.categories.length; a++){
+      if(data.categories[a].parent_ID){
+        for(let c=0; c<data.categories.length; c++){
+          if(data.categories[c].slug === this.state.Slug){
+            if(data.categories[a].parent_ID === data.categories[c].ID){
+              subcategorySlugs.push(data.categories[a].slug);
+              subcategories.push(data.categories[a])
+            }
+          }
+        }
+      }
+    }
+    //Get all products-models with subcategories
+    let subcategoryItems = [];
+    for(let ae=0; ae<data.models.length; ae++){
+      if(data.models[ae].category_ID){
+        for(let q=0; q<subcategories.length; q++){
+          if(subcategories[q].ID === data.models[ae].category_ID){
+            subcategoryItems.push(data.models[ae])
+          }
+        }
+      }
+    }
     for(let q=0; q<data.series.length; q++ ){
       if(data.series[q].slug === this.state.Brand){
         for(let x=0; x<data.models.length; x++){
@@ -154,7 +180,7 @@ class Home extends React.Component {
           bc_brandSlug = data.brands[p].slug
           pageName = data.brands[p].name
           for(let y=0; y<data.categories.length; y++){
-            if(data.brands[p].parent_ID === data.categories[y].ID){
+            if(data.brands[p].category_ID === data.categories[y].ID){
               bc_CategoryName = data.categories[y].name
               bc_CategorySlug = data.categories[y].slug
             }
@@ -228,19 +254,6 @@ class Home extends React.Component {
     p_processors = this.getMetaTitleDesc(data.models, product_processors, this.state.Brand);
     p_gpu = this.getMetaTitleDesc(data.models, product_gpu, this.state.Brand);
     p_ram = this.getMetaTitleDesc(data.models, product_ram, this.state.Brand);
-    // get page title and description from product_meta 
-    // for(let g=0; g<productMeta.length; g++){
-    //   if(pageType === productMeta[g].meta_value){
-    //     pageTitle = productMeta[g].meta_value.charAt(0).toUpperCase() + 
-    //     productMeta[g].meta_value.slice(1); 
-    //     for(let x=0; x<pageDescriptions.length; x++){
-    //       if(pageDescriptions[x].product_ID === productMeta[g].ID){
-    //         pageDescription = pageDescriptions[x].meta_value;
-    //       }
-    //     }
-    //   }
-    // }
-    //Components with props
     const productSeries = [];
     for(let s=0; s<data.series.length; s++ ){
       if(data.series[s].name === bc_seriesName){
@@ -287,7 +300,10 @@ class Home extends React.Component {
     bc_seriesSlug = {bc_seriesSlug}
     bc_CategoryName = {bc_CategoryName}
     bc_CategorySlug = {bc_CategorySlug}
+    subcategories = {subcategories}
+    subcategoryItems= {subcategoryItems}
      />;
+    
     if (categorySlugs.indexOf(this.state.Slug) !== -1 || brandSlugs.indexOf(this.state.Slug) !== -1 ) {
       if(brandSlugs.indexOf(this.state.Slug) !== -1){
         if(this.state.Brand && familySlugs.indexOf(this.state.Brand) === -1 && seriesSlugs.indexOf(this.state.Brand) === -1){
@@ -374,28 +390,20 @@ class Home extends React.Component {
       }
       else if(categorySlugs.indexOf(this.state.Slug) !== -1){
         pageTitle = this.state.Slug.charAt(0).toUpperCase() + this.state.Slug.slice(1);
-        let categorySubCatArr = [];
         if(this.state.Brand){
-          for(let a=0; a<data.categories.length; a++){
-            if(data.categories[a].parent_ID){
-              for(let c=0; c<data.categories.length; c++){
-                if(data.categories[c].slug === this.state.Slug){
-                  if(data.categories[a].parent_ID === data.categories[c].ID){
-                    categorySubCatArr.push(data.categories[a].slug);
-                  }
+            if(subcategorySlugs.indexOf(this.state.Brand) !== -1){
+              //Page Title when in Category page
+              for(let x=0; x<subcategories.length; x++){
+                if(subcategories[x].slug === this.state.Brand){
+                  pageTitle = subcategories[x].name
                 }
               }
-            }
-            
-            if(categorySubCatArr.indexOf(this.state.Brand) !== -1){
-              //Page Title when in Category page
-              page = categoryComponent;
+              page = categoryComponent
             }
             else{
               page = <PageNotFound />
               pageTitle = "404 Page not found"
             }
-          }
         }
         else{
           page = categoryComponent;

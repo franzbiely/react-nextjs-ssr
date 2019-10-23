@@ -53,7 +53,6 @@ export default class Model extends Component {
         }
       }
     }
-    console.log(variantContainer)
     
     return (
       <div className="container content">

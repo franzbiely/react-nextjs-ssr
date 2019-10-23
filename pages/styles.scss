@@ -222,37 +222,28 @@ ul.postLink{
   font-weight: 900;
   color: white;
 }
-.model-page .compare-table{
-  display: block;
-  white-space: nowrap;
-  overflow-x: auto;
-
-}
-.model-page .compare-table > table {
-  margin-bottom: 10px;
-}
-.model-page table th{
-  min-width: 253px;;
-}
 .model-page{
-  /* width */
+  .compare-table{
+    display: block;
+    white-space: nowrap;
+    overflow-x: auto;
+      table {
+        margin-bottom: 10px;
+        th{
+          min-width: 253px;;
+        }
+      }
+  }
   ::-webkit-scrollbar {
-    
     height: 9px;
     border-radius: 3px;
   }
-
-  /* Track */
   ::-webkit-scrollbar-track {
     background: #f7f7f7;
   }
-
-  /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #e8e8e8;
   }
-
-  /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #097972;
   }

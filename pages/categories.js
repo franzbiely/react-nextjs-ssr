@@ -55,7 +55,7 @@ export default class Categories extends Component {
     for(let z=0; z<x.length; z++){
       if(x[z].slug === this.props.pageSlug){
         for(let s=0; s<y.length; s++){
-          if(x[z].ID === y[s].parent_ID){
+          if(x[z].ID === y[s].category_ID){
             t.push(y[s]);
           }
         }
@@ -84,6 +84,7 @@ export default class Categories extends Component {
     let seriesSlugsArr = [];
     let modelNamesArr = [];
     let modelSlugsArr = [];
+    let subcategoriesSlugsArr = [];
     let products = [];
     b.map(values=>{
       brandNamesArr.push(values.name)
@@ -105,29 +106,38 @@ export default class Categories extends Component {
       modelNamesArr.push(values.name)
       modelSlugsArr.push(values.slug)
     })
+    this.props.subcategories.map(value => {
+      subcategoriesSlugsArr.push(value.slug)
+    })
     if(categorySlugsArr.indexOf(this.props.pageSlug) !== -1){
       childrenName = 'Brands';
-      pageName = this.getParentPageName(c)
-      PostLink = props => (
-        <Link href={`/${props.slug}/`}
-          params={{ cat: props.category, brand: props.id, slug: props.slug }}
-        >
-          <a>{props.id}</a>
-        </Link>
-      );
-      pageChildren = this.getPageChildren(c,b)
-      // If Slug is Category - show all models from that category
-      for(let p=0; p<c.length; p++){
-        if(c[p].slug === this.props.pageSlug){
-          for(let i=0; i<b.length; i++){
-            if(b[i].parent_ID === c[p].ID){
-              for(let o=0; o<f.length; o++){
-                if(b[i].ID === f[o].parent_ID){
-                  for(let q=0; q<s.length; q++){
-                    if(f[o].ID === s[q].parent_ID){
-                      for(let p=0; p<m.length; p++){
-                        if(s[q].ID === m[p].parent_ID){
-                          products.push(m[p])
+      if(this.props.brand){
+        for(let x=0; x < this.props.subcategories.length; x++){
+          if(this.props.subcategories[x].slug === this.props.brand){
+            pageName = this.props.subcategories[x].name
+            for(let z=0; z<this.props.subcategoryItems.length; z++){
+              if(this.props.subcategoryItems[z].category_ID === this.props.subcategories[x].ID){
+                products.push(this.props.subcategoryItems[z])
+              }
+            }
+          }
+        }
+        
+      }else{
+        pageName = this.getParentPageName(c)
+        // If Slug is Category - show all models from that category
+        for(let p=0; p<c.length; p++){
+          if(c[p].slug === this.props.pageSlug){
+            for(let i=0; i<b.length; i++){
+              if(b[i].category_ID === c[p].ID){
+                for(let o=0; o<f.length; o++){
+                  if(b[i].ID === f[o].parent_ID){
+                    for(let q=0; q<s.length; q++){
+                      if(f[o].ID === s[q].parent_ID){
+                        for(let p=0; p<m.length; p++){
+                          if(s[q].ID === m[p].parent_ID){
+                            products.push(m[p])
+                          }
                         }
                       }
                     }
@@ -138,6 +148,14 @@ export default class Categories extends Component {
           }
         }
       }
+      PostLink = props => (
+        <Link href={`/${props.slug}/`}
+          params={{ cat: props.category, brand: props.id, slug: props.slug }}
+        >
+          <a>{props.id}</a>
+        </Link>
+      );
+      pageChildren = this.getPageChildren(c,b)
     }
     
     else if(brandSlugsArr.indexOf(this.props.pageSlug) !== -1){
@@ -218,8 +236,8 @@ export default class Categories extends Component {
           <div className="breadcrumbs">
             <ul className = "breadcrumbs">
               {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> :  <li><Link route="/"><a>Home</a></Link></li> }
-              {this.props.brand ? <li><Link href={`/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
-              {this.props.bc_familyName ? <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''}
+              {this.props.brand && this.props.bc_brandName ? <li><Link href={`/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
+              {this.props.bc_familyName && this.props.brand ? <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''}
             </ul>
           </div> 
          
@@ -265,7 +283,7 @@ export default class Categories extends Component {
                 <ul type="none">
                   {
                     
-                    products.map(value=>{
+                    products.map((value, key)=>{
                       let modelBrand;
                       for(let y=0; y<s.length; y++){
                         if(value.parent_ID === s[y].ID){
@@ -280,7 +298,7 @@ export default class Categories extends Component {
                           }
                         }
                       }
-                      return <li><Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
+                      return <li key={key}><Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
                   
                     })
                   }
