@@ -24,9 +24,67 @@ class Home extends React.Component {
       page_template: this.render_home(),
       Slug: props.slug,
       icon: true,
-      Brand: props.brand
+      Brand: props.brand,
+      page:''
     };
+   
+    
   }
+  componentDidMount(){
+    const {data} = this.props;
+    let firstURL = [];
+    let secondURL = [];
+    let brandsSlug = [];
+    let categoriesSlug = [];
+    let subcategoriesSlug = [];
+    data.brands.map(values=>{
+      brandsSlug.push(values.slug)
+      firstURL.push(values.slug)
+    })
+    data.categories.map(values=>{
+      if(!values.parent_ID){
+        categoriesSlug.push(values.slug)
+        firstURL.push(values.slug)
+      }
+    })
+    data.categories.map(values=>{
+      if(values.parent_ID){
+        subcategoriesSlug.push(values.slug)
+      }
+    })
+    if(this.props.slug && brandsSlug.indexOf(this.props.slug) !== -1){
+      for(let d=0; d<data.brands.length; d++){
+        if(data.brands[d].slug === this.props.slug){
+          for(let s=0; s<data.families.length; s++){
+            if(data.families[s].parent_ID === data.brands[d].ID){
+              secondURL.push(data.families[s].slug)
+              for(let x=0; x < data.series.length; x++){
+                if(data.series[x].parent_ID === data.families[s].ID)
+                secondURL.push(data.series[x].slug)
+              }
+            }
+          }
+        }
+      }
+    }
+    if(this.props.slug && firstURL.indexOf(this.props.slug) === -1){
+        window.location.href = "http://techlitic.com/notfound"
+    }
+
+    if(this.props.slug && brandsSlug.indexOf(this.props.slug) !== -1 && this.props.brand){
+      if(secondURL.indexOf(this.props.brand) === -1){
+        window.location.href = "http://techlitic.com/notfound"
+      }
+    }
+    if(this.props.slug && categoriesSlug.indexOf(this.props.slug) !== -1 && this.props.brand){
+      if(subcategoriesSlug.indexOf(this.props.brand) === -1){
+        window.location.href = "http://techlitic.com/notfound"
+      }
+    }
+
+  }
+    
+
   handleClick = e => {
     const { icon } = this.state;
     this.setState({ icon: !icon });
@@ -352,7 +410,6 @@ class Home extends React.Component {
             pageDescription = this.getMetaTitleDesc(data.families, pageDescriptions, this.state.Brand)
             page = categoryComponent
           }else{
-            page = <PageNotFound/>
             pageTitle = "404 Page not found"
           }
         }
@@ -377,7 +434,7 @@ class Home extends React.Component {
             pageDescription = this.getMetaTitleDesc(data.series, pageDescriptions, this.state.Brand);
             page = categoryComponent
           }else{
-            page = <PageNotFound/>
+            
             pageTitle = "404 Page not found"
           }
         }
@@ -401,7 +458,7 @@ class Home extends React.Component {
               page = categoryComponent
             }
             else{
-              page = <PageNotFound />
+              
               pageTitle = "404 Page not found"
             }
         }
@@ -418,7 +475,7 @@ class Home extends React.Component {
     }
     // if slug not matched with categories or brands show 404
     else if(this.state.Slug && categorySlugs.indexOf(this.state.Slug) === -1 || this.state.Slug && brandSlugs.indexOf(this.state.Slug) === -1 ){
-      page = <PageNotFound />
+      
       pageTitle = "404 Page not found"
     } 
     //no slug and page child show home

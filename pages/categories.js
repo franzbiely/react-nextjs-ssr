@@ -85,6 +85,7 @@ export default class Categories extends Component {
     let modelSlugsArr = [];
     let subcategoriesSlugsArr = [];
     let products = [];
+    let img;
     b.map(values=>{
       brandNamesArr.push(values.name)
       brandSlugsArr.push(values.slug)
@@ -205,7 +206,17 @@ export default class Categories extends Component {
       else{
         pageName = this.getParentPageName(b)
         childrenName = 'Families';
-        pageChildren = this.getPageChildren(b,f)
+        let t = []
+        for(let z=0; z<b.length; z++){
+          if(b[z].slug === this.props.pageSlug){
+            for(let s=0; s<f.length; s++){
+              if(b[z].ID === f[s].parent_ID){
+                t.push(f[s]);
+              }
+            }
+          }
+        }
+        pageChildren = t;
         //If no child page show all results based on the selected brand
         for(let i=0; i<b.length; i++){
           if(b[i].slug === this.props.pageSlug){
@@ -289,40 +300,38 @@ export default class Categories extends Component {
                             if(s[y].parent_ID === f[o].ID){
                               for(let q=0; q<b.length; q++){
                                 if(f[o].parent_ID === b[q].ID){
-                                 modelBrand = b[q].slug; 
+                                  modelBrand = b[q].slug; 
                                 }
                               }
                             }
                           }
                         }
-                      }
-
-                    console.log(value);
+                      } 
+                      //console.log(value);
                   
-                    if (value.image)   {
-                  
-                            img = <img src={value.image} alt="laptops" width="200" height="100" />
-                     }
-                     else {
-                             img = <img src="http://techlitic.com/static/images/default.png" alt="laptops" width="200" height="100"/>
-
-                      }
-
-                     return <li key={key} className="row">
-                        
-                   <div className="col-md-3">  
-                     {img}
-                        </div>
-
+                      if (value.image)   {
+                                          
+                              img = <img src={value.image} alt="laptops" width="200" height="100" />
+                       }
+                       else {
+                               img = <img src="http://techlitic.com/static/images/default.png" alt="laptops" width="200" height="100"/>
+                        }
+                       return <li key={key} className="row">
+                          
+                     <div className="col-md-3">  
+                       {img}
+                          </div>
+                         
+                       <div className="col-md-3">
+                          <Link href={`/${modelBrand}/${value.slug}/`}>
+                            <a><h3>{value.name}</h3></a>
+                          </Link>
                        
-                     <div className="col-md-3">
-                        <Link href={`/${modelBrand}/${value.slug}/`}>
-                          <a><h3>{value.name}</h3></a>
-                        </Link>
-                     
-                     </div>
-                            </li>
-                     
+                       </div>
+                              </li>
+                       
+                      //return <li key={key}><Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
+                  
                     })
                   }
                 </ul>

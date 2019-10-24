@@ -31,6 +31,16 @@ server.get("/data", (req, res) => {
     return res.send({ categories: results[0], brands: results[1], families: results[2], series: results[3], models: results[4], product_meta: results[5], variants: results[6]});
   });
 });
+// server.get("/notfound", (req, res) => {
+//   res.status('404').render('_error')
+// });
+
+server.get("/notfound", (req, res) => {
+  res.status('404');
+  app.render(req, res, '/_error');
+});
+
+
 server.all('/*', function(req, res, next) {
   if(/^www\./.test(req.headers.host)) {
    res.redirect(301,  req.headers.host.replace(/www\./, req.protocol) + req.url);

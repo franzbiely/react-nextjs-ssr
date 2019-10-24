@@ -68,7 +68,7 @@ export default class Model extends Component {
           <div className="model-container">
             <div className="product-image-section">
               <img
-                src={"http://www.techlitic.com/static/images/laptop_sample.png"}
+                src={"http://techlitic.com/static/images/laptop_sample.png"}
                 alt="laptop"
               ></img>
               <div className="col-sm-12 product-gallery">
@@ -77,7 +77,18 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://www.techlitic.com/static/images/laptop_sample.png"
+                        "http://techlitic.com/static/images/laptop_sample.png"
+                      }
+                      alt="laptop"
+                    ></img>
+                  </div>
+                </div>
+                <div>
+                  <div className="overlay"></div>
+                  <div>
+                    <img
+                      src={
+                        "http://techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -99,18 +110,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://www.techlitic.com/static/images/laptop_sample.png"
-                      }
-                      alt="laptop"
-                    ></img>
-                  </div>
-                </div>
-                <div>
-                  <div className="overlay"></div>
-                  <div>
-                    <img
-                      src={
-                        "http://www.techlitic.com/static/images/laptop_sample.png"
+                        "http://techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -356,29 +356,29 @@ export default class Model extends Component {
               <hr />
               <div class="row">
                 <div className ="col-sm-4">
-                <img src="http://www.techlitic.com/static/images/acer.jpg" alt="Acer" width="200" height="100"></img>
+                <img src="http://techlitic.com/static/images/acer.jpg" alt="Acer" width="200" height="100"></img>
                       <p>acer</p>
                 </div>
                 <div className ="col-sm-4">
-                <img src="http://www.techlitic.com/static/images/dell.jpg" alt="Dell" width="200" height="100"></img>
+                <img src="http://techlitic.com/static/images/dell.jpg" alt="Dell" width="200" height="100"></img>
                 <p>dell </p>
                 </div>
                 <div className ="col-sm-4">
-                <img src="http://www.techlitic.com/static/images/lenovo.jpg" alt="Lenovo" width="200" height="100"></img>
+                <img src="http://techlitic.com/static/images/lenovo.jpg" alt="Lenovo" width="200" height="100"></img>
                 <p>lenovo</p>
                 </div>
               </div>
               <div class="row">
                 <div className ="col-sm-4">
-               < img src="http://www.techlitic.com/static/images/asus.jpg" alt="Asus" width="200" height="100"></img>
+               < img src="http://techlitic.com/static/images/asus.jpg" alt="Asus" width="200" height="100"></img>
                       <p>asus</p>
                 </div>
                 <div className ="col-sm-4">
-               < img src="http://www.techlitic.com/static/images/samsung.jpg" alt="Samsung" width="200" height="100"></img>
+               < img src="http://techlitic.com/static/images/samsung.jpg" alt="Samsung" width="200" height="100"></img>
                 <p>samsung</p>
                 </div>
                 <div className ="col-sm-4">
-                <img src="http://www.techlitic.com/static/images/hp.jpg" alt="Hp" width="200" height="100"></img>
+                <img src="http://techlitic.com/static/images/hp.jpg" alt="Hp" width="200" height="100"></img>
                 <p> hp</p>
                 </div>
               </div>
