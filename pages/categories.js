@@ -237,11 +237,13 @@ export default class Categories extends Component {
         }
       }
     };
-    let img;
+    //let img;
     return (
       <div className="page-body category-page">
          
-        <div className="container content"> 
+        <div className="container content">
+         
+         
           <div className="breadcrumbs">
             <ul className = "breadcrumbs">
               {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> :  <li><Link route="/"><a>Home</a></Link></li> }
