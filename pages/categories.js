@@ -13,6 +13,7 @@ export default class Categories extends Component {
       icon: true
     }
   }
+  
   handleClick = e => {
     const { icon } = this.state;
     this.setState({ icon: !icon });
@@ -49,7 +50,6 @@ export default class Categories extends Component {
     }
     return f;
   }
-  
   getPageChildren(x, y){
     let t = []
     for(let z=0; z<x.length; z++){
@@ -115,6 +115,7 @@ export default class Categories extends Component {
         for(let x=0; x < this.props.subcategories.length; x++){
           if(this.props.subcategories[x].slug === this.props.brand){
             pageName = this.props.subcategories[x].name
+            console.log('true')
             for(let z=0; z<this.props.subcategoryItems.length; z++){
               if(this.props.subcategoryItems[z].category_ID === this.props.subcategories[x].ID){
                 products.push(this.props.subcategoryItems[z])
@@ -122,7 +123,6 @@ export default class Categories extends Component {
             }
           }
         }
-        
       }else{
         pageName = this.getParentPageName(c)
         // If Slug is Category - show all models from that category
@@ -206,7 +206,17 @@ export default class Categories extends Component {
       else{
         pageName = this.getParentPageName(b)
         childrenName = 'Families';
-        pageChildren = this.getPageChildren(b,f)
+        let t = []
+        for(let z=0; z<b.length; z++){
+          if(b[z].slug === this.props.pageSlug){
+            for(let s=0; s<f.length; s++){
+              if(b[z].ID === f[s].parent_ID){
+                t.push(f[s]);
+              }
+            }
+          }
+        }
+        pageChildren = t;
         //If no child page show all results based on the selected brand
         for(let i=0; i<b.length; i++){
           if(b[i].slug === this.props.pageSlug){
