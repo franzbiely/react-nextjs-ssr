@@ -290,24 +290,39 @@ export default class Categories extends Component {
                             if(s[y].parent_ID === f[o].ID){
                               for(let q=0; q<b.length; q++){
                                 if(f[o].parent_ID === b[q].ID){
-                                  modelBrand = b[q].slug; 
+                                 modelBrand = b[q].slug; 
                                 }
                               }
                             }
                           }
                         }
                       }
-                      return <li key={key} className="row">
-                     <div className="col-md-3">  
-                          <img src="http://www.techlitic.com/static/images/acer.jpg" alt="Acer" width="200" height="100"></img>
-             
-                     </div>
+
+                    console.log(value);
+                  
+                    if (value.image)   {
+                  
+                            img = <img src={value.image} alt="laptops" width="200" height="100" />
+                     }
+                     else {
+                             img = <img src="http://techlitic.com/static/images/default.png" alt="laptops" width="200" height="100"/>
+
+                      }
+
+                     return <li key={key} className="row">
+                        
+                   <div className="col-md-3">  
+                     {img}
+                        </div>
+
+                       
                      <div className="col-md-3">
-                        <Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link>
+                        <Link href={`/${modelBrand}/${value.slug}/`}>
+                          <a><h3>{value.name}</h3></a>
+                        </Link>
                      
                      </div>
-                     
-                     </li>
+                            </li>
                      
                     })
                   }
