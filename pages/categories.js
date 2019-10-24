@@ -297,8 +297,18 @@ export default class Categories extends Component {
                           }
                         }
                       }
-                      return <li key={key}><Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
-                  
+                      return <li key={key} className="row">
+                     <div className="col-md-3">  
+                          <img src="http://www.techlitic.com/static/images/acer.jpg" alt="Acer" width="200" height="100"></img>
+             
+                     </div>
+                     <div className="col-md-3">
+                        <Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link>
+                     
+                     </div>
+                     
+                     </li>
+                     
                     })
                   }
                 </ul>
