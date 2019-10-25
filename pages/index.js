@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from 'react-router-dom';
 import Header from "../components/partials/header";
 import Footer from "../components/partials/footer";
 import Hero from "../components/hero";
@@ -9,7 +10,7 @@ import Categories from "./categories";
 import Model from "./model";
 import fetch from "isomorphic-unfetch";
 import "./styles.scss";
-import PageNotFound from '../components/404'
+import Router from 'next/router'
 
 class Home extends React.Component {
   static getInitialProps = async ({ req, query }) => {
@@ -136,7 +137,6 @@ class Home extends React.Component {
     });
     return x;
   }
-
   render() {
     const { data } = this.props;
     let page;
@@ -389,7 +389,9 @@ class Home extends React.Component {
             page = modelComponent;
           }
           else{
-            page = <PageNotFound />
+            if(page){
+              this.setState({page: page})
+            }
             pageTitle = "404 Page not found"
           }
         }
@@ -483,8 +485,6 @@ class Home extends React.Component {
       pageTitle = 'Home'
       page = this.state.page_template;
     }
-
-
     return (
       <div className={`page-body ${(modelSlugs.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
         <Header meta_description={pageDescription} title={pageTitle} categories={data.categories} brands={data.brands} />

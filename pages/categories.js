@@ -13,6 +13,7 @@ export default class Categories extends Component {
       icon: true
     }
   }
+  
   handleClick = e => {
     const { icon } = this.state;
     this.setState({ icon: !icon });
@@ -122,7 +123,6 @@ export default class Categories extends Component {
             }
           }
         }
-        
       }else{
         pageName = this.getParentPageName(c)
         // If Slug is Category - show all models from that category

@@ -1,10 +1,10 @@
 const routes = require('next-routes')
                                                     
 module.exports = routes()         
-.add('categoryPage', '/:slug', '/') 
-.add('brands','/:slug', '/')
-.add('categoryBrandFilter', '/:slug/:brand', '/')
-.add('family','/:slug/:brand/:series', '/')
+.add('/:slug', '/') 
+.add('/:slug/:brand', '/')
+.add('test', '/notfound', '_error')
+// .add('family','/:slug/:brand/:series', '/')
 // .add('series','/:series', 'index')
 // .add('model','/:index')
  

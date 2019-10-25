@@ -226,12 +226,10 @@ export default class Model extends Component {
               <h3>{this.props.bc_seriesName} {this.props.bc_CategoryName}</h3>
               <ul type="none">
                 {
-                  
                   this.props.series_models.map((value, key) => {
                     return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}><a>{value.name}</a></Link></li>
                   })
                 }
-                
               </ul>
             </div>
           </div>

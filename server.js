@@ -56,7 +56,6 @@ server.all('/*', function(req, res, next) {
   else
     next();
 });
-
 app.prepare().then(() => {
   server.use(handler).listen(3000, function() {
     console.log("Go to http://www.techlitic.com/users so you can see the data.");
