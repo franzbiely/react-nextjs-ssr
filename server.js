@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
   multipleStatements: true,
   host: "localhost",
   user: "root",
-  password: "",
+  password: "hv51jxn4dlt32wh5",
   database: "techlitic"
 });
 
@@ -58,7 +58,7 @@ server.all('/*', function(req, res, next) {
 });
 app.prepare().then(() => {
   server.use(handler).listen(3000, function() {
-    console.log("Go to http://localhost:3000/users so you can see the data.");
+    console.log("Go to http://www.techlitic.com/users so you can see the data.");
   });
 });
 

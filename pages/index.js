@@ -14,7 +14,7 @@ import Router from 'next/router'
 
 class Home extends React.Component {
   static getInitialProps = async ({ req, query }) => {
-    const res = await fetch('http://localhost:3000/data')
+    const res = await fetch('http://www.techlitic.com/data')
     const data = await res.json()
 
     return { data: data, slug: query.slug, brand: query.brand};
@@ -69,17 +69,17 @@ class Home extends React.Component {
       }
     }
     if(this.props.slug && firstURL.indexOf(this.props.slug) === -1){
-        window.location.href = "http://localhost:3000/notfound"
+        window.location.href = "http://techlitic.com/notfound"
     }
 
     if(this.props.slug && brandsSlug.indexOf(this.props.slug) !== -1 && this.props.brand){
       if(secondURL.indexOf(this.props.brand) === -1){
-        window.location.href = "http://localhost:3000/notfound"
+        window.location.href = "http://techlitic.com/notfound"
       }
     }
     if(this.props.slug && categoriesSlug.indexOf(this.props.slug) !== -1 && this.props.brand){
       if(subcategoriesSlug.indexOf(this.props.brand) === -1){
-        window.location.href = "http://localhost:3000/notfound"
+        window.location.href = "http://techlitic.com/notfound"
       }
     }
 
@@ -485,8 +485,6 @@ class Home extends React.Component {
       pageTitle = 'Home'
       page = this.state.page_template;
     }
-  
-    
     return (
       <div className={`page-body ${(modelSlugs.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
         <Header meta_description={pageDescription} title={pageTitle} categories={data.categories} brands={data.brands} />

@@ -86,6 +86,7 @@ export default class Categories extends Component {
     let modelSlugsArr = [];
     let subcategoriesSlugsArr = [];
     let products = [];
+    let img;
     b.map(values=>{
       brandNamesArr.push(values.name)
       brandSlugsArr.push(values.slug)
@@ -115,7 +116,6 @@ export default class Categories extends Component {
         for(let x=0; x < this.props.subcategories.length; x++){
           if(this.props.subcategories[x].slug === this.props.brand){
             pageName = this.props.subcategories[x].name
-            console.log('true')
             for(let z=0; z<this.props.subcategoryItems.length; z++){
               if(this.props.subcategoryItems[z].category_ID === this.props.subcategories[x].ID){
                 products.push(this.props.subcategoryItems[z])
@@ -237,6 +237,7 @@ export default class Categories extends Component {
         }
       }
     };
+    //let img;
     return (
       <div className="page-body category-page">
          
@@ -289,7 +290,7 @@ export default class Categories extends Component {
             </div>
             <div className="col-sm-9 product-container">
               <div className="products">
-                <h1>Products:</h1>
+                <h2>Results:</h2>
                 <ul type="none">
                   {
                     
@@ -307,8 +308,31 @@ export default class Categories extends Component {
                             }
                           }
                         }
-                      }
-                      return <li key={key}><Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
+                      } 
+                      //console.log(value);
+                  
+                      if (value.image)   {
+                                          
+                              img = <img src={value.image} alt="laptops" width="200" height="100" />
+                       }
+                       else {
+                               img = <img src="http://techlitic.com/static/images/default.png" alt="laptops" width="200" height="100"/>
+                        }
+                       return <li key={key} className="row">
+                          
+                     <div className="col-md-3">  
+                       {img}
+                          </div>
+                         
+                       <div className="col-md-3">
+                          <Link href={`/${modelBrand}/${value.slug}/`}>
+                            <a><h3>{value.name}</h3></a>
+                          </Link>
+                       
+                       </div>
+                              </li>
+                       
+                      //return <li key={key}><Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
                   
                     })
                   }

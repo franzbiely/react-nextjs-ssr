@@ -9,8 +9,8 @@ export default class Hero extends React.Component {
                     {/* banner */}
                     <div className="col-sm-12 ">
                         <div className="banner">
-                            <h1 className="title">World’s Largest Classifieds Portal  </h1>
-                            <h3>Search from over 15,00,000 classifieds & Post unlimited classifieds free!</h3>
+                            <h1 className="title">Get Informed Before Buying New Tech</h1>
+                            <h3>Search and compare thousands of tech products across many categories!</h3>
 
                             {/* banner-form */}
                             <div className="banner-form">
@@ -27,7 +27,7 @@ export default class Hero extends React.Component {
                                         </ul>								
                                     </div>{/* category-change */}
 
-                                    <input type="text" className="form-control" placeholder="Type Your key word" />
+                                    <input type="text" className="form-control" placeholder="Type your search terms" />
                                     <button type="submit" className="form-control" value="Search">Search</button>
 
                                 </form>

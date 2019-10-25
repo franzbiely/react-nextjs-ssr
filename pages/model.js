@@ -68,7 +68,7 @@ export default class Model extends Component {
           <div className="model-container">
             <div className="product-image-section">
               <img
-                src={"http://localhost:3000/static/images/laptop_sample.png"}
+                src={"http://techlitic.com/static/images/laptop_sample.png"}
                 alt="laptop"
               ></img>
               <div className="col-sm-12 product-gallery">
@@ -77,7 +77,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://localhost:3000/static/images/laptop_sample.png"
+                        "http://techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -88,7 +88,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://localhost:3000/static/images/laptop_sample.png"
+                        "http://techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -99,7 +99,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://localhost:3000/static/images/laptop_sample.png"
+                        "http://www.techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -110,7 +110,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://localhost:3000/static/images/laptop_sample.png"
+                        "http://techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -120,7 +120,7 @@ export default class Model extends Component {
             </div>
             <div className="product-details-section">
               <div className="p_heading">
-                <h2>{this.props.modelName}</h2>
+                <h1 style={{ color: "black" }}>{this.props.modelName}</h1>
                 <span>
                   Brand: &nbsp;<Link href={`/${this.props.bc_brandSlug}/`}><a style={{ color: "black" }}>{this.props.bc_brandName}</a></Link>
                 </span>{" "}
@@ -192,7 +192,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>More about the {this.props.bc_brandName}</h4>
+              <h2>More about the {this.props.bc_brandName} {this.props.modelName}</h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -223,7 +223,7 @@ export default class Model extends Component {
           </div>
           <div className="col-sm-3 product_series_section">
             <div>
-              <h4>Product Series</h4>
+              <h3>{this.props.bc_seriesName} {this.props.bc_CategoryName}</h3>
               <ul type="none">
                 {
                   this.props.series_models.map((value, key) => {
@@ -237,7 +237,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>Zenbook S13 UX392 Specifications</h4>
+              <h2>{this.props.modelName} Specifications</h2>
               <hr />
               <div class="compare-table">
                 {
@@ -350,9 +350,38 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h4>Laptops similar to the {this.props.modelName}</h4>
+              <h3>{this.props.bc_CategoryName} similar to the {this.props.bc_brandName} {this.props.modelName}</h3>
               <hr />
+              <div class="row">
+                <div className ="col-sm-4">
+                <img src="http://techlitic.com/static/images/acer.jpg" alt="Acer" width="200" height="100"></img>
+                      <p>acer</p>
+                </div>
+                <div className ="col-sm-4">
+                <img src="http://techlitic.com/static/images/dell.jpg" alt="Dell" width="200" height="100"></img>
+                <p>dell </p>
+                </div>
+                <div className ="col-sm-4">
+                <img src="http://techlitic.com/static/images/lenovo.jpg" alt="Lenovo" width="200" height="100"></img>
+                <p>lenovo</p>
+                </div>
+              </div>
+              <div class="row">
+                <div className ="col-sm-4">
+               < img src="http://techlitic.com/static/images/asus.jpg" alt="Asus" width="200" height="100"></img>
+                      <p>asus</p>
+                </div>
+                <div className ="col-sm-4">
+               < img src="http://techlitic.com/static/images/samsung.jpg" alt="Samsung" width="200" height="100"></img>
+                <p>samsung</p>
+                </div>
+                <div className ="col-sm-4">
+                <img src="http://techlitic.com/static/images/hp.jpg" alt="Hp" width="200" height="100"></img>
+                <p> hp</p>
+                </div>
+              </div>
             </div>
+            
           </div>
         </div>
       </div>
