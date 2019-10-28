@@ -16,6 +16,7 @@ export default class Model extends Component {
   }
   render() {
     let variantContainer = [];
+    let description;
     let 
     display_size = [], 
     processors = [], 
@@ -26,10 +27,43 @@ export default class Model extends Component {
     wifi = [],
     weight = [],
     operating_system = [],
-    where_to_buy =[];
-
+    where_to_buy =[],
+    similar_brands = [],
+    similar_category = [];
+    
+    for(let k=0; k<this.props.brands.length; k++){
+      if(this.props.brands[k].name === this.props.bc_brandName){
+        for(let l=0; l<this.props.families.length; l++){
+          if(this.props.families[l].parent_ID === this.props.brands[k].ID){
+            for(let o=0; o < this.props.series.length; o++){
+              if(this.props.series[o].parent_ID === this.props.families[l].ID){
+                for(let r=0; r < this.props.models.length; r++){
+                  if(this.props.models[r].parent_ID === this.props.series[o].ID && this.props.models[r].name !== this.props.modelName){
+                    similar_brands.push(this.props.models[r])
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    for(let f=0; f < this.props.categories.length; f++){
+      if(this.props.categories[f].name === this.props.bc_CategoryName && !this.props.categories[f].parent_ID){
+        for(let g=0; g< this.props.brands.length; g++){
+          for(let x = 0; x < this.props.models.length; x++){
+            // console.log(this.props.models[x])
+          }
+          if(this.props.brands[g].category_ID === this.props.categories[f].ID && this.props.brands[g].name !== this.props.bc_brandName){
+            similar_category.push(this.props.brands[g])
+          }
+        }
+      }
+    }
+    // console.log(similar_brandsCategory)
     for(let x=0; x<this.props.models.length; x++){
       if(this.props.models[x].name === this.props.modelName){
+          description = this.props.models[x].description;
         for(let z=0; z<this.props.variants.length; z++){
           if(this.props.variants[z].parent_ID === this.props.models[x].ID){
             variantContainer.push(this.props.variants[z]);
@@ -194,30 +228,7 @@ export default class Model extends Component {
             <div>
               <h2>More about the {this.props.bc_brandName} {this.props.modelName}</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
-              <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-                voluptas sit aspernatur aut odit aut fugit, sed quia
-                consequuntur magni dolores eos qui ratione voluptatem sequi
-                nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
-                sit amet, consectetur, adipisci velit, sed quia non numquam eius
-                modi tempora incidunt ut labore et dolore magnam aliquam quaerat
-                voluptatem. Ut enim ad minima veniam, quis nostrum
-                exercitationem ullam corporis suscipit laboriosam, nisi ut
-                aliquid ex ea commodi consequatur? Quis autem vel eum iure
-                reprehenderit qui in ea voluptate velit esse quam nihil
-                molestiae consequatur, vel illum qui dolorem eum fugiat quo
-                voluptas nulla pariatur?
+                {description}
               </p>
             </div>
           </div>
@@ -239,7 +250,7 @@ export default class Model extends Component {
             <div>
               <h2>{this.props.modelName} Specifications</h2>
               <hr />
-              <div class="compare-table">
+              <div className="compare-table">
                 {
                   (Array.isArray(variantContainer) && variantContainer.length) ? <table width="100%" border="1">
                   <thead>
@@ -352,36 +363,51 @@ export default class Model extends Component {
             <div>
               <h3>{this.props.bc_CategoryName} similar to the {this.props.bc_brandName} {this.props.modelName}</h3>
               <hr />
-              <div class="row">
-                <div className ="col-sm-4">
-                <img src="http://techlitic.com/static/images/acer.jpg" alt="Acer" width="200" height="100"></img>
-                      <p>acer</p>
-                </div>
-                <div className ="col-sm-4">
-                <img src="http://techlitic.com/static/images/dell.jpg" alt="Dell" width="200" height="100"></img>
-                <p>dell </p>
-                </div>
-                <div className ="col-sm-4">
-                <img src="http://techlitic.com/static/images/lenovo.jpg" alt="Lenovo" width="200" height="100"></img>
-                <p>lenovo</p>
-                </div>
-              </div>
-              <div class="row">
-                <div className ="col-sm-4">
-               < img src="http://techlitic.com/static/images/asus.jpg" alt="Asus" width="200" height="100"></img>
-                      <p>asus</p>
-                </div>
-                <div className ="col-sm-4">
-               < img src="http://techlitic.com/static/images/samsung.jpg" alt="Samsung" width="200" height="100"></img>
-                <p>samsung</p>
-                </div>
-                <div className ="col-sm-4">
-                <img src="http://techlitic.com/static/images/hp.jpg" alt="Hp" width="200" height="100"></img>
-                <p> hp</p>
-                </div>
+              <div className="row similar-product-row">
+                {
+                  similar_brands.map((value, key) => {
+                   let x = <div className ="col-sm-4">
+                              <Link href={`/${this.props.bc_brandSlug}/${value.slug}`}>
+                                <a>
+                                <div>
+                                  {
+                                    value.image ?
+                                    <img src={value.image} alt={value.name}></img> :
+                                    <img src="http://techlitic.com/static/images/default.png" alt={value.name}></img>
+                                  }
+                                  <span>{value.name}</span>
+                                </div>
+                               </a>
+                              </Link>
+                            </div>
+                       return x;     
+                  })
+                }
+              </div> 
+              <h5>Brands with similar category</h5> 
+              <hr></hr>
+              <div className="row similar-product-row">
+                
+                  {similar_category.map((value, key) => {
+                   let x = <div className ="col-sm-4">
+                              <Link href={`/${value.slug}`}>
+                                <a>
+                                <div>
+                                  {
+                                    value.image ?
+                                    <img src={value.image} alt={value.name}></img> :
+                                    <img src="http://techlitic.com/static/images/default.png" alt={value.name}></img>
+                                  }
+                                  <span>{value.name}</span>
+                                </div>
+                               </a>
+                              </Link>
+                            </div>
+                       return x;     
+                  })
+                }
               </div>
             </div>
-            
           </div>
         </div>
       </div>

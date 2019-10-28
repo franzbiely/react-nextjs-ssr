@@ -60,6 +60,15 @@
 .col-sm-9.product-container {
   padding-left: 20px;
   padding-right: 0;
+  .products{
+    img{
+      object-fit: contain;
+    }
+    ul li .col-md-3{
+      display: flex;
+      align-items: center;
+    }
+  }
 }
 .col-sm-9 .products {
   background-color: white;
@@ -238,6 +247,32 @@ ul.postLink{
 
 
 .model-page{
+  .similar-product-row.row{
+     margin-top: 0;
+    .col-sm-4{
+      padding: 15px;
+    }
+    .col-sm-4 a div{
+      padding: 10px;
+    }
+    .col-sm-4 > a div{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      img{
+        height: 150px;
+        object-fit: contain;
+      }
+      span{
+        margin-top: 15px;
+      }
+    }
+    .col-sm-4:hover a div{
+      box-shadow: 0 0 10px rgba(100, 100,100, .3);
+      border-radius: 10px;
+    }
+  }
   .compare-table{
     display: block;
     white-space: nowrap;

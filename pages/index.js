@@ -14,7 +14,7 @@ import Router from 'next/router'
 
 class Home extends React.Component {
   static getInitialProps = async ({ req, query }) => {
-    const res = await fetch('http://www.techlitic.com/data')
+    const res = await fetch('http://localhost:3000/data')
     const data = await res.json()
 
     return { data: data, slug: query.slug, brand: query.brand};
@@ -62,6 +62,11 @@ class Home extends React.Component {
               for(let x=0; x < data.series.length; x++){
                 if(data.series[x].parent_ID === data.families[s].ID)
                 secondURL.push(data.series[x].slug)
+                for(let i=0; i < data.models.length; i++){
+                  if(data.models[i].parent_ID === data.series[x].ID){
+                    secondURL.push(data.models[i].slug)
+                  }
+                }
               }
             }
           }
@@ -324,6 +329,7 @@ class Home extends React.Component {
     }
     const modelComponent = <Model 
     modelName={this.secondUrlChecker(data.models)}
+    categories = {data.categories}
     bc_brandName={bc_brandName} 
     bc_brandSlug={bc_brandSlug} 
     bc_familyName = {bc_familyName} 
@@ -340,6 +346,9 @@ class Home extends React.Component {
     variants = {data.variants}
     models = {data.models}
     productMeta = {productMeta}
+    brands = {data.brands}
+    series = {data.series}
+    families = {data.families}
     />;
     const categoryComponent = <Categories 
     brands={data.brands} 
@@ -485,6 +494,7 @@ class Home extends React.Component {
       pageTitle = 'Home'
       page = this.state.page_template;
     }
+    console.log(pageTitle)
     return (
       <div className={`page-body ${(modelSlugs.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
         <Header meta_description={pageDescription} title={pageTitle} categories={data.categories} brands={data.brands} />

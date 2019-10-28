@@ -13,8 +13,10 @@ const connection = mysql.createConnection({
   multipleStatements: true,
   host: "localhost",
   user: "root",
-  password: "hv51jxn4dlt32wh5",
+  password: "",
   database: "techlitic"
+  // password: "hv51jxn4dlt32wh5",
+  // database: "techlitic"
 });
 
 connection.connect(function(err) {
