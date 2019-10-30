@@ -133,7 +133,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://www.techlitic.com/static/images/laptop_sample.png"
+                        "http://techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
