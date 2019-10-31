@@ -11,9 +11,13 @@ export default class Header extends React.Component {
             return <li className="dropdown category-nav-toggle">
                 <Link href={`/${props.slug}/`} params={{slug: `${props.id}`}} ><a className="dropdown-toggle">{props.id}</a></Link>
                 
+                {props.children ? 
                 <ul className={`category-item ${props.children ? 'dropdown-menu' : '' }`}>
                     {props.children}
                 </ul>
+                : 
+                ''
+                }
             </li>
         }
         return (
@@ -72,7 +76,7 @@ export default class Header extends React.Component {
                                                                     return <li key={index}><Link href={`/${y}/${value.slug}/`} params={{slug: value.name}}><a>{value.name}</a></Link></li>
                                                                 }
                                                             }else{
-                                                                return;
+                                                                return null;
                                                             }
                                                         })
                                                         }

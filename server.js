@@ -23,26 +23,90 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("You are now connected...");
 });
-
+let x = [];
 const server = express();
 server.get("/data", (req, res) => {
   connection.query(
     "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'; SELECT * from products where type='series'; SELECT * from products where type='model'; SELECT * from product_meta; SELECT * from products where type='variant'"
     , [1,2,3,4,5,6,7], (error, results, fields) => {
+      x.push(results)
     if (error) throw error;
     return res.send({ categories: results[0], brands: results[1], families: results[2], series: results[3], models: results[4], product_meta: results[5], variants: results[6]});
   });
+})  
+
+server.get('/:slug/:brand?', (req, res) => {
+  connection.query(
+    "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'; SELECT * from products where type='series'; SELECT * from products where type='model'; SELECT * from product_meta; SELECT * from products where type='variant'"
+    , [1,2,3,4,5,6,7], (error, results, fields) => {
+      if (error) throw error;
+    const { slug, brand } = req.params;
+      let firstURL = [];
+      let secondURL = [];
+      let brandsSlug = [];
+      let categoriesSlug = [];
+      let subcategoriesSlug = [];
+      results[1].map(values=>{
+        brandsSlug.push(values.slug)
+        firstURL.push(values.slug)
+      })
+      results[0].map(values=>{
+        if(!values.parent_ID){
+          categoriesSlug.push(values.slug)
+          firstURL.push(values.slug)
+        }
+      })
+      results[0].map(values=>{
+        if(values.parent_ID){
+          subcategoriesSlug.push(values.slug)
+        }
+      })
+      if(slug && brandsSlug.indexOf(slug) !== -1){
+        for(let d=0; d<results[1].length; d++){
+          if(results[1][d].slug === slug){
+            for(let s=0; s<results[2].length; s++){
+              if(results[2][s].parent_ID === results[1][d].ID){
+                secondURL.push(results[2][s].slug)
+                for(let x=0; x < results[3].length; x++){
+                  if(results[3][x].parent_ID === results[2][s].ID)
+                  secondURL.push(results[3][x].slug)
+                  for(let i=0; i < results[4].length; i++){
+                    if(results[4][i].parent_ID === results[3][x].ID){
+                      secondURL.push(results[4][i].slug)
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      if(!brand){
+        if(slug && firstURL.indexOf(slug) === -1){
+          return app.render(req, res, `/notfound`)
+        }else{
+          return app.render(req, res, '/', {slug, brand})
+        }
+      }
+      if(slug && firstURL.indexOf(slug) === -1){
+        return app.render(req, res, `/notfound`)
+      }
+      if(slug && brandsSlug.indexOf(slug) !== -1 && brand){ // Family Series Model
+        if(secondURL.indexOf(brand) === -1){
+          return app.render(req, res, `/notfound`);
+        }else{
+          return app.render(req, res, '/', {slug, brand})
+        }
+      }
+      if(slug && categoriesSlug.indexOf(slug) !== -1 && brand){ // Subcategory
+        if(subcategoriesSlug.indexOf(brand) === -1){
+          return app.render(req, res, `/notfound`);
+        }else{
+          return app.render(req, res, '/', {slug, brand})
+        }
+      }
+  })
 });
-// server.get("/notfound", (req, res) => {
-//   res.status('404').render('_error')
-// });
-
-server.get("/notfound", (req, res) => {
-  res.status('404');
-  app.render(req, res, '/_error');
-});
-
-
 server.all('/*', function(req, res, next) {
   if(/^www\./.test(req.headers.host)) {
    res.redirect(301,  req.headers.host.replace(/www\./, req.protocol) + req.url);
@@ -59,8 +123,8 @@ server.all('/*', function(req, res, next) {
     next();
 });
 app.prepare().then(() => {
+  
   server.use(handler).listen(3000, function() {
     console.log("Go to http://techlitic.com/users so you can see the data.");
   });
 });
-

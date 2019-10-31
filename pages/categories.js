@@ -173,20 +173,19 @@ export default class Categories extends Component {
           childrenName = 'Series';
           pageName = this.getPageName(f)
           pageChildren = this.getPageChildChildren(f,s)
-             for(let o=0; o<f.length; o++){
-              if(f[o].slug === this.props.brand){
-                for(let q=0; q<s.length; q++){
-                  if(f[o].ID === s[q].parent_ID){
-                    for(let p=0; p<m.length; p++){
-                      if(s[q].ID === m[p].parent_ID){
-                        products.push(m[p])
-                      }
+            for(let o=0; o<f.length; o++){
+            if(f[o].slug === this.props.brand){
+              for(let q=0; q<s.length; q++){
+                if(f[o].ID === s[q].parent_ID){
+                  for(let p=0; p<m.length; p++){
+                    if(s[q].ID === m[p].parent_ID){
+                      products.push(m[p])
                     }
                   }
                 }
               }
             }
-        
+          }
         }
         else if(seriesSlugsArr.indexOf(this.props.brand) !== -1){
           childrenName = 'Models';
@@ -271,7 +270,6 @@ export default class Categories extends Component {
                   <div id="collapse1" className="panel-collapse collapse">
                     <div>
                       {
-                        // console.log(pageChildren)
                         pageChildren.map((value, key) => {
                             return (
                               <div key={key} className="brand-item-container">
@@ -309,7 +307,6 @@ export default class Categories extends Component {
                           }
                         }
                       } 
-                      //console.log(value);
                   
                       if (value.image)   {
                                           
