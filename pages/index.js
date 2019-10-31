@@ -10,13 +10,17 @@ import Categories from "./categories";
 import Model from "./model";
 import fetch from "isomorphic-unfetch";
 import "./styles.scss";
-import Router from 'next/router'
+import Router from 'next/router';
+import { browserHistory } from 'react-router';
 
 class Home extends React.Component {
   static getInitialProps = async ({ req, query }) => {
+
+ 
+
     const res = await fetch('http://localhost:3000/data')
     const data = await res.json()
-
+    
     return { data: data, slug: query.slug, brand: query.brand};
   }
   constructor(props) {
@@ -26,71 +30,12 @@ class Home extends React.Component {
       Slug: props.slug,
       icon: true,
       Brand: props.brand,
-      page:''
+      page:'',
+      test: 0
     };
-   
     
-  }
-  componentDidMount(){
-    const {data} = this.props;
-    let firstURL = [];
-    let secondURL = [];
-    let brandsSlug = [];
-    let categoriesSlug = [];
-    let subcategoriesSlug = [];
-    data.brands.map(values=>{
-      brandsSlug.push(values.slug)
-      firstURL.push(values.slug)
-    })
-    data.categories.map(values=>{
-      if(!values.parent_ID){
-        categoriesSlug.push(values.slug)
-        firstURL.push(values.slug)
-      }
-    })
-    data.categories.map(values=>{
-      if(values.parent_ID){
-        subcategoriesSlug.push(values.slug)
-      }
-    })
-    if(this.props.slug && brandsSlug.indexOf(this.props.slug) !== -1){
-      for(let d=0; d<data.brands.length; d++){
-        if(data.brands[d].slug === this.props.slug){
-          for(let s=0; s<data.families.length; s++){
-            if(data.families[s].parent_ID === data.brands[d].ID){
-              secondURL.push(data.families[s].slug)
-              for(let x=0; x < data.series.length; x++){
-                if(data.series[x].parent_ID === data.families[s].ID)
-                secondURL.push(data.series[x].slug)
-                for(let i=0; i < data.models.length; i++){
-                  if(data.models[i].parent_ID === data.series[x].ID){
-                    secondURL.push(data.models[i].slug)
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    if(this.props.slug && firstURL.indexOf(this.props.slug) === -1){
-        window.location.href = "http://techlitic.com/notfound"
-    }
-
-    if(this.props.slug && brandsSlug.indexOf(this.props.slug) !== -1 && this.props.brand){
-      if(secondURL.indexOf(this.props.brand) === -1){
-        window.location.href = "http://techlitic.com/notfound"
-      }
-    }
-    if(this.props.slug && categoriesSlug.indexOf(this.props.slug) !== -1 && this.props.brand){
-      if(subcategoriesSlug.indexOf(this.props.brand) === -1){
-        window.location.href = "http://techlitic.com/notfound"
-      }
-    }
-
-  }
     
-
+  }  
   handleClick = e => {
     const { icon } = this.state;
     this.setState({ icon: !icon });
@@ -398,9 +343,7 @@ class Home extends React.Component {
             page = modelComponent;
           }
           else{
-            if(page){
-              this.setState({page: page})
-            }
+            // page = <Error statusCode={404}/>
             pageTitle = "404 Page not found"
           }
         }
@@ -494,7 +437,6 @@ class Home extends React.Component {
       pageTitle = 'Home'
       page = this.state.page_template;
     }
-    console.log(pageTitle)
     return (
       <div className={`page-body ${(modelSlugs.indexOf(this.state.Brand) !== -1) ? "model-page" : ""}`}>
         <Header meta_description={pageDescription} title={pageTitle} categories={data.categories} brands={data.brands} />

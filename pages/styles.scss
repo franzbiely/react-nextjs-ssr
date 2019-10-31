@@ -85,15 +85,6 @@
 .dropdown-menu {
   top: 48px !important ;
 }
-// Breadcrumbs
-// .content.container .breadcrumbs{
-//   font-size: 15px;
-//   margin-bottom: 15px;
-// }
-// .content.container .breadcrumbs a:nth-child(n+2):before{
-//  content: '>';
-//  padding: 0 10px;
-// }
 ul.breadcrumbs{
   margin-bottom: 15px;
 }
@@ -245,6 +236,9 @@ ul.postLink{
   border-radius: 6px;
 }
 
+.model-page .row > div > div{
+  height: 100%;
+}
 
 .model-page{
   .similar-product-row.row{
@@ -304,7 +298,7 @@ ul.postLink{
 
 color: black;
 font-size: 18px;
-font-style: bold;
+font-style: bold; 
 font-weight: 900;
 margin: 0px;
 }

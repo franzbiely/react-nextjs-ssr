@@ -52,7 +52,6 @@ export default class Model extends Component {
       if(this.props.categories[f].name === this.props.bc_CategoryName && !this.props.categories[f].parent_ID){
         for(let g=0; g< this.props.brands.length; g++){
           for(let x = 0; x < this.props.models.length; x++){
-            // console.log(this.props.models[x])
           }
           if(this.props.brands[g].category_ID === this.props.categories[f].ID && this.props.brands[g].name !== this.props.bc_brandName){
             similar_category.push(this.props.brands[g])
@@ -60,7 +59,6 @@ export default class Model extends Component {
         }
       }
     }
-    // console.log(similar_brandsCategory)
     for(let x=0; x<this.props.models.length; x++){
       if(this.props.models[x].name === this.props.modelName){
           description = this.props.models[x].description;
@@ -346,7 +344,7 @@ export default class Model extends Component {
                     </tr>
                   </tbody>
                 </table> 
-                : 
+                : //////     ELSE     ///////
                   <table>
                     <em>No Variants available for this model</em>
                   </table>
