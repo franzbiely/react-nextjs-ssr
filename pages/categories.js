@@ -116,7 +116,7 @@ export default class Categories extends Component {
         this.props.subcategories.map(subcategory => {
           if(subcategory.slug === this.props.brand){
             pageName = subcategory.name;
-            subcategoryItems.map(item => {
+            this.props.subcategoryItems.map(item => {
               if(item.category_ID === subcategory.ID){
                 products.push(item)
               }
