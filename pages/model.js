@@ -30,62 +30,77 @@ export default class Model extends Component {
     where_to_buy =[],
     similar_brands = [],
     similar_category = [];
-    
-    for(let k=0; k<this.props.brands.length; k++){
-      if(this.props.brands[k].name === this.props.bc_brandName){
-        for(let l=0; l<this.props.families.length; l++){
-          if(this.props.families[l].parent_ID === this.props.brands[k].ID){
-            for(let o=0; o < this.props.series.length; o++){
-              if(this.props.series[o].parent_ID === this.props.families[l].ID){
-                for(let r=0; r < this.props.models.length; r++){
-                  if(this.props.models[r].parent_ID === this.props.series[o].ID && this.props.models[r].name !== this.props.modelName){
-                    similar_brands.push(this.props.models[r])
-                  }
+
+    //Get similar brands in similar products section
+    if(this.props.brands){
+      this.props.brands.map(value => {
+        let brand = value;
+        if(value.name === this.props.bc_brandName){
+          this.props.families.map(value => {
+            let family = value;
+            if(value.parent_ID === brand.ID){
+              this.props.series.map(value => {
+                let series = value;
+                if(value.parent_ID === family.ID){
+                  this.props.models.map(value =>{
+                    if(value.parent_ID === series.ID && value.name !== this.props.modelName){
+                      similar_brands.push(value)
+                    }
+                  })
                 }
-              }
+              })
             }
-          }
+          })
         }
-      }
+      })
     }
-    for(let f=0; f < this.props.categories.length; f++){
-      if(this.props.categories[f].name === this.props.bc_CategoryName && !this.props.categories[f].parent_ID){
-        for(let g=0; g< this.props.brands.length; g++){
-          for(let x = 0; x < this.props.models.length; x++){
-          }
-          if(this.props.brands[g].category_ID === this.props.categories[f].ID && this.props.brands[g].name !== this.props.bc_brandName){
-            similar_category.push(this.props.brands[g])
-          }
+    //Get similar categories in similar products section
+    if(this.props.categories){
+      this.props.categories.map(value => {
+        let category = value;
+        if(value.name === this.props.bc_CategoryName && !value.parent_ID){
+          this.props.brands.map(value => {
+            if(value.category_ID === category.ID && value.name !== this.props.bc_brandName){
+              similar_category.push(value)
+            }
+          })
         }
-      }
+      })
     }
-    for(let x=0; x<this.props.models.length; x++){
-      if(this.props.models[x].name === this.props.modelName){
-          description = this.props.models[x].description;
-        for(let z=0; z<this.props.variants.length; z++){
-          if(this.props.variants[z].parent_ID === this.props.models[x].ID){
-            variantContainer.push(this.props.variants[z]);
-          }
+    //Get product's description and its variants
+    if(this.props.models){
+      this.props.models.map(value => {
+        let model = value;
+        if(value.name === this.props.modelName){
+          description = value.description;
+          this.props.variants.map(value => {
+            if(value.parent_ID === model.ID){
+              variantContainer.push(value)
+            }
+          })
         }
-      }
-    } 
-    for(let n=0; n<variantContainer.length; n++){
-      for(let m=0; m<this.props.productMeta.length; m++){
-        if(variantContainer[n].ID === this.props.productMeta[m].product_ID){
-          this.assignSpecs(this.props.productMeta[m],'display-size', display_size, );
-          this.assignSpecs(this.props.productMeta[m],'processors', processors, );
-          this.assignSpecs(this.props.productMeta[m],'gpu', gpu, );
-          this.assignSpecs(this.props.productMeta[m],'ram', ram, );
-          this.assignSpecs(this.props.productMeta[m],'storage', storage, );
-          this.assignSpecs(this.props.productMeta[m],'keyboard', keyboard, );
-          this.assignSpecs(this.props.productMeta[m],'wifi', wifi, );
-          this.assignSpecs(this.props.productMeta[m],'weight', weight, );
-          this.assignSpecs(this.props.productMeta[m],'operating-system', operating_system, );
-          this.assignSpecs(this.props.productMeta[m],'where-to-buy', where_to_buy, );
-        }
-      }
+      })
     }
-    
+    if(variantContainer){
+      variantContainer.map(value => {
+        let variant = value;
+        this.props.productMeta.map(value => {
+          let productMeta = value;
+          if(variant.ID === productMeta.product_ID){
+            this.assignSpecs(productMeta,'display-size', display_size, );
+            this.assignSpecs(productMeta,'processors', processors, );
+            this.assignSpecs(productMeta,'gpu', gpu, );
+            this.assignSpecs(productMeta,'ram', ram, );
+            this.assignSpecs(productMeta,'storage', storage, );
+            this.assignSpecs(productMeta,'keyboard', keyboard, );
+            this.assignSpecs(productMeta,'wifi', wifi, );
+            this.assignSpecs(productMeta,'weight', weight, );
+            this.assignSpecs(productMeta,'operating-system', operating_system, );
+            this.assignSpecs(productMeta,'where-to-buy', where_to_buy, );
+          }
+        })
+      })
+    }
     return (
       <div className="container content">
           <div className="breadcrumbs">
@@ -131,7 +146,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://techlitic.com/static/images/laptop_sample.png"
+                        "http://www.techlitic.com/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -235,9 +250,12 @@ export default class Model extends Component {
               <h3>{this.props.bc_seriesName} {this.props.bc_CategoryName}</h3>
               <ul type="none">
                 {
+                  this.props.series_models ? 
                   this.props.series_models.map((value, key) => {
                     return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}><a>{value.name}</a></Link></li>
                   })
+                  : 
+                  ''
                 }
               </ul>
             </div>
@@ -250,9 +268,9 @@ export default class Model extends Component {
               <hr />
               <div className="compare-table">
                 {
-                  (Array.isArray(variantContainer) && variantContainer.length) ? <table width="100%" border="1">
+                  (Array.isArray(variantContainer) && variantContainer.length > 0) ? <table width="100%" border="1">
                   <thead>
-                    <tr key={key}>
+                    <tr>
                       <th>&nbsp;</th>
                       {
                         variantContainer.map(values=>{
@@ -262,7 +280,7 @@ export default class Model extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr key={key}>
+                    <tr>
                       <td>Display</td>
                       {
                         display_size.map(values=>{
@@ -270,7 +288,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr key={key}>
+                    <tr>
                       <td>Processor</td>
                       {
                         processors.map(values=>{
@@ -278,7 +296,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr key={key}>
+                    <tr>
                       <td>Ram</td>
                       {
                         ram.map(values=>{
@@ -286,7 +304,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr key={key}>
+                    <tr>
                       <td>Storage</td>
                       {
                         storage.map(values=>{
@@ -294,7 +312,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr key={key}>
+                    <tr>
                       <td>GPU</td>
                       {
                         gpu.map(values=>{
@@ -302,7 +320,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr key={key}>
+                    <tr>
                       <td>Keyboard</td>
                       {
                         keyboard.map(values=>{
@@ -310,7 +328,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr key={key}>
+                    <tr>
                       <td>WiFi</td>
                       {
                         wifi.map(values=>{
@@ -318,7 +336,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr key={key}>
+                    <tr>
                       <td>Operating System</td>
                       {
                         operating_system.map(values=>{
@@ -326,7 +344,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr key={key}>
+                    <tr>
                       <td>Weight</td>
                       {
                         weight.map(values=>{
@@ -334,7 +352,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr key={key}>
+                    <tr>
                       <td>Where to buy</td>
                       {
                         where_to_buy.map(values=>{

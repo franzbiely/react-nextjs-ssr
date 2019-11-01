@@ -7,16 +7,21 @@ const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
   app.render(req, res, route.page, query);
 });
 
+const sitemapOptions = {
+  root: __dirname + '/static/sitemap/',
+  headers: {
+      'Content-Type': 'text/xml;charset=UTF-8'
+  }
+};
+
 const express = require("express");
 var mysql = require("mysql");
 const connection = mysql.createConnection({
   multipleStatements: true,
   host: "localhost",
   user: "root",
-  // password: "",
   database: "techlitic",
-  password: "hv51jxn4dlt32wh5",
-  // database: "techlitic"
+  password: "",
 });
 
 connection.connect(function(err) {
@@ -25,6 +30,8 @@ connection.connect(function(err) {
 });
 let x = [];
 const server = express();
+server.get('/search-result-pages.xml', (req, res) => res.status(200).sendFile('search-result-pages.xml', sitemapOptions));
+
 server.get("/data", (req, res) => {
   connection.query(
     "SELECT * from categories; SELECT * from product_heirarchy where type='brand'; SELECT * from product_heirarchy where type='family'; SELECT * from product_heirarchy where type='series'; SELECT * from products; SELECT * from product_meta; SELECT * from variant;"
@@ -122,6 +129,7 @@ server.all('/*', function(req, res, next) {
   else
     next();
 });
+
 app.prepare().then(() => {
   
   server.use(handler).listen(3000, function() {

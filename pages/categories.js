@@ -5,26 +5,26 @@ import SearchBar from "../components/search-bar";
 
 export default class Categories extends Component {
   static getInitialProps = async ({ query }) => {
-    return { top: query.slug};
+    return { top: query.slug };
   }
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       icon: true
     }
   }
-  
+
   handleClick = e => {
     const { icon } = this.state;
     this.setState({ icon: !icon });
   };
-  getPageChildChildren(x, y){
+  getPageChildChildren(x, y) {
     let t = []
     
-    for(let z=0; z<x.length; z++){
-      if(x[z].slug === this.props.brand){
-        for(let v=0; v<y.length; v++){
-          if(x[z].ID === y[v].parent_ID){
+    for (let z = 0; z < x.length; z++) {
+      if (x[z].slug === this.props.brand) {
+        for (let v = 0; v < y.length; v++) {
+          if (x[z].ID === y[v].parent_ID) {
             t.push(y[v]);
           }
         }
@@ -32,31 +32,31 @@ export default class Categories extends Component {
     }
     return t;
   }
-  getPageName(x){
-    let f;
-    for(let i=0; i<x.length; i++){
-      if(this.props.brand === x[i].slug){
-        f = x[i].name
+  getPageName(x) {
+    let p;
+    for (let i = 0; i < x.length; i++) {
+      if (this.props.brand === x[i].slug) {
+        p = x[i].name
       }
     }
-    return f;
+    return p;
   }
-  getParentPageName(x){
-    let f;
-    for(let i=0; i<x.length; i++){
-      if(this.props.pageSlug === x[i].slug){
-        f = x[i].name
+  getParentPageName(x) {
+    let p;
+    for (let i = 0; i < x.length; i++) {
+      if (this.props.pageSlug === x[i].slug) {
+        p = x[i].name
       }
     }
-    return f;
+    return p;
   }
-  getPageChildren(x, y){
+  getPageChildren(x, y) {
     let t = []
-    for(let z=0; z<x.length; z++){
-      if(x[z].slug === this.props.pageSlug){
-        for(let s=0; s<y.length; s++){
-          if(x[z].ID === y[s].category_ID){
-            t.push(y[s]);
+    for (let z = 0; z < x.length; z++) {
+      if (x[z].slug === this.props.pageSlug) {
+        for (let w = 0; w < y.length; w++) {
+          if (x[z].ID === y[w].category_ID) {
+            t.push(y[w]);
           }
         }
       }
@@ -69,11 +69,11 @@ export default class Categories extends Component {
     let pageChildren;
     let childrenName;
     let pageName;
-    let c = this.props.category;
-    let b = this.props.brands;
-    let f = this.props.families;
-    let s = this.props.series;
-    let m = this.props.models;
+    let categoryArr = this.props.category;
+    let brandsArr = this.props.brands;
+    let familyArr = this.props.families;
+    let seriesArr = this.props.series;
+    let modelsArr = this.props.models;
     let brandNamesArr = [];
     let categoryNamesArr = [];
     let brandSlugsArr = [];
@@ -87,66 +87,66 @@ export default class Categories extends Component {
     let subcategoriesSlugsArr = [];
     let products = [];
     let img;
-    b.map(values=>{
+    brandsArr.map(values => {
       brandNamesArr.push(values.name)
       brandSlugsArr.push(values.slug)
     });
-    c.map(values=>{
+    categoryArr.map(values => {
       categoryNamesArr.push(values.name)
       categorySlugsArr.push(values.slug)
     });
-    f.map(values=>{
+    familyArr.map(values => {
       familyNamesArr.push(values.name)
       familySlugsArr.push(values.slug)
     })
-    s.map(values=>{
+    seriesArr.map(values => {
       seriesNamesArr.push(values.name)
       seriesSlugsArr.push(values.slug)
     })
-    m.map(values=>{
+    modelsArr.map(values => {
       modelNamesArr.push(values.name)
       modelSlugsArr.push(values.slug)
     })
     this.props.subcategories.map(value => {
       subcategoriesSlugsArr.push(value.slug)
     })
-    if(categorySlugsArr.indexOf(this.props.pageSlug) !== -1){
+    if (categorySlugsArr.indexOf(this.props.pageSlug) !== -1) {
       childrenName = 'Brands';
-      if(this.props.brand){
-        for(let x=0; x < this.props.subcategories.length; x++){
-          if(this.props.subcategories[x].slug === this.props.brand){
-            pageName = this.props.subcategories[x].name
-            for(let z=0; z<this.props.subcategoryItems.length; z++){
-              if(this.props.subcategoryItems[z].category_ID === this.props.subcategories[x].ID){
-                products.push(this.props.subcategoryItems[z])
+      if (this.props.brand) {
+        this.props.subcategories.map(subcategory => {
+          if(subcategory.slug === this.props.brand){
+            pageName = subcategory.name;
+            subcategoryItems.map(item => {
+              if(item.category_ID === subcategory.ID){
+                products.push(item)
               }
-            }
+            })
           }
-        }
-      }else{
-        pageName = this.getParentPageName(c)
+        })
+      } else {
+        pageName = this.getParentPageName(categoryArr)
         // If Slug is Category - show all models from that category
-        for(let p=0; p<c.length; p++){
-          if(c[p].slug === this.props.pageSlug){
-            for(let i=0; i<b.length; i++){
-              if(b[i].category_ID === c[p].ID){
-                for(let o=0; o<f.length; o++){
-                  if(b[i].ID === f[o].parent_ID){
-                    for(let q=0; q<s.length; q++){
-                      if(f[o].ID === s[q].parent_ID){
-                        for(let p=0; p<m.length; p++){
-                          if(s[q].ID === m[p].parent_ID){
-                            products.push(m[p])
+        categoryArr.map(category => {
+          if(category.slug === this.props.pageSlug){
+            brandsArr.map(brand => {
+              if(brand.category_ID === category.ID){
+                familyArr.map(family => {
+                  if(family.parent_ID === brand.ID){
+                    seriesArr.map(series => {
+                      if(series.parent_ID === family.ID){
+                        modelsArr.map(model => {
+                          if(model.parent_ID === series.ID){
+                            products.push(model);
                           }
-                        }
+                        })
                       }
-                    }
+                    })
                   }
-                }
+                })
               }
-            }
+            })
           }
-        }
+        })
       }
       PostLink = props => (
         <Link href={`/${props.slug}/`}
@@ -155,11 +155,11 @@ export default class Categories extends Component {
           <a>{props.id}</a>
         </Link>
       );
-      pageChildren = this.getPageChildren(c,b)
+      pageChildren = this.getPageChildren(categoryArr, brandsArr)
     }
-    
-    else if(brandSlugsArr.indexOf(this.props.pageSlug) !== -1){
-      
+
+    else if (brandSlugsArr.indexOf(this.props.pageSlug) !== -1) {
+
       PostLink = props => (
         <Link href={`/${this.props.pageSlug}/${props.slug}/`}
           params={{ cat: props.category, brand: props.id, slug: props.slug }}
@@ -167,90 +167,87 @@ export default class Categories extends Component {
           <a>{props.id}</a>
         </Link>
       );
-     
-      if(this.props.brand){
-        if(familySlugsArr.indexOf(this.props.brand) !== -1){
+
+      if (this.props.brand) {
+        if (familySlugsArr.indexOf(this.props.brand) !== -1) {
           childrenName = 'Series';
-          pageName = this.getPageName(f)
-          pageChildren = this.getPageChildChildren(f,s)
-            for(let o=0; o<f.length; o++){
-            if(f[o].slug === this.props.brand){
-              for(let q=0; q<s.length; q++){
-                if(f[o].ID === s[q].parent_ID){
-                  for(let p=0; p<m.length; p++){
-                    if(s[q].ID === m[p].parent_ID){
-                      products.push(m[p])
+          pageName = this.getPageName(familyArr)
+          pageChildren = this.getPageChildChildren(familyArr, seriesArr)
+          //Display products based on chosen family
+          familyArr.map(family => {
+            if(family.slug === this.props.brand){
+              seriesArr.map(series => {
+                if(series.parent_ID === family.ID){
+                  modelsArr.map(model => {
+                    if(model.parent_ID === series.ID){
+                      products.push(model)
                     }
-                  }
+                  })
                 }
-              }
+              })
             }
-          }
+          })
         }
-        else if(seriesSlugsArr.indexOf(this.props.brand) !== -1){
+        else if (seriesSlugsArr.indexOf(this.props.brand) !== -1) {
           childrenName = 'Models';
-          pageName = this.getPageName(s)
-          pageChildren = this.getPageChildChildren(s,m)
-          for(let q=0; q<s.length; q++){
-            if(s[q].slug === this.props.brand){
-              for(let p=0; p<m.length; p++){
-                if(s[q].ID === m[p].parent_ID){
-                  products.push(m[p])
+          pageName = this.getPageName(seriesArr)
+          pageChildren = this.getPageChildChildren(seriesArr, modelsArr)
+          seriesArr.map(series => {
+            if(series.slug === this.props.brand){
+              modelsArr.map(model => {
+                if(model.parent_ID === series.ID){
+                  products.push(model)
                 }
-              }
+              })
             }
-          }
+          })
         }
       }
-      else{
-        pageName = this.getParentPageName(b)
+      else {
+        pageName = this.getParentPageName(brandsArr)
         childrenName = 'Families';
-        let t = []
-        for(let z=0; z<b.length; z++){
-          if(b[z].slug === this.props.pageSlug){
-            for(let s=0; s<f.length; s++){
-              if(b[z].ID === f[s].parent_ID){
-                t.push(f[s]);
+        let t = [];
+        brandsArr.map(brand => {
+          if(brand.slug === this.props.pageSlug){
+            familyArr.map(family => {
+              if(brand.ID === family.parent_ID){
+                t.push(family);
               }
-            }
+            })
           }
-        }
+        })
         pageChildren = t;
         //If no child page show all results based on the selected brand
-        for(let i=0; i<b.length; i++){
-          if(b[i].slug === this.props.pageSlug){
-            for(let o=0; o<f.length; o++){
-              if(b[i].ID === f[o].parent_ID){
-                for(let q=0; q<s.length; q++){
-                  if(f[o].ID === s[q].parent_ID){
-                    for(let p=0; p<m.length; p++){
-                      if(s[q].ID === m[p].parent_ID){
-                        products.push(m[p])
+        brandsArr.map(brand => {
+          if(brand.slug === this.props.pageSlug){
+            familyArr.map(family => {
+              if(brand.ID === family.parent_ID){
+                seriesArr.map(series => {
+                  if(series.parent_ID === family.ID){
+                    modelsArr.map(model => {
+                      if(model.parent_ID === series.ID){
+                        products.push(model)
                       }
-                    }
+                    })
                   }
-                }
+                })
               }
-            }
+            })
           }
-        }
+        })
       }
     };
-    //let img;
     return (
       <div className="page-body category-page">
-         
         <div className="container content">
-         
-         
           <div className="breadcrumbs">
-            <ul className = "breadcrumbs">
-              {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> :  <li><Link route="/"><a>Home</a></Link></li> }
+            <ul className="breadcrumbs">
+              {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> : <li><Link route="/"><a>Home</a></Link></li>}
               {this.props.brand && this.props.bc_brandName ? <li><Link href={`/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
               {this.props.bc_familyName && this.props.brand ? <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''}
             </ul>
-          </div> 
-         
+          </div>
+
           <h1 style={{ color: "white" }}>{pageName}</h1>
           <SearchBar />
           <div className="row">
@@ -271,15 +268,15 @@ export default class Categories extends Component {
                     <div>
                       {
                         pageChildren.map((value, key) => {
-                            return (
-                              <div key={key} className="brand-item-container">
-                                <PostLink
-                                  id={value.name}
-                                  slug={value.slug}
-                                />
-                              </div>
-                            );
-                          })
+                          return (
+                            <div key={key} className="brand-item-container">
+                              <PostLink
+                                id={value.name}
+                                slug={value.slug}
+                              />
+                            </div>
+                          );
+                        })
                       }
                     </div>
                   </div>
@@ -291,46 +288,44 @@ export default class Categories extends Component {
                 <h2>Results:</h2>
                 <ul type="none">
                   {
-                    
-                    products.map((value, key)=>{
+                    products.map((product, key) => {
                       let modelBrand;
-                      for(let y=0; y<s.length; y++){
-                        if(value.parent_ID === s[y].ID){
-                          for(let o=0; o<f.length;o++){
-                            if(s[y].parent_ID === f[o].ID){
-                              for(let q=0; q<b.length; q++){
-                                if(f[o].parent_ID === b[q].ID){
-                                  modelBrand = b[q].slug; 
+                      seriesArr.map(series => {
+                        if(product.parent_ID === series.ID){
+                          familyArr.map(family => {
+                            if(series.parent_ID === family.ID){
+                              brandsArr.map(brand => {
+                                if(family.parent_ID === brand.ID){
+                                  modelBrand = brand.slug;
                                 }
-                              }
+                              })
                             }
-                          }
+                          })
                         }
-                      } 
-                  
-                      if (value.image)   {
-                                          
-                              img = <img src={value.image} alt="laptops" width="200" height="100" />
-                       }
-                       else {
-                               img = <img src="http://techlitic.com/static/images/default.png" alt="laptops" width="200" height="100"/>
-                        }
-                       return <li key={key} className="row">
-                          
-                     <div className="col-md-3">  
-                       {img}
-                          </div>
-                         
-                       <div className="col-md-3">
-                          <Link href={`/${modelBrand}/${value.slug}/`}>
-                            <a><h3>{value.name}</h3></a>
+                      })
+
+                      if (product.image) {
+                        img = <img src={product.image} alt="laptops" width="200" height="100" />
+                      }
+                      else {
+                        img = <img src="http://techlitic.com/static/images/default.png" alt="laptops" width="200" height="100" />
+                      }
+                      return <li key={key} className="row">
+
+                        <div className="col-md-3">
+                          {img}
+                        </div>
+
+                        <div className="col-md-3">
+                          <Link href={`/${modelBrand}/${product.slug}/`}>
+                            <a><h3>{product.name}</h3></a>
                           </Link>
-                       
-                       </div>
-                              </li>
-                       
-                      //return <li key={key}><Link href={`/${modelBrand}/${value.slug}/`}><a><h3>{value.name}</h3></a></Link></li>
-                  
+
+                        </div>
+                      </li>
+
+                      //return <li key={key}><Link href={`/${modelBrand}/${product.slug}/`}><a><h3>{product.name}</h3></a></Link></li>
+
                     })
                   }
                 </ul>

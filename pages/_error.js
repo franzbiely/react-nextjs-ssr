@@ -15,14 +15,12 @@ function Error({ statusCode }) {
     <link rel="stylesheet" href="http://techlitic.com/static/css/owl.carousel.css" />  
     <link rel="stylesheet" href="http://techlitic.com/static/css/slidr.css" />
     <link rel="stylesheet" href="http://techlitic.com/static/css/main.css" />
-    {/* <link id="preset" rel="stylesheet" href="http://techlitic.com/static/css/presets/preset1.css" /> */}
     <link rel="stylesheet" href="http://techlitic.com/static/css/responsive.css" />
     <link rel="stylesheet" href="http://techlitic.com/static/css/custom.css" />
     {/* Font */}
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700,300' rel='stylesheet' type='text/css' />
     <link href='https://fonts.googleapis.com/css?family=Signika+Negative:400,300,600,700' rel='stylesheet' type='text/css' />
     {/* Icon */}
-    <link rel="icon" href="http://techlitic.com/static/images/ico/favicon.ico" />	
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://techlitic.com/static/images/ico/apple-touch-icon-144-precomposed.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://techlitic.com/static/images/ico/apple-touch-icon-114-precomposed.png" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://techlitic.com/static/images/ico/apple-touch-icon-72-precomposed.png" />
