@@ -27,7 +27,7 @@ let x = [];
 const server = express();
 server.get("/data", (req, res) => {
   connection.query(
-    "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'; SELECT * from products where type='series'; SELECT * from products where type='model'; SELECT * from product_meta; SELECT * from products where type='variant'"
+    "SELECT * from categories; SELECT * from product_heirarchy where type='brand'; SELECT * from product_heirarchy where type='family'; SELECT * from product_heirarchy where type='series'; SELECT * from products; SELECT * from product_meta; SELECT * from variant;"
     , [1,2,3,4,5,6,7], (error, results, fields) => {
       x.push(results)
     if (error) throw error;
@@ -37,7 +37,7 @@ server.get("/data", (req, res) => {
 
 server.get('/:slug/:brand?', (req, res) => {
   connection.query(
-    "SELECT * from categories; SELECT * from products where type='brand'; SELECT * from products where type='family'; SELECT * from products where type='series'; SELECT * from products where type='model'; SELECT * from product_meta; SELECT * from products where type='variant'"
+    "SELECT * from categories; SELECT * from product_heirarchy where type='brand'; SELECT * from product_heirarchy where type='family'; SELECT * from product_heirarchy where type='series'; SELECT * from products; SELECT * from product_meta; SELECT * from variant;"
     , [1,2,3,4,5,6,7], (error, results, fields) => {
       if (error) throw error;
     const { slug, brand } = req.params;

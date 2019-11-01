@@ -252,7 +252,7 @@ export default class Model extends Component {
                 {
                   (Array.isArray(variantContainer) && variantContainer.length) ? <table width="100%" border="1">
                   <thead>
-                    <tr>
+                    <tr key={key}>
                       <th>&nbsp;</th>
                       {
                         variantContainer.map(values=>{
@@ -262,7 +262,7 @@ export default class Model extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                    <tr key={key}>
                       <td>Display</td>
                       {
                         display_size.map(values=>{
@@ -270,7 +270,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr>
+                    <tr key={key}>
                       <td>Processor</td>
                       {
                         processors.map(values=>{
@@ -278,7 +278,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr>
+                    <tr key={key}>
                       <td>Ram</td>
                       {
                         ram.map(values=>{
@@ -286,7 +286,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr>
+                    <tr key={key}>
                       <td>Storage</td>
                       {
                         storage.map(values=>{
@@ -294,7 +294,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr>
+                    <tr key={key}>
                       <td>GPU</td>
                       {
                         gpu.map(values=>{
@@ -302,7 +302,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr>
+                    <tr key={key}>
                       <td>Keyboard</td>
                       {
                         keyboard.map(values=>{
@@ -310,7 +310,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr>
+                    <tr key={key}>
                       <td>WiFi</td>
                       {
                         wifi.map(values=>{
@@ -318,7 +318,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr>
+                    <tr key={key}>
                       <td>Operating System</td>
                       {
                         operating_system.map(values=>{
@@ -326,7 +326,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr>
+                    <tr key={key}>
                       <td>Weight</td>
                       {
                         weight.map(values=>{
@@ -334,7 +334,7 @@ export default class Model extends Component {
                         })
                       }
                     </tr>
-                    <tr>
+                    <tr key={key}>
                       <td>Where to buy</td>
                       {
                         where_to_buy.map(values=>{
@@ -387,7 +387,7 @@ export default class Model extends Component {
               <div className="row similar-product-row">
                 
                   {similar_category.map((value, key) => {
-                   let x = <div className ="col-sm-4">
+                   let x = <div key={key} className ="col-sm-4">
                               <Link href={`/${value.slug}`}>
                                 <a>
                                 <div>
