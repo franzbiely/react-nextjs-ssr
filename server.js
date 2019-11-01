@@ -21,7 +21,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   database: "techlitic",
-  password: "",
+  password: "hv51jxn4dlt32wh5",
 });
 
 connection.connect(function(err) {
