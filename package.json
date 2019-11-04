@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node sitemap.js server.js"
+    "start": "NODE_ENV=production node server.js"
   },
   "proxy": "http://localhost:3001/",
   "dependencies": {
