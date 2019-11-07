@@ -5,15 +5,18 @@ import { Link } from '../routes'
 export default class Model extends Component {
   
   assignSpecs(productMeta, spec, container){
-    if(productMeta.meta_key === spec){
-      if(productMeta.meta_value){
-        container.push(productMeta.meta_value)
+
+      if(productMeta.meta_key === spec){
+        if(productMeta.meta_value){
+          container.push(productMeta.meta_value)
+        }else{
+          container.push('wnt')
+        }
       }
-      else{
-        container.push('')
-      }
-    }
   }
+  assignBlank(container){
+  container.push('none')
+}
   render() {
     let variantContainer = [];
     let description;
@@ -67,6 +70,8 @@ export default class Model extends Component {
         }
       })
     }
+   let filtered_similar_brands = similar_brands.slice(0,5);
+   let filtered_similar_category = similar_category.slice(0,5)
     //Get product's description and its variants
     if(this.props.models){
       this.props.models.map(value => {
@@ -81,22 +86,27 @@ export default class Model extends Component {
         }
       })
     }
+    let counter = 0;
     if(variantContainer){
-      variantContainer.map(value => {
-        let variant = value;
-        this.props.productMeta.map(value => {
+
+        
+      this.props.productMeta.map((value) => {
           let productMeta = value;
-          if(variant.ID === productMeta.product_ID){
-            this.assignSpecs(productMeta,'display-size', display_size, );
-            this.assignSpecs(productMeta,'processors', processors, );
-            this.assignSpecs(productMeta,'gpu', gpu, );
-            this.assignSpecs(productMeta,'ram', ram, );
-            this.assignSpecs(productMeta,'storage', storage, );
-            this.assignSpecs(productMeta,'keyboard', keyboard, );
-            this.assignSpecs(productMeta,'wifi', wifi, );
-            this.assignSpecs(productMeta,'weight', weight, );
-            this.assignSpecs(productMeta,'operating-system', operating_system, );
-            this.assignSpecs(productMeta,'where-to-buy', where_to_buy, );
+
+          variantContainer.map(value => {
+            let variant = value;
+
+          if(variant.ID === productMeta.product_ID ){
+              this.assignSpecs(productMeta,'display-size', display_size);
+              this.assignSpecs(productMeta,'processors', processors);
+              this.assignSpecs(productMeta,'gpu', gpu);
+              this.assignSpecs(productMeta,'ram', ram);
+              this.assignSpecs(productMeta,'storage', storage);
+              this.assignSpecs(productMeta,'keyboard', keyboard);
+              this.assignSpecs(productMeta,'wifi', wifi);
+              this.assignSpecs(productMeta,'weight', weight);
+              this.assignSpecs(productMeta,'operating-system', operating_system);
+              this.assignSpecs(productMeta,'where-to-buy', where_to_buy);          
           }
         })
       })
@@ -115,7 +125,7 @@ export default class Model extends Component {
           <div className="model-container">
             <div className="product-image-section">
               <img
-                src={"http://techlitic.com/static/images/laptop_sample.png"}
+                src={"http://localhost:3000/static/images/laptop_sample.png"}
                 alt="laptop"
               ></img>
               <div className="col-sm-12 product-gallery">
@@ -124,7 +134,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://techlitic.com/static/images/laptop_sample.png"
+                        "http://localhost:3000/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -135,7 +145,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://techlitic.com/static/images/laptop_sample.png"
+                        "http://localhost:3000/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -146,7 +156,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://www.techlitic.com/static/images/laptop_sample.png"
+                        "http://www.localhost:3000/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -157,7 +167,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://techlitic.com/static/images/laptop_sample.png"
+                        "http://localhost:3000/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -252,7 +262,7 @@ export default class Model extends Component {
                 {
                   this.props.series_models ? 
                   this.props.series_models.map((value, key) => {
-                    return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}>/<a>{value.name}</a></Link></li>
+                    return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}><a>{value.name}</a></Link></li>
                   })
                   : 
                   ''
@@ -284,7 +294,11 @@ export default class Model extends Component {
                       <td>Display</td>
                       {
                         display_size.map(values=>{
-                          return <th>{values}</th>
+                          if(values){
+                            return <th>{values}</th>
+                          }else{
+                            return <th>&nbsp;</th>
+                          }
                         })
                       }
                     </tr>
@@ -292,7 +306,12 @@ export default class Model extends Component {
                       <td>Processor</td>
                       {
                         processors.map(values=>{
-                          return <th>{values}</th>
+                          if(values){
+                            return <th>{values}</th>
+                          }else{
+                            return <th>&nbsp;</th>
+                          }
+                         
                         })
                       }
                     </tr>
@@ -300,7 +319,11 @@ export default class Model extends Component {
                       <td>Ram</td>
                       {
                         ram.map(values=>{
-                          return <th>{values}</th>
+                          if(values){
+                            return <th>{values}</th>
+                          }else{
+                            return <th>&nbsp;</th>
+                          }
                         })
                       }
                     </tr>
@@ -308,7 +331,11 @@ export default class Model extends Component {
                       <td>Storage</td>
                       {
                         storage.map(values=>{
-                          return <th>{values}</th>
+                          if(values){
+                            return <th>{values}</th>
+                          }else{
+                            return <th>&nbsp;</th>
+                          }
                         })
                       }
                     </tr>
@@ -316,7 +343,11 @@ export default class Model extends Component {
                       <td>GPU</td>
                       {
                         gpu.map(values=>{
-                          return <th>{values}</th>
+                          if(values){
+                            return <th>{values}</th>
+                          }else{
+                            return <th>&nbsp;</th>
+                          }
                         })
                       }
                     </tr>
@@ -324,7 +355,11 @@ export default class Model extends Component {
                       <td>Keyboard</td>
                       {
                         keyboard.map(values=>{
-                          return <th>{values}</th>
+                          if(values){
+                            return <th>{values}</th>
+                          }else{
+                            return <th>&nbsp;</th>
+                          }
                         })
                       }
                     </tr>
@@ -332,7 +367,11 @@ export default class Model extends Component {
                       <td>WiFi</td>
                       {
                         wifi.map(values=>{
-                          return <th>{values}</th>
+                          if(values){
+                            return <th>{values}</th>
+                          }else{
+                            return <th>&nbsp;</th>
+                          }
                         })
                       }
                     </tr>
@@ -340,7 +379,11 @@ export default class Model extends Component {
                       <td>Operating System</td>
                       {
                         operating_system.map(values=>{
-                          return <th>{values}</th>
+                            if(values){
+                            return <th>{values}</th>
+                          }else{
+                            return <th>&nbsp;</th>
+                          }
                         })
                       }
                     </tr>
@@ -354,10 +397,12 @@ export default class Model extends Component {
                     </tr>
                     <tr>
                       <td>Where to buy</td>
-                      {
+                      { 
+                        where_to_buy ? 
                         where_to_buy.map(values=>{
-                          return <th>{values}</th>
-                        })
+                            return <th>{values}</th>
+                        }) :
+                        <th>&nbsp;</th>
                       }
                     </tr>
                   </tbody>
@@ -381,15 +426,15 @@ export default class Model extends Component {
               <hr />
               <div className="row similar-product-row">
                 {
-                  similar_brands.map((value, key) => {
+                  filtered_similar_brands.map((value, key) => {
                    let x = <div className ="col-sm-4">
                               <Link href={`/${this.props.bc_brandSlug}/${value.slug}`}>
                                 <a>
                                 <div>
                                   {
-                                    value.image ?
-                                    <img src={value.image} alt={value.name}></img> :
-                                    <img src="http://techlitic.com/static/images/default.png" alt={value.name}></img>
+                                    // value.image ?
+                                    // <img src={value.image} alt={value.name}></img> :
+                                    <img src="http://localhost:3000/static/images/default.png" alt={value.name}></img>
                                   }
                                   <span>{value.name}</span>
                                 </div>
@@ -404,7 +449,7 @@ export default class Model extends Component {
               <hr></hr>
               <div className="row similar-product-row">
                 
-                  {similar_category.map((value, key) => {
+                  {filtered_similar_category.map((value, key) => {
                    let x = <div key={key} className ="col-sm-4">
                               <Link href={`/${value.slug}`}>
                                 <a>
@@ -412,7 +457,7 @@ export default class Model extends Component {
                                   {
                                     value.image ?
                                     <img src={value.image} alt={value.name}></img> :
-                                    <img src="http://techlitic.com/static/images/default.png" alt={value.name}></img>
+                                    <img src="http://localhost:3000/static/images/default.png" alt={value.name}></img>
                                   }
                                   <span>{value.name}</span>
                                 </div>

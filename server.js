@@ -16,8 +16,9 @@ const connection = mysql.createConnection({
   multipleStatements: true,
   host: "localhost",
   user: "root",
-  database: "techlitic",
-  password: "hv51jxn4dlt32wh5",
+  database: "techlitic_3",
+  password: ""
+  // password: "hv51jxn4dlt32wh5",
 });
 
 connection.connect(function(err) {
@@ -26,7 +27,22 @@ connection.connect(function(err) {
 });
 let x = [];
 const server = express();
-server.get('/search-result-pages.xml', (req, res) => res.status(200).sendFile('search-result-pages.xml', sitemapOptions));
+server.use((req, res, next) => {
+  const test = /\?[^]*\//.test(req.url);
+  const fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+  if (
+    req.url.substr(-1) !== "/" &&
+    req.url.length > 1 &&
+    !test &&
+    !fullUrl.match(/\/static\//)
+  )
+    res.redirect(301, req.url + "/");
+  else next();
+});
+server.get("/:slug/page/:page", (req, res) => {
+  const { slug, page } = req.params
+  return app.render(req, res, "/", {slug, page});
+})
 
 server.get("/data", (req, res) => {
   connection.query(
@@ -153,35 +169,8 @@ server.get("/:slug/:brand?", (req, res) => {
     }
   );
 });
-server.all("/*", function(req, res, next) {
-  if (/^www\./.test(req.headers.host)) {
-    res.redirect(
-      301,
-      req.headers.host.replace(/www\./, req.protocol) + req.url
-    );
-  } else {
-    next();
-  }
-});
-server.use((req, res, next) => {
-  const test = /\?[^]*\//.test(req.url);
-  const fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
-  if (
-    req.url.substr(-1) !== "/" &&
-    req.url.length > 1 &&
-    !test &&
-    !fullUrl.match(/\/static\//)
-  )
-    res.redirect(301, req.url + "/");
-  else next();
-});
-
 app.prepare().then(() => {
-  // This `server.get()` lets you generate a sitemap on the fly and retrive it from http://your.domain/sitemap.xml
-  // It also create a file if you need to open it with your editor.
-
-
   server.use(handler).listen(3000, function() {
-    console.log("Go to http://techlitic.com/users so you can see the data.");
+    console.log("Go to http://localhost:3000/users so you can see the data.");
   });
 });

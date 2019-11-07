@@ -12,10 +12,10 @@ import "./styles.scss";
 
 class Home extends React.Component {
   static getInitialProps = async ({ req, query }) => {
-    const res = await fetch('http://techlitic.com/data')
+    const res = await fetch('http://localhost:3000/data')
     const data = await res.json()
     
-    return { data: data, slug: query.slug, brand: query.brand};
+    return { data: data, slug: query.slug, brand: query.brand, pageNumber: query.page};
   }
   constructor(props) {
     super(props);
@@ -57,7 +57,7 @@ class Home extends React.Component {
   }
   slugChecker(page) {
     let x;
-    const { data } = this.props;
+    const { data, pageNumber } = this.props;
     page.map(values => {
       if (values.slug === this.state.Slug) {
         if (values.name) {
@@ -282,7 +282,14 @@ class Home extends React.Component {
         families={data.families}
       />
     ;
+    let pageNo;
+    pageNo = this.props.pageNumber;
+    if(!this.props.pageNumber){
+      
+      pageNo = 1;
+    }
     const categoryComponent = <Categories
+        page = {pageNo}
         brands={data.brands}
         category={data.categories}
         pageName={pageName}
@@ -390,6 +397,7 @@ class Home extends React.Component {
                   data.series.map(series => {
                     if(series.parent_ID === family.ID){
                       seriesCatArr.push(series.slug)
+                      
                     }
                   })
                 }

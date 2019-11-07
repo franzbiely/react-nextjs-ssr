@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "../routes";
 import "./styles.scss";
 import SearchBar from "../components/search-bar";
+import Pagination from "react-js-pagination";
 
 export default class Categories extends Component {
   static getInitialProps = async ({ query }) => {
@@ -10,10 +11,18 @@ export default class Categories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      icon: true
+      icon: true,
     }
   }
-
+ 
+  handlePageChange = pageNumber => {
+    if(pageNumber && pageNumber > 1){
+      window.location.href = `http://localhost:3000/${this.props.pageSlug}/page/${pageNumber}`
+    }else{
+      window.location.href = `http://localhost:3000/${this.props.pageSlug}/`
+    }
+   
+  }
   handleClick = e => {
     const { icon } = this.state;
     this.setState({ icon: !icon });
@@ -64,6 +73,8 @@ export default class Categories extends Component {
     return t;
   }
   render() {
+    
+    let pageNumber = parseInt(this.props.page);
     const { icon } = this.state;
     let PostLink;
     let pageChildren;
@@ -236,7 +247,19 @@ export default class Categories extends Component {
           }
         })
       }
+      
     };
+    let productCount = products.length; 
+    if(productCount > 200){
+      productCount = 200;
+    }
+    let filteredProducts = [];
+    if(pageNumber>1){
+      filteredProducts = products.slice((pageNumber - 1) * 10 , ((pageNumber - 1) * 10) + 9);
+    }else{
+      filteredProducts = products.slice(0,9);
+    }
+    
     return (
       <div className="page-body category-page">
         <div className="container content">
@@ -285,10 +308,11 @@ export default class Categories extends Component {
             </div>
             <div className="col-sm-9 product-container">
               <div className="products">
-                <h2>Results:</h2>
+                <h2>Results: </h2>
+                
                 <ul type="none">
                   {
-                    products.map((product, key) => {
+                    filteredProducts.map((product, key) => {
                       let modelBrand;
                       seriesArr.map(series => {
                         if(product.parent_ID === series.ID){
@@ -304,19 +328,19 @@ export default class Categories extends Component {
                         }
                       })
 
-                      if (product.image) {
-                        img = <img src={product.image} alt="laptops" width="200" height="100" />
-                      }
-                      else {
-                        img = <img src="http://techlitic.com/static/images/default.png" alt="laptops" width="200" height="100" />
-                      }
+                      // if (product.image) {
+                      //   img = <img src={product.image} alt="laptops" width="200" height="100" />
+                      // }
+                      // else {
+                        img = <img src="http://localhost:3000/static/images/default.png" alt="laptops" width="200" height="100" />
+                      // }
                       return <li key={key} className="row">
 
                         <div className="col-md-3">
                           {img}
                         </div>
 
-                        <div className="col-md-3">
+                        <div className="col-md-9">
                           <Link href={`/${modelBrand}/${product.slug}/`}>
                             <a><h3>{product.name}</h3></a>
                           </Link>
@@ -329,6 +353,15 @@ export default class Categories extends Component {
                     })
                   }
                 </ul>
+                <div style={{textAlign: "center"}}>
+                          <Pagination
+                    activePage={pageNumber}
+                    itemsCountPerPage={20}
+                    totalItemsCount={productCount}
+                    pageRangeDisplayed={5}
+                    onChange={this.handlePageChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
