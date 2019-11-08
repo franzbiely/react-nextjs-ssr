@@ -11,6 +11,7 @@
   "proxy": "http://localhost:3001/",
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
+    "atatus-nodejs": "^1.0.9",
     "axios": "^0.19.0",
     "express": "^4.17.1",
     "isomorphic-unfetch": "^3.0.0",
