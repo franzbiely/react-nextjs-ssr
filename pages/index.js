@@ -12,7 +12,7 @@ import "./styles.scss";
 
 class Home extends React.Component {
   static getInitialProps = async ({ req, query }) => {
-    const res = await fetch('http://localhost:3000/data')
+    const res = await fetch('http://techlitic.com/data')
     const data = await res.json()
     
     return { data: data, slug: query.slug, brand: query.brand, pageNumber: query.page};

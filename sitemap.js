@@ -13,7 +13,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 // SITE_ROOT is the domain of your app
 // Update example.com with your domain or set the env variable
-const SITE_ROOT = process.env.SITE_ROOT || "http://localhost:3000/";
+const SITE_ROOT = process.env.SITE_ROOT || "http://techlitic.com/";
 
 // SOURCE is where are stored all pages files
 // By default it tracks all files in the pages folder
@@ -23,7 +23,7 @@ const SOURCE =
 
 // API_SOURCE is the endpoint of you api
 // Update example.com/api with your endpoint or set the env variable
-const API_SOURCE = process.env.API_SOURCE || "http://localhost:3000/data";
+const API_SOURCE = process.env.API_SOURCE || "http://techlitic.com/data";
 
 // DESTINATION is where the real file is exported
 // By default is .next/static/sitemap.xml

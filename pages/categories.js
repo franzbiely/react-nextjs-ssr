@@ -17,9 +17,9 @@ export default class Categories extends Component {
  
   handlePageChange = pageNumber => {
     if(pageNumber && pageNumber > 1){
-      window.location.href = `http://localhost:3000/${this.props.pageSlug}/page/${pageNumber}`
+      window.location.href = `http://techlitic.com/${this.props.pageSlug}/page/${pageNumber}`
     }else{
-      window.location.href = `http://localhost:3000/${this.props.pageSlug}/`
+      window.location.href = `http://techlitic.com/${this.props.pageSlug}/`
     }
    
   }
@@ -332,7 +332,7 @@ export default class Categories extends Component {
                       //   img = <img src={product.image} alt="laptops" width="200" height="100" />
                       // }
                       // else {
-                        img = <img src="http://localhost:3000/static/images/default.png" alt="laptops" width="200" height="100" />
+                        img = <img src="http://techlitic.com/static/images/default.png" alt="laptops" width="200" height="100" />
                       // }
                       return <li key={key} className="row">
 
