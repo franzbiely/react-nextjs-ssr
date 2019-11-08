@@ -4,13 +4,11 @@ import { Link } from '../routes'
 
 export default class Model extends Component {
   
-  assignSpecs(productMeta, spec, container){
+  assignSpecs(productMeta, spec, container, key){
 
       if(productMeta.meta_key === spec){
         if(productMeta.meta_value){
-          container.push(productMeta.meta_value)
-        }else{
-          container.push('wnt')
+          container[key] = productMeta.meta_value;
         }
       }
   }
@@ -70,8 +68,8 @@ export default class Model extends Component {
         }
       })
     }
-   let filtered_similar_brands = similar_brands.slice(0,5);
-   let filtered_similar_category = similar_category.slice(0,5)
+   let filtered_similar_brands = similar_brands.slice(0,6);
+   let filtered_similar_category = similar_category.slice(0,6)
     //Get product's description and its variants
     if(this.props.models){
       this.props.models.map(value => {
@@ -87,26 +85,37 @@ export default class Model extends Component {
       })
     }
     let counter = 0;
+    for(let s = 0; s < variantContainer.length; s++){
+      where_to_buy.push('');
+      display_size.push('');
+      processors.push('');
+      gpu.push('');
+      ram.push('');
+      storage.push('');
+      keyboard.push('');
+      wifi.push('');
+      weight.push('');
+      operating_system.push('');
+    }
+    
     if(variantContainer){
-
-        
+      let p = -1;
+      variantContainer.map(value => {
+        let variant = value;
+        p++;
       this.props.productMeta.map((value) => {
           let productMeta = value;
-
-          variantContainer.map(value => {
-            let variant = value;
-
           if(variant.ID === productMeta.product_ID ){
-              this.assignSpecs(productMeta,'display-size', display_size);
-              this.assignSpecs(productMeta,'processors', processors);
-              this.assignSpecs(productMeta,'gpu', gpu);
-              this.assignSpecs(productMeta,'ram', ram);
-              this.assignSpecs(productMeta,'storage', storage);
-              this.assignSpecs(productMeta,'keyboard', keyboard);
-              this.assignSpecs(productMeta,'wifi', wifi);
-              this.assignSpecs(productMeta,'weight', weight);
-              this.assignSpecs(productMeta,'operating-system', operating_system);
-              this.assignSpecs(productMeta,'where-to-buy', where_to_buy);          
+            this.assignSpecs(productMeta,'display-size', display_size, p);
+            this.assignSpecs(productMeta,'processors', processors, p);
+            this.assignSpecs(productMeta,'gpu', gpu, p);
+            this.assignSpecs(productMeta,'ram', ram, p);
+            this.assignSpecs(productMeta,'storage', storage, p);
+            this.assignSpecs(productMeta,'keyboard', keyboard, p);
+            this.assignSpecs(productMeta,'wifi', wifi, p);
+            this.assignSpecs(productMeta,'weight', weight, p);
+            this.assignSpecs(productMeta,'operating-system', operating_system, p);
+            this.assignSpecs(productMeta,'where-to-buy', where_to_buy, p); 
           }
         })
       })
@@ -283,8 +292,8 @@ export default class Model extends Component {
                     <tr>
                       <th>&nbsp;</th>
                       {
-                        variantContainer.map(values=>{
-                          return <th>{values.name}</th>
+                        variantContainer.map((values, key)=>{
+                          return <th key={key}>{values.name}</th>
                         })
                       }
                     </tr>
@@ -293,116 +302,81 @@ export default class Model extends Component {
                     <tr>
                       <td>Display</td>
                       {
-                        display_size.map(values=>{
-                          if(values){
-                            return <th>{values}</th>
-                          }else{
-                            return <th>&nbsp;</th>
-                          }
+                        display_size.map((values, key) =>{
+                            return <th key={key}>{values}</th>
                         })
                       }
                     </tr>
                     <tr>
                       <td>Processor</td>
                       {
-                        processors.map(values=>{
-                          if(values){
-                            return <th>{values}</th>
-                          }else{
-                            return <th>&nbsp;</th>
-                          }
-                         
+                        processors.map((values, key) =>{
+                            return <th key={key}>{values}</th>
                         })
                       }
                     </tr>
                     <tr>
                       <td>Ram</td>
                       {
-                        ram.map(values=>{
-                          if(values){
-                            return <th>{values}</th>
-                          }else{
-                            return <th>&nbsp;</th>
-                          }
+                        ram.map((values, key) =>{
+                            return <th key={key}>{values}</th>
                         })
                       }
                     </tr>
                     <tr>
                       <td>Storage</td>
                       {
-                        storage.map(values=>{
-                          if(values){
-                            return <th>{values}</th>
-                          }else{
-                            return <th>&nbsp;</th>
-                          }
+                        storage.map((values, key) =>{
+                            return <th key={key}>{values}</th>
                         })
                       }
                     </tr>
                     <tr>
                       <td>GPU</td>
                       {
-                        gpu.map(values=>{
-                          if(values){
-                            return <th>{values}</th>
-                          }else{
-                            return <th>&nbsp;</th>
-                          }
+                        gpu.map((values, key) =>{
+                            return <th key={key}>{values}</th>
                         })
                       }
                     </tr>
                     <tr>
                       <td>Keyboard</td>
                       {
-                        keyboard.map(values=>{
-                          if(values){
-                            return <th>{values}</th>
-                          }else{
-                            return <th>&nbsp;</th>
-                          }
+                        keyboard.map((values, key) =>{
+                            return <th key={key}>{values}</th>
                         })
                       }
                     </tr>
                     <tr>
                       <td>WiFi</td>
                       {
-                        wifi.map(values=>{
-                          if(values){
-                            return <th>{values}</th>
-                          }else{
-                            return <th>&nbsp;</th>
-                          }
+                        wifi.map((values, key) =>{
+                            return <th key={key}>{values}</th>
                         })
                       }
                     </tr>
                     <tr>
                       <td>Operating System</td>
                       {
-                        operating_system.map(values=>{
-                            if(values){
-                            return <th>{values}</th>
-                          }else{
-                            return <th>&nbsp;</th>
-                          }
+                        operating_system.map((values, key) =>{
+                            return <th key={key}>{values}</th>
                         })
                       }
                     </tr>
                     <tr>
                       <td>Weight</td>
                       {
-                        weight.map(values=>{
-                          return <th>{values}</th>
+                        weight.map((values, key) =>{
+                          return <th key={key}>{values}</th>
                         })
                       }
                     </tr>
                     <tr>
                       <td>Where to buy</td>
                       { 
-                        where_to_buy ? 
-                        where_to_buy.map(values=>{
-                            return <th>{values}</th>
-                        }) :
-                        <th>&nbsp;</th>
+                        where_to_buy.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                   </tbody>
