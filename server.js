@@ -1,5 +1,5 @@
 // server.js
-const axios = require("axios");
+const                        axios = require("axios");
 const fs = require("fs");
 const next = require("next");
 const routes = require("./routes");
@@ -16,9 +16,9 @@ const connection = mysql.createConnection({
   multipleStatements: true,
   host: "localhost",
   user: "root",
-  database: "techlitic_3",
-  password: ""
-  // password: "hv51jxn4dlt32wh5",
+  database: "techlitic",
+  // password: ""
+  password: "hv51jxn4dlt32wh5",
 });
 
 connection.connect(function(err) {
