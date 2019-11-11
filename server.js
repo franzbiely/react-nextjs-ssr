@@ -7,6 +7,11 @@ const app = next({ dev: process.env.NODE_ENV !== "production" });
 const handler = routes.getRequestHandler(app, ({ req, res, route, query }) => {
   app.render(req, res, route.page, query);
 });
+var atatus = require("atatus-nodejs");
+atatus.start({
+    licenseKey: "lic_apm_3342aed6a081495a8fdde4469b86a933",
+    appName: "Techlitic",
+});
 
 const { PAGE_DESTINATION, createSitemapPages, PRODUCT_DESTINATION, createSitemapProducts, SITEMAP_DESTINATION, createSitemap } = require("./sitemap");
 
@@ -16,9 +21,9 @@ const connection = mysql.createConnection({
   multipleStatements: true,
   host: "localhost",
   user: "root",
-  database: "techlitic_3",
-  password: ""
-  // password: "hv51jxn4dlt32wh5",
+  database: "techlitic",
+  // password: ""
+  password: "hv51jxn4dlt32wh5",
 });
 
 connection.connect(function(err) {

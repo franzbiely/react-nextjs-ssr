@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {           Component } from "react";
 import "./styles.scss";
 import { Link } from '../routes'
 
@@ -258,7 +258,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h2>More about the {this.props.bc_brandName} {this.props.modelName}</h2>
+              <h2>More about the {this.props.modelName}</h2>
               <p>
                 {description}
               </p>
@@ -396,7 +396,7 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h3>{this.props.bc_CategoryName} similar to the {this.props.bc_brandName} {this.props.modelName}</h3>
+              <h3>{this.props.bc_CategoryName} similar to the {this.props.modelName}</h3>
               <hr />
               <div className="row similar-product-row">
                 {

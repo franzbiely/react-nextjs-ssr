@@ -1,6 +1,6 @@
 import React from 'react'
-import "../components/partials/header.scss";
-import Footer from "../components/partials/footer";
+import "../partials/header.scss";
+import Footer from "../partials/footer";
 import Head from 'next/head';
 import "./styles.scss";
 function Error({ statusCode }) {

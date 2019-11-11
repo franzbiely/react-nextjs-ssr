@@ -7,53 +7,53 @@ export default class Header extends React.Component {
         super(props)
     }
     render() {
-        const Category_nav = props => {
-            return <li className="dropdown category-nav-toggle">
-                <Link href={`/${props.slug}/`} params={{ slug: `${props.id}` }} ><a className="dropdown-toggle">{props.id}</a></Link>
+        // const Category_nav = props => {
+        //     return <li className="dropdown category-nav-toggle">
+        //         <Link href={`/${props.slug}/`} params={{ slug: `${props.id}` }} ><a className="dropdown-toggle">{props.id}</a></Link>
 
-                {props.children ?
-                    <ul className={`category-item ${props.children ? 'dropdown-menu' : ''}`}>
-                        {props.children}
-                    </ul>
-                    :
-                    ''
-                }
-            </li>
-        }
-        let linkRel;
-        let linkRelPrev
-        if (this.props.pageNumber === 1) {
-            if (this.props.brand) {
-                linkRel = <link rel="next" href={`http://localhost:3000/${this.props.slug}/${this.props.brand}/page/${this.props.pageNumber + 1}`} ></link>
-            } else {
-                linkRel = <link rel="next" href={`http://localhost:3000/${this.props.slug}/page/${this.props.pageNumber + 1}`} ></link>
-            }
-        }
-        else if (this.props.pageNumber > 1) {
-            if (this.props.brand) {
-                linkRel = <link rel="next" href={`http://localhost:3000/${this.props.slug}/${this.props.brand}/page/${parseInt(this.props.pageNumber) + 1}`} ></link>
-                if ((parseInt(this.props.pageNumber) - 1) === 1) {
-                    linkRelPrev = <link rel="prev" href={`http://localhost:3000/${this.props.slug}/${this.props.brand}/page/${parseInt(this.props.pageNumber) - 1}`} ></link>
-                } else {
-                    linkRelPrev = <link rel="prev" href={`http://localhost:3000/${this.props.slug}/${this.props.brand}/}`} ></link>
-                }
-            } else {
-                linkRel = <link rel="next" href={`http://localhost:3000/${this.props.slug}/page/${parseInt(this.props.pageNumber) + 1}`} ></link>
-                if ((parseInt(this.props.pageNumber) - 1) === 1) {
-                    linkRelPrev = <link rel="prev" href={`http://localhost:3000/${this.props.slug}/`} ></link>
-                } else {
-                    linkRelPrev = <link rel="prev" href={`http://localhost:3000/${this.props.slug}/page/${parseInt(this.props.pageNumber) - 1}`} ></link>
-                }
-            }
-        }
+        //         {props.children ?
+        //             <ul className={`category-item ${props.children ? 'dropdown-menu' : ''}`}>
+        //                 {props.children}
+        //             </ul>
+        //             :
+        //             ''
+        //         }
+        //     </li>
+        // }
+        // let linkRel;
+        // let linkRelPrev
+        // if (this.props.pageNumber === 1) {
+        //     if (this.props.brand) {
+        //         linkRel = <link rel="next" href={`http://localhost:3000/${this.props.slug}/${this.props.brand}/page/${this.props.pageNumber + 1}`} ></link>
+        //     } else {
+        //         linkRel = <link rel="next" href={`http://localhost:3000/${this.props.slug}/page/${this.props.pageNumber + 1}`} ></link>
+        //     }
+        // }
+        // else if (this.props.pageNumber > 1) {
+        //     if (this.props.brand) {
+        //         linkRel = <link rel="next" href={`http://localhost:3000/${this.props.slug}/${this.props.brand}/page/${parseInt(this.props.pageNumber) + 1}`} ></link>
+        //         if ((parseInt(this.props.pageNumber) - 1) === 1) {
+        //             linkRelPrev = <link rel="prev" href={`http://localhost:3000/${this.props.slug}/${this.props.brand}/page/${parseInt(this.props.pageNumber) - 1}`} ></link>
+        //         } else {
+        //             linkRelPrev = <link rel="prev" href={`http://localhost:3000/${this.props.slug}/${this.props.brand}/}`} ></link>
+        //         }
+        //     } else {
+        //         linkRel = <link rel="next" href={`http://localhost:3000/${this.props.slug}/page/${parseInt(this.props.pageNumber) + 1}`} ></link>
+        //         if ((parseInt(this.props.pageNumber) - 1) === 1) {
+        //             linkRelPrev = <link rel="prev" href={`http://localhost:3000/${this.props.slug}/`} ></link>
+        //         } else {
+        //             linkRelPrev = <link rel="prev" href={`http://localhost:3000/${this.props.slug}/page/${parseInt(this.props.pageNumber) - 1}`} ></link>
+        //         }
+        //     }
+        // }
         return (
             <div>
                 <Head>
                     <title> {this.props.title ? this.props.title : 'No title'}</title>
-                    <meta name="description" content={this.props.meta_description ? this.props.meta_description : 'This is category page'} />
+                    {/* <meta name="description" content={this.props.meta_description ? this.props.meta_description : 'This is category page'} /> */}
                     {/* CSS */}
-                    {linkRel}
-                    {linkRelPrev}
+                    {/* {linkRel}
+                    {linkRelPrev} */}
                     <link rel="stylesheet" href="http://localhost:3000/static/css/bootstrap.min.css" ></link>
                     <link rel="stylesheet" href="http://localhost:3000/static/css/font-awesome.min.css" />
                     <link rel="stylesheet" href="http://localhost:3000/static/css/icofont.css" />
@@ -89,7 +89,7 @@ export default class Header extends React.Component {
                                 <ul className="nav navbar-nav">
                                     <li className="active"><a href="/">Home <span className="caret"></span></a>
                                     </li>
-                                    {
+                                    {/* {
                                         this.props.categories.map((value, index) => {
                                             if (!value.parent_ID) {
                                                 let x = value.ID
@@ -109,7 +109,7 @@ export default class Header extends React.Component {
                                                 </Category_nav>
                                             }
                                         })
-                                    }
+                                    } */}
                                 </ul>
                             </div>
                         </div> {/* container */}
