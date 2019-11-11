@@ -93,6 +93,15 @@ server.get("/sitemap.xml", function(req, res) {
     fs.writeFileSync(SITEMAP_DESTINATION, xmlFile);
   })();
 });
+server.get("/:slug/:/brand?/page/:page", (req, res) => {
+  const { page } = req.params;
+  console.log(page);
+  if(typeof parseInt(page) == 'number' && parseInt(page) !== Nan){
+    return app.render(req, res, `/`);
+  }else{
+    return app.render(req, res, `/notfound`);
+  }
+})
 server.get("/:slug/:brand?", (req, res) => {
   connection.query(
     "SELECT * from categories; SELECT * from product_heirarchy where type='brand'; SELECT * from product_heirarchy where type='family'; SELECT * from product_heirarchy where type='series'; SELECT * from products; SELECT * from product_meta; SELECT * from variant;",

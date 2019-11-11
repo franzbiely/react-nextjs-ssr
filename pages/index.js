@@ -477,6 +477,9 @@ class Home extends React.Component {
         }`}
       >
         <Header
+          slug = {this.state.Slug}
+          brand = {this.state.Brand}
+          pageNumber = {pageNo}
           meta_description={pageDescription}
           title={pageTitle}
           categories={data.categories}
