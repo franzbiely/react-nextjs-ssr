@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React from 'react'
 import "./header.scss"
-import { Link } from '../../routes';
+import { Link } from '../server/routes';
 export default class Header extends React.Component {
     constructor(props) {
         super(props)

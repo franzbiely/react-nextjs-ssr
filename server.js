@@ -1,5 +1,5 @@
 // server.js
-const                        axios = require("axios");
+const axios = require("axios");
 const fs = require("fs");
 const next = require("next");
 const routes = require("./routes");
@@ -176,6 +176,6 @@ server.get("/:slug/:brand?", (req, res) => {
 });
 app.prepare().then(() => {
   server.use(handler).listen(3000, function() {
-    console.log("Go to http://techlitic.com/users so you can see the data.");
+    console.log("Go to http://localhost:3000/users so you can see the data.");
   });
 });

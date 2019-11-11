@@ -134,7 +134,7 @@ export default class Model extends Component {
           <div className="model-container">
             <div className="product-image-section">
               <img
-                src={"http://techlitic.com/static/images/laptop_sample.png"}
+                src={"http://localhost:3000/static/images/laptop_sample.png"}
                 alt="laptop"
               ></img>
               <div className="col-sm-12 product-gallery">
@@ -143,7 +143,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://techlitic.com/static/images/laptop_sample.png"
+                        "http://localhost:3000/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -154,7 +154,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://techlitic.com/static/images/laptop_sample.png"
+                        "http://localhost:3000/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -165,7 +165,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://www.techlitic.com/static/images/laptop_sample.png"
+                        "http://www.localhost:3000/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -176,7 +176,7 @@ export default class Model extends Component {
                   <div>
                     <img
                       src={
-                        "http://techlitic.com/static/images/laptop_sample.png"
+                        "http://localhost:3000/static/images/laptop_sample.png"
                       }
                       alt="laptop"
                     ></img>
@@ -408,7 +408,7 @@ export default class Model extends Component {
                                   {
                                     // value.image ?
                                     // <img src={value.image} alt={value.name}></img> :
-                                    <img src="http://techlitic.com/static/images/default.png" alt={value.name}></img>
+                                    <img src="http://localhost:3000/static/images/default.png" alt={value.name}></img>
                                   }
                                   <span>{value.name}</span>
                                 </div>
@@ -431,7 +431,7 @@ export default class Model extends Component {
                                   {
                                     value.image ?
                                     <img src={value.image} alt={value.name}></img> :
-                                    <img src="http://techlitic.com/static/images/default.png" alt={value.name}></img>
+                                    <img src="http://localhost:3000/static/images/default.png" alt={value.name}></img>
                                   }
                                   <span>{value.name}</span>
                                 </div>
