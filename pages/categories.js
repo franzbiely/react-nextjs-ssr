@@ -271,9 +271,9 @@ export default class Categories extends Component {
     //     }
 
     return (
-      <div>
+      <div className="page-body">
         <Header />
-        <div className="page-body category-page">
+        <div className=" category-page">
           <div className="container content">
             <div className="breadcrumbs">
               <ul className="breadcrumbs">
@@ -361,6 +361,7 @@ export default class Categories extends Component {
             </div>
           </div>
         </div>
+        <Footer/>
       </div>
     );
   }
