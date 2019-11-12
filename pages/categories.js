@@ -9,12 +9,13 @@ import Footer from "../components/partials/footer"
 
 export default class Categories extends Component {
   static getInitialProps = async ({ query }) => {
-    const res = await fetch(`http://localhost:3000/api/getproductsbybrand/${query.slug}`)
-    const data = await res.json()
-    const families = await fetch(`http://localhost:3000/api/getfamiliesbybrand/${query.slug}`)
-    const data_families = await families.json();
+    const category = await fetch(`http://localhost:3000/api/getcategory/${query.param1}`);
+    const data_category = await category.json();
 
-    return { data: data, slug: query.slug, families: data_families };
+
+  return { 
+      category: data_category, 
+    };
   }
   constructor(props) {
     super(props);
@@ -85,8 +86,9 @@ export default class Categories extends Component {
 
     //     let pageNumber = parseInt(this.props.page);
     const { icon } = this.state;
-    const { families, data } = this.props
+    const { category } = this.props
     let PostLink;
+    let img;
     //     let pageChildren;
     //     let childrenName;
     //     let pageName;
@@ -107,7 +109,7 @@ export default class Categories extends Component {
     //     let modelSlugsArr = [];
     //     let subcategoriesSlugsArr = [];
     //     let products = [];
-    let img;
+  
     //     brandsArr.map(values => {
     //       brandNamesArr.push(values.name)
     //       brandSlugsArr.push(values.slug)
@@ -170,8 +172,8 @@ export default class Categories extends Component {
     //         })
     //       }
     PostLink = props => (
-      <Link href={`/${props.slug}/`}
-        params={{ cat: props.category, brand: props.id, slug: props.slug }}
+      <Link href={`/${props.param1}/${props.param2}`}
+        params={{ cat: props.category, brand: props.id, param1: props.param1 }}
       >
         <a>{props.id}</a>
       </Link>
@@ -283,7 +285,7 @@ export default class Categories extends Component {
               </ul>
             </div>
 
-            <h1 style={{ color: "white" }}>{this.props.slug}</h1>
+            <h1 style={{ color: "white" }}>{ category[0].name ? category[0].name : '' }</h1>
             <SearchBar />
             <div className="row">
               <div className="col-sm-3">
@@ -301,18 +303,19 @@ export default class Categories extends Component {
                     </a>
                     <div id="collapse1" className="panel-collapse collapse">
                       <div>
-                        {
+                        {/* {
                           families.map((value, key) => {
                             return (
                               <div key={key} className="brand-item-container">
                                 <PostLink
                                   id={value.name}
-                                  slug={value.slug}
+                                  param2={value.slug}
+                                  param1={this.props.param1}
                                 />
                               </div>
                             );
                           })
-                        }
+                        } */}
                       </div>
                     </div>
                   </div>
@@ -323,7 +326,7 @@ export default class Categories extends Component {
                   <h2>Results: </h2>
 
                   <ul type="none">
-                    {
+                    {/* {
                       data.map((product, key) => {
                         // if (product.image) {
                         //   img = <img src={product.image} alt="laptops" width="200" height="100" />
@@ -338,14 +341,14 @@ export default class Categories extends Component {
                           </div>
 
                           <div className="col-md-9">
-                            <Link href={`/${this.props.slug}/${product.slug}/`}>
+                            <Link href={`/${this.props.param1}/${product.slug}/`}>
                               <a><h3>{product.name}</h3></a>
                             </Link>
 
                           </div>
                         </li>
                       })
-                    }
+                    } */}
                   </ul>
                   <div style={{ textAlign: "center" }}>
                     {/* <Pagination

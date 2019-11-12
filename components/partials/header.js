@@ -89,27 +89,10 @@ export default class Header extends React.Component {
                                 <ul className="nav navbar-nav">
                                     <li className="active"><a href="/">Home <span className="caret"></span></a>
                                     </li>
-                                    {/* {
-                                        this.props.categories.map((value, index) => {
-                                            if (!value.parent_ID) {
-                                                let x = value.ID
-                                                let y = value.slug
-                                                return <Category_nav key={index} slug={value.slug} id={value.name}>
-                                                    {
-                                                        this.props.categories.map((value, index) => {
-                                                            if (value.parent_ID) {
-                                                                if (x == value.parent_ID) {
-                                                                    return <li key={index}><Link href={`/${y}/${value.slug}/`} params={{ slug: value.name }}><a>{value.name}</a></Link></li>
-                                                                }
-                                                            } else {
-                                                                return null;
-                                                            }
-                                                        })
-                                                    }
-                                                </Category_nav>
-                                            }
-                                        })
-                                    } */}
+                                    <li><a href="/laptops">Laptops<span className="caret"></span></a>
+                                    </li>
+                                    <li><a href="/tablets">Tablets<span className="caret"></span></a>
+                                    </li>
                                 </ul>
                             </div>
                         </div> {/* container */}

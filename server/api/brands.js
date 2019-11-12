@@ -6,8 +6,9 @@ const Database = require('../services/database')
 module.exports = function(app){
 
     const database = new Database(config.dev)
-    app.get("/api/getbrands", (req, res) => {
-        database.query("SELECT * FROM product_heirarchy WHERE type='brand' LIMIT 200",
+    app.get("/api/getbrands/:slug", (req, res) => {
+        const { slug } = req.params;
+        database.query("SELECT * FROM product_heirarchy WHERE slug='"+slug+"' AND type='brand'",
         (error, result) => {
             if(error) throw error;
            return res.send(result) 
@@ -29,9 +30,12 @@ module.exports = function(app){
            return res.send(result) 
         })
     })
-    app.get("/api/getseriesbybrand/:slug", (req, res) => {
+    app.get("/api/getseriesbyfamily/:slug", (req, res) => {
         const { slug } = req.params;
-        database.query("SELECT c.* FROM `product_heirarchy` as a, product_heirarchy as b, product_heirarchy as c WHERE a.slug = '"+slug+"' AND b.parent_ID = a.ID AND c.parent_ID = b.ID AND a.type='brand' AND b.type='family' AND c.type='series' LIMIT 200",
+        database.query("SELECT b.* FROM `product_heirarchy` as a, \
+        product_heirarchy as b \
+        WHERE a.slug = '"+slug+"' \
+        AND b.parent_ID = a.ID",
         (error, result) => {
             if(error) throw error;
            return res.send(result) 

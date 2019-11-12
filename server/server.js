@@ -11,6 +11,9 @@ const Database = require('./services/database')
 
 require('./api/brands')(server);
 require('./api/categories')(server);
+require('./api/models')(server);
+require('./api/families')(server);
+require('./api/series')(server);
 
 app.prepare()
 .then(()=> {
@@ -24,6 +27,10 @@ app.prepare()
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
         next()
     })
+    server.get("/:slug/page/:page", (req, res) => {
+        const { slug, page } = req.params;
+        return app.render(res, req, 'categories')
+    })
     const routerHandler = routes.getRequestHandler(app, ({req, res, route, query}) => {
         if(req.params[0]==='/_next/webpack-hmr' || req.params[0] === '/favicon.ico') {
             return;
@@ -33,11 +40,15 @@ app.prepare()
         params = params.filter((el) => el !== '')
         const database = new Database(config.dev)
         if(params.length === 1) {
-            database.query("SELECT type FROM product_heirarchy WHERE slug = '"+params[0]+"'")
+            database.query("SELECT type FROM product_heirarchy WHERE slug = '"+params[0]+"'; \
+            SELECT * FROM categories WHERE slug = '"+params[0]+"'")
             .then(result => {
-                if(result.length > 0) {
-                    console.log(result)
-                    app.render(req, res, 'categories', query)
+                
+                if(result[0].length > 0) {
+                        return app.render(req, res, 'brand', query)
+                }
+                else if(result[1].length > 0){
+                        return app.render(req, res, 'categories', query)
                 }
                 else {
                     app.render(req, res, '_error', query)
@@ -47,17 +58,48 @@ app.prepare()
             .catch(() => database.close())
         }
         else if (params.length === 2) {
-            database.query("SELECT type \
-                            FROM products as a, products as b \
-                            WHERE a.slug = '" + params[1] + "' \
-                            AND b.slug ='"+params[0]+"' \
-                            AND b.ID = a.parent_ID")
+            database.query(
+            "SELECT type FROM product_heirarchy\
+             WHERE slug='"+params[1]+"'; SELECT * FROM products as a\
+             WHERE a.slug='"+params[1]+"'")
             .then(result => {
-                if(result.length > 0) {
-                    app.render(req, res, 'model', query)
+                if(result[0].length > 0 && result[1].length === 0 ) {
+                    if(result[0][0].type === 'family'){
+                        database.query("SELECT a.* FROM product_heirarchy as a, product_heirarchy as b INNER JOIN product_heirarchy WHERE b.slug='"+params[0]+"' AND a.slug = '"+params[1]+"' AND b.type='brand' AND a.type='family' AND b.ID = a.parent_ID LIMIT 1")
+                        .then(result => { 
+                            if(result.length > 0){
+                                return app.render(req, res, 'family', query)
+                            }else{
+                                return app.render(req, res, 'notfound', query)
+                            }
+                        })
+                    }
+                    else if(result[0][0].type === 'series'){
+                        database.query("SELECT c.* FROM product_heirarchy as a, product_heirarchy as b, product_heirarchy as c INNER JOIN product_heirarchy WHERE b.slug='"+params[0]+"' AND c.slug = '"+params[1]+"' AND b.type='brand' AND a.type='family' and c.type='series' AND b.ID = a.parent_ID AND a.ID = c.parent_ID LIMIT 1")
+                        .then(result => { 
+                            if(result.length > 0){
+                                return app.render(req, res, 'series', query)
+                            }else{
+                                return app.render(req, res, 'notfound', query)
+                            }
+                        })
+                    }
+                    else{
+                        return app.render(req, res, 'categories', query)
+                    }
                 }
-                else {
-                    return database.query("SELECT ID from categories WHERE slug ='"+params[0]+"'")
+                else if(result[1].length > 0) {
+                   database.query("SELECT a.* FROM products as a, product_heirarchy as b, product_heirarchy as c, product_heirarchy as d INNER JOIN product_heirarchy WHERE b.slug='"+params[0]+"' AND a.slug = '"+params[1]+"' AND b.type='brand' AND c.type='family' AND d.type='series' AND b.ID = c.parent_ID AND c.ID = d.parent_ID AND a.parent_ID = d.ID LIMIT 1")
+                   .then(result => {
+                       if(result.length > 0){
+                        return app.render(req, res, 'model', query)
+                       }
+                       else{
+                        return app.render(req, res, 'notfound', query)
+                       }
+                   }
+                   )
+                    
                 }
             })
             .catch(() => database.close())
@@ -66,3 +108,19 @@ app.prepare()
     server.get('*', routerHandler)
     server.listen(3000, ()=>console.log('Techlitic running on http://localhost:3000/'))
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
