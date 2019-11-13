@@ -14,7 +14,10 @@ export default class Series extends Component {
         const models_by_series = await fetch(`http://localhost:3000/api/getmodelsbyseries/${query.param2}`)
         const data_models_by_series = await models_by_series.json()
 
-        return { series: data_series, models_by_series: data_models_by_series, param2: query.param2, param1: query.param1 };
+        const models_by_page = await fetch(`http://localhost:3000/api/getmodelsbyseries/${query.param2}/page/${query.page}`)
+        const data_models_by_page = await models_by_page.json()
+
+        return { productsByPage: data_models_by_page, series: data_series, products: data_models_by_series, param2: query.param2, param1: query.param1, page: query.page };
     }
 
     constructor(props) {
@@ -30,7 +33,15 @@ export default class Series extends Component {
     };
     render() {
         const { icon } = this.state;
-        const { series, models_by_series } = this.props
+        const { series, models_by_series, productsByPage, page, products } = this.props
+        let productCount = products.length;
+        let pageNumber;
+        if(page){
+            pageNumber = parseInt(page);
+        }
+        else{
+            pageNumber = 1;
+        }
         let PostLink;
         let img;
         PostLink = props => (
@@ -72,7 +83,7 @@ export default class Series extends Component {
                                         <div id="collapse1" className="panel-collapse collapse">
                                             <div>
                                                 {
-                                                    models_by_series.map((value, key) => {
+                                                    productsByPage.map((value, key) => {
                                                         return (
                                                             <div key={key} className="brand-item-container">
                                                                 <PostLink
@@ -95,37 +106,37 @@ export default class Series extends Component {
 
                                     <ul type="none">
                                         {
-                                            // products.map((product, key) => {
-                                            //     // if (product.image) {
-                                            //     //   img = <img src={product.image} alt="laptops" width="200" height="100" />
-                                            //     // }
-                                            //     // else {
-                                            //     img = <img src="http://localhost:3000/static/images/default.png" alt="laptops" width="200" height="100" />
-                                            //     // }
-                                            //     return <li key={key} className="row">
+                                            productsByPage.map((product, key) => {
+                                                // if (product.image) {
+                                                //   img = <img src={product.image} alt="laptops" width="200" height="100" />
+                                                // }
+                                                // else {
+                                                img = <img src="http://localhost:3000/static/images/default.png" alt="laptops" width="200" height="100" />
+                                                // }
+                                                return <li key={key} className="row">
 
-                                            //         <div className="col-md-3">
-                                            //             {img}
-                                            //         </div>
+                                                    <div className="col-md-3">
+                                                        {img}
+                                                    </div>
 
-                                            //         <div className="col-md-9">
-                                            //             <Link href={`/${this.props.param1}/${product.slug}/`}>
-                                            //                 <a><h3>{product.name}</h3></a>
-                                            //             </Link>
+                                                    <div className="col-md-9">
+                                                        <Link href={`/${this.props.param1}/${product.slug}/`}>
+                                                            <a><h3>{product.name}</h3></a>
+                                                        </Link>
 
-                                            //         </div>
-                                            //     </li>
-                                            // })
+                                                    </div>
+                                                </li>
+                                            })
                                         }
                                     </ul>
                                     <div style={{ textAlign: "center" }}>
-                                        {/* <Pagination
-                      activePage={pageNumber}
-                      itemsCountPerPage={20}
-                      totalItemsCount={productCount}
-                      pageRangeDisplayed={5}
-                      onChange={this.handlePageChange}
-                    /> */}
+                                        <Pagination
+                                            activePage={pageNumber}
+                                            itemsCountPerPage={20}
+                                            totalItemsCount={productCount}
+                                            pageRangeDisplayed={5}
+                                            onChange={this.handlePageChange}
+                                        />
                                     </div>
                                 </div>
                             </div>

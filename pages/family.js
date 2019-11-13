@@ -13,8 +13,13 @@ export default class Series extends Component {
         const data_family = await family.json();
         const series = await fetch(`http://localhost:3000/api/getseriesbyfamily/${query.param2}`)
         const data_series = await series.json()
+        const products_by_family = await fetch(`http://localhost:3000/api/getmodelsbyfamily/${query.param2}`)
+        const data_products_by_family = await products_by_family.json()
 
-        return { family: data_family, series: data_series, param2: query.param2, param1: query.param1 };
+        const products_by_page = await fetch(`http://localhost:3000/api/getmodelsbyfamily/${query.param2}/page/${query.page}`)
+        const data_products_by_page = await products_by_page.json()
+
+        return { productsByPage: data_products_by_page, family: data_family, series: data_series, products: data_products_by_family, param2: query.param2, param1: query.param1, page: query.page};
     }
 
     constructor(props) {
@@ -30,10 +35,17 @@ export default class Series extends Component {
     };
     render() {
         const { icon } = this.state;
-        const { family, series } = this.props
-        console.log(family)
+        const { family, series, products, productsByPage, page } = this.props
         let PostLink;
         let img;
+        let pageNumber;
+        if(page){
+            pageNumber = parseInt(page);
+        }
+        else{
+            pageNumber = 1;
+        }
+        let productCount = products.length;
         PostLink = props => (
             <Link href={`/${props.param1}/${props.param2}`}
                 params={{ cat: props.category, brand: props.id, param1: props.param1 }}
@@ -96,37 +108,37 @@ export default class Series extends Component {
 
                                     <ul type="none">
                                         {
-                                            // products.map((product, key) => {
-                                            //     // if (product.image) {
-                                            //     //   img = <img src={product.image} alt="laptops" width="200" height="100" />
-                                            //     // }
-                                            //     // else {
-                                            //     img = <img src="http://localhost:3000/static/images/default.png" alt="laptops" width="200" height="100" />
-                                            //     // }
-                                            //     return <li key={key} className="row">
+                                            productsByPage.map((product, key) => {
+                                                // if (product.image) {
+                                                //   img = <img src={product.image} alt="laptops" width="200" height="100" />
+                                                // }
+                                                // else {
+                                                img = <img src="http://localhost:3000/static/images/default.png" alt="laptops" width="200" height="100" />
+                                                // }
+                                                return <li key={key} className="row">
 
-                                            //         <div className="col-md-3">
-                                            //             {img}
-                                            //         </div>
+                                                    <div className="col-md-3">
+                                                        {img}
+                                                    </div>
 
-                                            //         <div className="col-md-9">
-                                            //             <Link href={`/${this.props.param1}/${product.slug}/`}>
-                                            //                 <a><h3>{product.name}</h3></a>
-                                            //             </Link>
+                                                    <div className="col-md-9">
+                                                        <Link href={`/${this.props.param1}/${product.slug}/`}>
+                                                            <a><h3>{product.name}</h3></a>
+                                                        </Link>
 
-                                            //         </div>
-                                            //     </li>
-                                            // })
+                                                    </div>
+                                                </li>
+                                            })
                                         }
                                     </ul>
                                     <div style={{ textAlign: "center" }}>
-                                        {/* <Pagination
-                      activePage={pageNumber}
-                      itemsCountPerPage={20}
-                      totalItemsCount={productCount}
-                      pageRangeDisplayed={5}
-                      onChange={this.handlePageChange}
-                    /> */}
+                                        <Pagination
+                                            activePage={pageNumber}
+                                            itemsCountPerPage={20}
+                                            totalItemsCount={productCount}
+                                            pageRangeDisplayed={5}
+                                            onChange={this.handlePageChange}
+                                        />
                                     </div>
                                 </div>
                             </div>

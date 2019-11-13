@@ -25,4 +25,37 @@ module.exports = function(app){
            return res.send(result) 
         })
     })
+    app.get("/api/getmodelsbyfamily/:slug", (req, res) => {
+        const { slug } = req.params;
+        database.query("SELECT p.* FROM product_heirarchy as a, \
+        product_heirarchy as b \
+        LEFT OUTER JOIN products as p \
+        ON b.ID = p.parent_ID \
+        WHERE b.type = 'series' \
+        AND a.type= 'family' \
+        AND a.slug = '"+slug+"' \
+        AND a.ID = b.parent_ID LIMIT 200",
+        (error, result) => {
+            if(error) throw error;
+           return res.send(result) 
+        })
+    })
+
+    app.get("/api/getmodelsbyfamily/:slug/page/:page", (req, res) => {
+        const { slug, page } = req.params;
+        let pageNum = parseInt(page) - 1;
+        database.query(`SELECT p.* FROM product_heirarchy as a, 
+        product_heirarchy as b 
+        LEFT OUTER JOIN products as p 
+        ON b.ID = p.parent_ID 
+        WHERE b.type = 'series' 
+        AND a.type= 'family' 
+        AND a.slug = '${slug}' 
+        AND a.ID = b.parent_ID LIMIT 20 OFFSET ${pageNum ? pageNum * 20 : 0}`,
+        (error, result) => {
+            if(error) throw error;
+           return res.send(result) 
+        })
+    })
+    
 }

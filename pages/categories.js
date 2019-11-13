@@ -11,10 +11,21 @@ export default class Categories extends Component {
   static getInitialProps = async ({ query }) => {
     const category = await fetch(`http://localhost:3000/api/getcategory/${query.param1}`);
     const data_category = await category.json();
+    const models_by_category = await fetch(`http://localhost:3000/api/getmodelsbycategory/${query.param1}`);
+    const data_models_by_category = await models_by_category.json();
+    const brands_by_category = await fetch(`http://localhost:3000/api/getbrandsbycategory/${query.param1}`);
+    const data_brands_by_category = await brands_by_category.json();
 
+    const products_by_page = await fetch(`http://localhost:3000/api/getmodelsbycategory/${query.param1}/page/${query.page}`)
+    const data_products_by_page = await products_by_page.json()
 
-  return { 
-      category: data_category, 
+    return {
+      category: data_category,
+      products: data_models_by_category,
+      brands: data_brands_by_category,
+      productsByPage: data_products_by_page,   
+      firstParam: query.param1,
+      page : query.page
     };
   }
   constructor(props) {
@@ -22,21 +33,18 @@ export default class Categories extends Component {
     this.state = {
       icon: true,
     }
-
   }
 
-  //   handlePageChange = pageNumber => {
-  //     if(pageNumber && pageNumber > 1){
-  //       window.location.href = `http://localhost:3000/${this.props.pageSlug}/page/${pageNumber}`
-  //     }else{
-  //       window.location.href = `http://localhost:3000/${this.props.pageSlug}/`
-  //     }
-
-  //   }
-  handleClick = e => {
-    const { icon } = this.state;
-    this.setState({ icon: !icon });
-  };
+  handlePageChange(pageNumber){
+    alert('hello')
+    // const { firstParam } = this.props
+    // if(pageNumber && pageNumber > 1){
+    //   window.location.href = `http://localhost:3000/${firstParam}/page/${pageNumber}`
+    // }else{
+    //   window.location.href = `http://localhost:3000/${firstParam}/`
+    // }
+  }
+ 
   //   getPageChildChildren(x, y) {
   //     let t = []
 
@@ -82,13 +90,24 @@ export default class Categories extends Component {
   //     }
   //     return t;
   //   }
-  render() {
-
-    //     let pageNumber = parseInt(this.props.page);
+  handleClick = e => {
     const { icon } = this.state;
-    const { category } = this.props
-    let PostLink;
+    this.setState({ icon: !icon });
+  }
+
+  render() {  
+   
+    const { icon } = this.state;
+    const { category, brands, products, productsByPage, firstParam, page } = this.props
+    let pageNumber;
+    if(page){
+      pageNumber = parseInt(page);
+    }else{
+      pageNumber = 1;
+    }
+    let PostLink, BrandLink ;
     let img;
+    let productCount = products.length;
     //     let pageChildren;
     //     let childrenName;
     //     let pageName;
@@ -109,7 +128,7 @@ export default class Categories extends Component {
     //     let modelSlugsArr = [];
     //     let subcategoriesSlugsArr = [];
     //     let products = [];
-  
+
     //     brandsArr.map(values => {
     //       brandNamesArr.push(values.name)
     //       brandSlugsArr.push(values.slug)
@@ -174,6 +193,13 @@ export default class Categories extends Component {
     PostLink = props => (
       <Link href={`/${props.param1}/${props.param2}`}
         params={{ cat: props.category, brand: props.id, param1: props.param1 }}
+      >
+        <a>{props.id}</a>
+      </Link>
+    );
+    BrandLink = props => (
+      <Link href={`/${props.slug}`}
+        params={{cat: props.category, brand: props.id, param1: props.param1}}
       >
         <a>{props.id}</a>
       </Link>
@@ -285,16 +311,16 @@ export default class Categories extends Component {
               </ul>
             </div>
 
-            <h1 style={{ color: "white" }}>{ category[0].name ? category[0].name : '' }</h1>
+            <h1 style={{ color: "white" }}>{category[0].name ? category[0].name : ''}</h1>
             <SearchBar />
             <div className="row">
               <div className="col-sm-3">
                 <div className="panel-group">
                   <div className="panel panel-default">
                     <a data-toggle="collapse" href="#collapse1">
-                      <div className="panel-heading" onClick={this.handleClick}>
-                        <span className="panel-title">
-                          All{/* All {childrenName}*/}
+                      <div className="panel-heading" onClick={ this.handleClick }>
+                        <span className="panel-title" >
+                          All Brands
                           <span className="large material-icons">
                             {icon ? "+" : "-"}
                           </span>
@@ -303,19 +329,18 @@ export default class Categories extends Component {
                     </a>
                     <div id="collapse1" className="panel-collapse collapse">
                       <div>
-                        {/* {
-                          families.map((value, key) => {
+                        {
+                          brands.map((value, key) => {
                             return (
                               <div key={key} className="brand-item-container">
-                                <PostLink
+                                <BrandLink
                                   id={value.name}
-                                  param2={value.slug}
-                                  param1={this.props.param1}
+                                  slug={value.slug}
                                 />
                               </div>
                             );
                           })
-                        } */}
+                        }
                       </div>
                     </div>
                   </div>
@@ -326,8 +351,8 @@ export default class Categories extends Component {
                   <h2>Results: </h2>
 
                   <ul type="none">
-                    {/* {
-                      data.map((product, key) => {
+                    {
+                      productsByPage.map((product, key) => {
                         // if (product.image) {
                         //   img = <img src={product.image} alt="laptops" width="200" height="100" />
                         // }
@@ -348,23 +373,23 @@ export default class Categories extends Component {
                           </div>
                         </li>
                       })
-                    } */}
+                    }
                   </ul>
                   <div style={{ textAlign: "center" }}>
-                    {/* <Pagination
+                    <Pagination
                       activePage={pageNumber}
                       itemsCountPerPage={20}
                       totalItemsCount={productCount}
                       pageRangeDisplayed={5}
                       onChange={this.handlePageChange}
-                    /> */}
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <Footer/>
+        <Footer />
       </div>
     );
   }

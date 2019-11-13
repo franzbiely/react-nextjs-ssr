@@ -27,19 +27,16 @@ app.prepare()
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
         next()
     })
-    server.get("/:slug/page/:page", (req, res) => {
-        const { slug, page } = req.params;
-        return app.render(res, req, 'categories')
-    })
+    
     const routerHandler = routes.getRequestHandler(app, ({req, res, route, query}) => {
         if(req.params[0]==='/_next/webpack-hmr' || req.params[0] === '/favicon.ico') {
             return;
         }
-
         let params = req.params[0].split('/')
+        
         params = params.filter((el) => el !== '')
         const database = new Database(config.dev)
-        if(params.length === 1) {
+        if(params.length === 1 || params.length === 3) {
             database.query("SELECT type FROM product_heirarchy WHERE slug = '"+params[0]+"'; \
             SELECT * FROM categories WHERE slug = '"+params[0]+"'")
             .then(result => {
@@ -57,7 +54,7 @@ app.prepare()
             })
             .catch(() => database.close())
         }
-        else if (params.length === 2) {
+        else if (params.length === 2 || params.length === 4) {
             database.query(
             "SELECT type FROM product_heirarchy\
              WHERE slug='"+params[1]+"'; SELECT * FROM products as a\
@@ -104,6 +101,7 @@ app.prepare()
             })
             .catch(() => database.close())
         }
+        
     })
     server.get('*', routerHandler)
     server.listen(3000, ()=>console.log('Techlitic running on http://localhost:3000/'))
