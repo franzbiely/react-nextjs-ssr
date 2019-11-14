@@ -15,11 +15,13 @@ export default class Categories extends Component {
         const data_products_by_brand = await products_by_brand.json()
         const families_by_brand = await fetch(`http://localhost:3000/api/getfamiliesbybrand/${query.param1}`)
         const data_families_by_brand = await families_by_brand.json()
+        const category_by_brand = await fetch(`http://localhost:3000/api/getcategorybybrand/${query.param1}`)
+        const data_category_by_brand = await  category_by_brand.json()
 
         const products_by_page = await fetch(`http://localhost:3000/api/getproductsbybrand/${query.param1}/page/${query.page}`)
         const data_products_by_page = await products_by_page.json()
 
-        return { productsByPage:data_products_by_page,  brand: data_brand, products: data_products_by_brand, families: data_families_by_brand, param1: query.param1, page: query.page };
+        return { categoryByBrand : data_category_by_brand, productsByPage:data_products_by_page,  brand: data_brand, products: data_products_by_brand, families: data_families_by_brand, param1: query.param1, page: query.page };
     }
 
     constructor(props) {
@@ -34,7 +36,7 @@ export default class Categories extends Component {
     };
     render() {
         const { icon } = this.state;
-        const { brand, products, families, productsByPage, page } = this.props
+        const { brand, products, families, productsByPage, page, categoryByBrand } = this.props
         let PostLink;
         let pageNumber;
         if(page){
@@ -53,12 +55,12 @@ export default class Categories extends Component {
         );
         return (
             <div className="page-body">
-                <Header />
+                <Header title={brand[0].name} />
                 <div className=" category-page">
                     <div className="container content">
                         <div className="breadcrumbs">
                             <ul className="breadcrumbs">
-                                {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> : <li><Link route="/"><a>Home</a></Link></li>}
+                                <li><Link href={`/${categoryByBrand[0].slug}`}><a>{categoryByBrand[0].name}</a></Link></li>
                             </ul>
                         </div>
 

@@ -88,4 +88,16 @@ module.exports = function(app){
            return res.send(result) 
         })
     })
+    app.get("/api/getspecsbymodel/:slug", (req, res) => {
+        const { slug } = req.params;
+        database.query(`SELECT pm.*
+        FROM products as p
+        INNER JOIN variant as v ON p.ID = v.parent_ID
+        INNER JOIN product_meta as pm ON pm.product_ID = v.ID
+        WHERE p.slug = '${ slug }'`,    
+        (error, result) => {
+            if(error) throw error;
+           return res.send(result) 
+        })
+    })
 }

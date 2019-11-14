@@ -13,11 +13,27 @@ export default class Series extends Component {
         const data_series = await series.json();
         const models_by_series = await fetch(`http://localhost:3000/api/getmodelsbyseries/${query.param2}`)
         const data_models_by_series = await models_by_series.json()
+        const category_by_brand = await fetch(`http://localhost:3000/api/getcategorybybrand/${query.param1}`)
+        const data_category_by_brand = await  category_by_brand.json()
+        const family_by_series = await fetch(`http://localhost:3000/api/getfamilybyseries/${query.param2}`)
+        const data_family_by_series = await  family_by_series.json()
+        const brand_by_series = await fetch(`http://localhost:3000/api/getbrandbyseries/${query.param2}`)
+        const data_brand_by_series = await  brand_by_series.json()
 
         const models_by_page = await fetch(`http://localhost:3000/api/getmodelsbyseries/${query.param2}/page/${query.page}`)
         const data_models_by_page = await models_by_page.json()
 
-        return { productsByPage: data_models_by_page, series: data_series, products: data_models_by_series, param2: query.param2, param1: query.param1, page: query.page };
+        return { 
+            brandBySeries: data_brand_by_series, 
+            familyBySeries: data_family_by_series, 
+            categoryByPage: data_category_by_brand, 
+            productsByPage: data_models_by_page, 
+            series: data_series, 
+            products: data_models_by_series, 
+            param2: query.param2, 
+            param1: query.param1, 
+            page: query.page 
+        };
     }
 
     constructor(props) {
@@ -33,7 +49,7 @@ export default class Series extends Component {
     };
     render() {
         const { icon } = this.state;
-        const { series, models_by_series, productsByPage, page, products } = this.props
+        const { series, productsByPage, page, products, categoryByPage, brandBySeries, familyBySeries } = this.props
         let productCount = products.length;
         let pageNumber;
         if(page){
@@ -53,14 +69,14 @@ export default class Series extends Component {
         );
         return (
             <div className="page-body">
-                <Header />
+                <Header title={series[0].name}/>
                 <div className=" category-page">
                     <div className="container content">
                         <div className="breadcrumbs">
                             <ul className="breadcrumbs">
-                                {/* {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> : <li><Link route="/"><a>Home</a></Link></li>}
-                {this.props.brand && this.props.bc_brandName ? <li><Link href={`/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
-                {this.props.bc_familyName && this.props.brand ? <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''} */}
+                                <li><Link href={`/${categoryByPage[0].slug}`}><a>{categoryByPage[0].name}</a></Link></li>
+                                <li><Link href={`/${brandBySeries[0].slug}`}><a>{brandBySeries[0].name}</a></Link></li> 
+                                <li><Link href={`/${brandBySeries[0].slug}/${familyBySeries[0].slug}`}><a>{familyBySeries[0].name}</a></Link></li>
                             </ul>
                         </div>
 

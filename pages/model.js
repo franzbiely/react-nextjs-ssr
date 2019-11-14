@@ -21,16 +21,38 @@ export default class Model extends Component {
     const data_category_by_model = await category_by_model.json()
     const models_by_series = await fetch(`http://localhost:3000/api/getmodelsbyseries/${data_series_by_model[0].slug}`)
     const data_models_by_series = await models_by_series.json()
-    const variants_by_models = await fetch(`http://localhost:3000/api/getvariantsbymodel/${query.param2}`)
-    const data_variants_by_models = await variants_by_models.json()
+    const variants_by_model = await fetch(`http://localhost:3000/api/getvariantsbymodel/${query.param2}`)
+    const data_variants_by_model = await variants_by_model.json()
+    const variant_specs_by_model = await fetch(`http://localhost:3000/api/getspecsbymodel/${query.param2}`)
+    const data_variant_specs_by_model = await variant_specs_by_model.json()
 
-    return ({ categoryByModel: data_category_by_model, model : data_model, brandByModel: data_brand_by_model, familyByModel: data_family_by_model, seriesByModel: data_series_by_model, modelsBySeries: data_models_by_series, variantsByModel: data_variants_by_models})
+    return ({ 
+      categoryByModel: data_category_by_model, 
+      model : data_model, 
+      brandByModel: data_brand_by_model, 
+      familyByModel: data_family_by_model, 
+      seriesByModel: data_series_by_model, 
+      modelsBySeries: data_models_by_series, 
+      variantsByModel: data_variants_by_model,
+      variantSpecsByModel : data_variant_specs_by_model
+    })
   
   }
   constructor(props){
     super(props)
     
   }
+  assignBlank(container){
+    container.push('none')
+  }
+  assignSpecs(productMeta, spec, container, key){
+    if(productMeta.meta_key === spec){
+      if(productMeta.meta_value){
+        container[key] = productMeta.meta_value;
+      }
+    }
+  }
+
   render() {
     const { 
       model, 
@@ -39,122 +61,58 @@ export default class Model extends Component {
       seriesByModel, 
       categoryByModel, 
       modelsBySeries,
-      variantsByModel 
+      variantsByModel,
+      variantSpecsByModel 
     } = this.props
-    // return(
-    //   <div className="page-body model-page"> 
-    //     <Header />
-    //     <h1>Models page</h1>
-    //     <Footer />
-    //   </div>
-    // )
-  //   let variantContainer = [];
-  //   let description;
-  //   let 
-  //   display_size = [], 
-  //   processors = [], 
-  //   gpu = [],
-  //   ram = [],
-  //   storage = [],
-  //   keyboard = [],
-  //   wifi = [],
-  //   weight = [],
-  //   operating_system = [],
-  //   where_to_buy =[],
-  //   similar_brands = [],
-  //   similar_category = [];
 
-  //   //Get similar brands in similar products section
-  //   if(this.props.brands){
-  //     this.props.brands.map(value => {
-  //       let brand = value;
-  //       if(value.name === this.props.bc_brandName){
-  //         this.props.families.map(value => {
-  //           let family = value;
-  //           if(value.parent_ID === brand.ID){
-  //             this.props.series.map(value => {
-  //               let series = value;
-  //               if(value.parent_ID === family.ID){
-  //                 this.props.models.map(value =>{
-  //                   if(value.parent_ID === series.ID && value.name !== model[0].name){
-  //                     similar_brands.push(value)
-  //                   }
-  //                 })
-  //               }
-  //             })
-  //           }
-  //         })
-  //       }
-  //     })
-  //   }
-  //   //Get similar categories in similar products section
-  //   if(this.props.categories){
-  //     this.props.categories.map(value => {
-  //       let category = value;
-  //       if(value.name === this.props.bc_CategoryName && !value.parent_ID){
-  //         this.props.brands.map(value => {
-  //           if(value.category_ID === category.ID && value.name !== this.props.bc_brandName){
-  //             similar_category.push(value)
-  //           }
-  //         })
-  //       }
-  //     })
-  //   }
-  //  let filtered_similar_brands = similar_brands.slice(0,6);
-  //  let filtered_similar_category = similar_category.slice(0,6)
-  //   //Get product's description and its variants
-  //   if(this.props.models){
-  //     this.props.models.map(value => {
-  //       let model = value;
-  //       if(value.name === model[0].name){
-  //         description = value.description;
-  //         this.props.variants.map(value => {
-  //           if(value.parent_ID === model.ID){
-  //             variantContainer.push(value)
-  //           }
-  //         })
-  //       }
-  //     })
-  //   }
-  //   let counter = 0;
-  //   for(let s = 0; s < variantContainer.length; s++){
-  //     where_to_buy.push('');
-  //     display_size.push('');
-  //     processors.push('');
-  //     gpu.push('');
-  //     ram.push('');
-  //     storage.push('');
-  //     keyboard.push('');
-  //     wifi.push('');
-  //     weight.push('');
-  //     operating_system.push('');
-  //   }
-    
-  //   if(variantContainer){
-  //     let p = -1;
-  //     variantContainer.map(value => {
-  //       let variant = value;
-  //       p++;
-  //     this.props.productMeta.map((value) => {
-  //         let productMeta = value;
-  //         if(variant.ID === productMeta.product_ID ){
-  //           this.assignSpecs(productMeta,'display-size', display_size, p);
-  //           this.assignSpecs(productMeta,'processors', processors, p);
-  //           this.assignSpecs(productMeta,'gpu', gpu, p);
-  //           this.assignSpecs(productMeta,'ram', ram, p);
-  //           this.assignSpecs(productMeta,'storage', storage, p);
-  //           this.assignSpecs(productMeta,'keyboard', keyboard, p);
-  //           this.assignSpecs(productMeta,'wifi', wifi, p);
-  //           this.assignSpecs(productMeta,'weight', weight, p);
-  //           this.assignSpecs(productMeta,'operating-system', operating_system, p);
-  //           this.assignSpecs(productMeta,'where-to-buy', where_to_buy, p); 
-  //         }
-  //       })
-  //     })
-  //   }
+    let 
+    display_size = [],
+    processors = [],
+    ram = [],
+    storage = [],
+    gpu = [],
+    keyboard = [],
+    wifi = [],
+    operating_system = [],
+    weight = [],
+    where_to_buy = []
+
+    variantsByModel.map(value => {
+      this.assignBlank(display_size)
+      this.assignBlank(processors)
+      this.assignBlank(ram)
+      this.assignBlank(storage)
+      this.assignBlank(gpu)
+      this.assignBlank(keyboard)
+      this.assignBlank(wifi)
+      this.assignBlank(operating_system)
+      this.assignBlank(weight)
+      this.assignBlank(where_to_buy)
+    })
+    let p=-1;
+    variantsByModel.map(variantItem => {
+      let variant = variantItem;
+      p++;
+      variantSpecsByModel.map(value => {
+        if(variant.ID === value.product_ID){
+          this.assignSpecs(value,'display-size', display_size, p);
+          this.assignSpecs(value,'processors', processors, p);
+          this.assignSpecs(value,'gpu', gpu, p);
+          this.assignSpecs(value,'ram', ram, p);
+          this.assignSpecs(value,'storage', storage, p);
+          this.assignSpecs(value,'keyboard', keyboard, p);
+          this.assignSpecs(value,'wifi', wifi, p);
+          this.assignSpecs(value,'weight', weight, p);
+          this.assignSpecs(value,'operating-system', operating_system, p);
+          this.assignSpecs(value,'where-to-buy', where_to_buy, p); 
+        }
+      })
+    })
+   
     return (
       <div className="page-body model-page">
-      <Header />
+      <Header title={model[0].name} />
+      
       <div className="container content">
           <div className="breadcrumbs">
             <ul className = "breadcrumbs">
@@ -294,7 +252,9 @@ export default class Model extends Component {
             <div>
               <h2>More about the {model[0].name}</h2>
               <p style={{textAlign: 'justify'}}>
-                {model[0].description}
+                {
+                model[0].description ? model[0].description : 'No description available for this product.'
+                }
               </p>
             </div>
           </div>
@@ -337,81 +297,81 @@ export default class Model extends Component {
                     <tr>
                       <td>Display</td>
                       {
-                        // display_size.map((values, key) =>{
-                        //     return <th key={key}>{values}</th>
-                        // })
+                        display_size.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                     <tr>
                       <td>Processor</td>
                       {
-                        // processors.map((values, key) =>{
-                        //     return <th key={key}>{values}</th>
-                        // })
+                        processors.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                     <tr>
                       <td>Ram</td>
                       {
-                        // ram.map((values, key) =>{
-                        //     return <th key={key}>{values}</th>
-                        // })
+                        ram.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                     <tr>
                       <td>Storage</td>
                       {
-                        // storage.map((values, key) =>{
-                        //     return <th key={key}>{values}</th>
-                        // })
+                        storage.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                     <tr>
                       <td>GPU</td>
                       {
-                        // gpu.map((values, key) =>{
-                        //     return <th key={key}>{values}</th>
-                        // })
+                        gpu.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                     <tr>
                       <td>Keyboard</td>
                       {
-                        // keyboard.map((values, key) =>{
-                        //     return <th key={key}>{values}</th>
-                        // })
+                        keyboard.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                     <tr>
                       <td>WiFi</td>
                       {
-                        // wifi.map((values, key) =>{
-                        //     return <th key={key}>{values}</th>
-                        // })
+                        wifi.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                     <tr>
                       <td>Operating System</td>
                       {
-                        // operating_system.map((values, key) =>{
-                        //     return <th key={key}>{values}</th>
-                        // })
+                        operating_system.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                     <tr>
                       <td>Weight</td>
                       {
-                        // weight.map((values, key) =>{
-                        //   return <th key={key}>{values}</th>
-                        // })
+                        weight.map((values, key) =>{
+                          return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                     <tr>
                       <td>Where to buy</td>
                       { 
-                        // where_to_buy.map((values, key) =>{
-                        //     return <th key={key}>{values}</th>
-                        // })
+                        where_to_buy.map((values, key) =>{
+                            return <th key={key}>{values}</th>
+                        })
                       }
                     </tr>
                   </tbody>

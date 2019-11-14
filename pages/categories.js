@@ -80,14 +80,12 @@ export default class Categories extends Component {
     );
     return (
       <div className="page-body">
-        <Header />
+        <Header title={category[0].name}/>
         <div className=" category-page">
           <div className="container content">
             <div className="breadcrumbs">
               <ul className="breadcrumbs">
-                {/* {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> : <li><Link route="/"><a>Home</a></Link></li>}
-                {this.props.brand && this.props.bc_brandName ? <li><Link href={`/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
-                {this.props.bc_familyName && this.props.brand ? <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''} */}
+                <li><Link route="/"><a>Home</a></Link></li>
               </ul>
             </div>
 

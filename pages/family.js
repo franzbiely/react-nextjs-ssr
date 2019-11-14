@@ -15,11 +15,25 @@ export default class Series extends Component {
         const data_series = await series.json()
         const products_by_family = await fetch(`http://localhost:3000/api/getmodelsbyfamily/${query.param2}`)
         const data_products_by_family = await products_by_family.json()
+        const category_by_brand = await fetch(`http://localhost:3000/api/getcategorybybrand/${query.param1}`)
+        const data_category_by_brand = await  category_by_brand.json()
+        const brand_by_family = await fetch(`http://localhost:3000/api/getbrandbyfamily/${query.param2}`)
+        const data_brand_by_family = await  brand_by_family.json()
 
         const products_by_page = await fetch(`http://localhost:3000/api/getmodelsbyfamily/${query.param2}/page/${query.page}`)
         const data_products_by_page = await products_by_page.json()
 
-        return { productsByPage: data_products_by_page, family: data_family, series: data_series, products: data_products_by_family, param2: query.param2, param1: query.param1, page: query.page};
+        return { 
+            firstParam: query.param1, 
+            brandByfamily: data_brand_by_family, 
+            categoryByBrand: data_category_by_brand, 
+            productsByPage: data_products_by_page, 
+            family: data_family, series: data_series, 
+            products: data_products_by_family, 
+            param2: query.param2, 
+            param1: query.param1, 
+            page: query.page
+        };
     }
 
     constructor(props) {
@@ -35,7 +49,7 @@ export default class Series extends Component {
     };
     render() {
         const { icon } = this.state;
-        const { family, series, products, productsByPage, page } = this.props
+        const { firstParam, family, series, products, productsByPage, page, categoryByBrand, brandByfamily } = this.props
         let PostLink;
         let img;
         let pageNumber;
@@ -55,14 +69,13 @@ export default class Series extends Component {
         );
         return (
             <div className="page-body">
-                <Header />
+                <Header title={family[0].name}/>
                 <div className=" category-page">
                     <div className="container content">
                         <div className="breadcrumbs">
                             <ul className="breadcrumbs">
-                                {/* {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> : <li><Link route="/"><a>Home</a></Link></li>}
-                {this.props.brand && this.props.bc_brandName ? <li><Link href={`/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
-                {this.props.bc_familyName && this.props.brand ? <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''} */}
+                                <li><Link href={`/${categoryByBrand[0].slug}`}><a>{categoryByBrand[0].name}</a></Link></li>
+                                <li><Link href={`/${brandByfamily[0].slug}`}><a>{brandByfamily[0].name}</a></Link></li> 
                             </ul>
                         </div>
 

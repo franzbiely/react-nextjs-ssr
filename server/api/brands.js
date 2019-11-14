@@ -22,14 +22,17 @@ module.exports = function(app){
            return res.send(result) 
         })
     })
-    // app.get("/api/getcategorybybrand/:slug", (req, res) => { 
-    //     const { slug } = req.params;
-    //     database.query("",
-    //     (error, result) => {
-    //         if(error) throw error;
-    //        return res.send(result) 
-    //     })
-    // })
+    app.get("/api/getcategorybybrand/:slug", (req, res) => { 
+        const { slug } = req.params;
+        database.query(`SELECT c.* FROM product_heirarchy as ph
+        INNER JOIN categories as c ON ph.parent_ID = c.ID
+        WHERE ph.type = 'brand'
+        AND ph.slug = '${slug}'`,
+        (error, result) => {
+            if(error) throw error;
+           return res.send(result) 
+        })
+    })
     app.get("/api/getproductsbybrand/:slug/page/:page", (req, res) => { 
         const { slug, page } = req.params;
         let pageNum = parseInt(page) - 1;
