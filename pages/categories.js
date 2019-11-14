@@ -33,8 +33,8 @@ export default class Categories extends Component {
     this.state = {
       icon: true,
     }
+    this.handleClick = this.handleClick.bind(this)
   }
-
   handlePageChange(pageNumber){
     alert('hello')
     // const { firstParam } = this.props
@@ -44,55 +44,11 @@ export default class Categories extends Component {
     //   window.location.href = `http://localhost:3000/${firstParam}/`
     // }
   }
- 
-  //   getPageChildChildren(x, y) {
-  //     let t = []
-
-  //     for (let z = 0; z < x.length; z++) {
-  //       if (x[z].slug === this.props.brand) {
-  //         for (let v = 0; v < y.length; v++) {
-  //           if (x[z].ID === y[v].parent_ID) {
-  //             t.push(y[v]);
-  //           }
-  //         }
-  //       }
-  //     }
-  //     return t;
-  //   }
-  //   getPageName(x) {
-  //     let p;
-  //     for (let i = 0; i < x.length; i++) {
-  //       if (this.props.brand === x[i].slug) {
-  //         p = x[i].name
-  //       }
-  //     }
-  //     return p;
-  //   }
-  //   getParentPageName(x) {
-  //     let p;
-  //     for (let i = 0; i < x.length; i++) {
-  //       if (this.props.pageSlug === x[i].slug) {
-  //         p = x[i].name
-  //       }
-  //     }
-  //     return p;
-  //   }
-  //   getPageChildren(x, y) {
-  //     let t = []
-  //     for (let z = 0; z < x.length; z++) {
-  //       if (x[z].slug === this.props.pageSlug) {
-  //         for (let w = 0; w < y.length; w++) {
-  //           if (x[z].ID === y[w].category_ID) {
-  //             t.push(y[w]);
-  //           }
-  //         }
-  //       }
-  //     }
-  //     return t;
-  //   }
-  handleClick = e => {
-    const { icon } = this.state;
-    this.setState({ icon: !icon });
+  handleClick(e) {
+    e.preventDefault();
+    alert('hello')
+    // const { icon } = this.state;
+    // this.setState({ icon: !icon });
   }
 
   render() {  
@@ -108,88 +64,6 @@ export default class Categories extends Component {
     let PostLink, BrandLink ;
     let img;
     let productCount = products.length;
-    //     let pageChildren;
-    //     let childrenName;
-    //     let pageName;
-    //     let categoryArr = this.props.category;
-    //     let brandsArr = this.props.brands;
-    //     let familyArr = this.props.families;
-    //     let seriesArr = this.props.series;
-    //     let modelsArr = this.props.models;
-    //     let brandNamesArr = [];
-    //     let categoryNamesArr = [];
-    //     let brandSlugsArr = [];
-    //     let categorySlugsArr = [];
-    //     let familyNamesArr = [];
-    //     let familySlugsArr = [];
-    //     let seriesNamesArr = [];
-    //     let seriesSlugsArr = [];
-    //     let modelNamesArr = [];
-    //     let modelSlugsArr = [];
-    //     let subcategoriesSlugsArr = [];
-    //     let products = [];
-
-    //     brandsArr.map(values => {
-    //       brandNamesArr.push(values.name)
-    //       brandSlugsArr.push(values.slug)
-    //     });
-    //     categoryArr.map(values => {
-    //       categoryNamesArr.push(values.name)
-    //       categorySlugsArr.push(values.slug)
-    //     });
-    //     familyArr.map(values => {
-    //       familyNamesArr.push(values.name)
-    //       familySlugsArr.push(values.slug)
-    //     })
-    //     seriesArr.map(values => {
-    //       seriesNamesArr.push(values.name)
-    //       seriesSlugsArr.push(values.slug)
-    //     })
-    //     modelsArr.map(values => {
-    //       modelNamesArr.push(values.name)
-    //       modelSlugsArr.push(values.slug)
-    //     })
-    //     this.props.subcategories.map(value => {
-    //       subcategoriesSlugsArr.push(value.slug)
-    //     })
-    //     if (categorySlugsArr.indexOf(this.props.pageSlug) !== -1) {
-    //       childrenName = 'Brands';
-    //       if (this.props.brand) {
-    //         this.props.subcategories.map(subcategory => {
-    //           if(subcategory.slug === this.props.brand){
-    //             pageName = subcategory.name;
-    //             this.props.subcategoryItems.map(item => {
-    //               if(item.category_ID === subcategory.ID){
-    //                 products.push(item)
-    //               }
-    //             })
-    //           }
-    //         })
-    //       } else {
-    //         pageName = this.getParentPageName(categoryArr)
-    //         // If Slug is Category - show all models from that category
-    //         categoryArr.map(category => {
-    //           if(category.slug === this.props.pageSlug){
-    //             brandsArr.map(brand => {
-    //               if(brand.category_ID === category.ID){
-    //                 familyArr.map(family => {
-    //                   if(family.parent_ID === brand.ID){
-    //                     seriesArr.map(series => {
-    //                       if(series.parent_ID === family.ID){
-    //                         modelsArr.map(model => {
-    //                           if(model.parent_ID === series.ID){
-    //                             products.push(model);
-    //                           }
-    //                         })
-    //                       }
-    //                     })
-    //                   }
-    //                 })
-    //               }
-    //             })
-    //           }
-    //         })
-    //       }
     PostLink = props => (
       <Link href={`/${props.param1}/${props.param2}`}
         params={{ cat: props.category, brand: props.id, param1: props.param1 }}
@@ -204,100 +78,6 @@ export default class Categories extends Component {
         <a>{props.id}</a>
       </Link>
     );
-    //       pageChildren = this.getPageChildren(categoryArr, brandsArr)
-    //     }
-
-    //     else if (brandSlugsArr.indexOf(this.props.pageSlug) !== -1) {
-
-    //       PostLink = props => (
-    //         <Link href={`/${this.props.pageSlug}/${props.slug}/`}
-    //           params={{ cat: props.category, brand: props.id, slug: props.slug }}
-    //         >
-    //           <a>{props.id}</a>
-    //         </Link>
-    //       );
-
-    //       if (this.props.brand) {
-    //         if (familySlugsArr.indexOf(this.props.brand) !== -1) {
-    //           childrenName = 'Series';
-    //           pageName = this.getPageName(familyArr)
-    //           pageChildren = this.getPageChildChildren(familyArr, seriesArr)
-    //           //Display products based on chosen family
-    //           familyArr.map(family => {
-    //             if(family.slug === this.props.brand){
-    //               seriesArr.map(series => {
-    //                 if(series.parent_ID === family.ID){
-    //                   modelsArr.map(model => {
-    //                     if(model.parent_ID === series.ID){
-    //                       products.push(model)
-    //                     }
-    //                   })
-    //                 }
-    //               })
-    //             }
-    //           })
-    //         }
-    //         else if (seriesSlugsArr.indexOf(this.props.brand) !== -1) {
-    //           childrenName = 'Models';
-    //           pageName = this.getPageName(seriesArr)
-    //           pageChildren = this.getPageChildChildren(seriesArr, modelsArr)
-    //           seriesArr.map(series => {
-    //             if(series.slug === this.props.brand){
-    //               modelsArr.map(model => {
-    //                 if(model.parent_ID === series.ID){
-    //                   products.push(model)
-    //                 }
-    //               })
-    //             }
-    //           })
-    //         }
-    //       }
-    //       else {
-    //         pageName = this.getParentPageName(brandsArr)
-    //         childrenName = 'Families';
-    //         let t = [];
-    //         brandsArr.map(brand => {
-    //           if(brand.slug === this.props.pageSlug){
-    //             familyArr.map(family => {
-    //               if(brand.ID === family.parent_ID){
-    //                 t.push(family);
-    //               }
-    //             })
-    //           }
-    //         })
-    //         pageChildren = t;
-    //         //If no child page show all results based on the selected brand
-    //         brandsArr.map(brand => {
-    //           if(brand.slug === this.props.pageSlug){
-    //             familyArr.map(family => {
-    //               if(brand.ID === family.parent_ID){
-    //                 seriesArr.map(series => {
-    //                   if(series.parent_ID === family.ID){
-    //                     modelsArr.map(model => {
-    //                       if(model.parent_ID === series.ID){
-    //                         products.push(model)
-    //                       }
-    //                     })
-    //                   }
-    //                 })
-    //               }
-    //             })
-    //           }
-    //         })
-    //       }
-
-    //     };
-    //     let productCount = products.length; 
-    //     if(productCount > 200){
-    //       productCount = 200;
-    //     }
-    //     let filteredProducts = [];
-    //     if(pageNumber>1){
-    //       filteredProducts = products.slice((pageNumber - 1) * 10 , ((pageNumber - 1) * 10) + 9);
-    //     }else{
-    //       filteredProducts = products.slice(0,9);
-    //     }
-
     return (
       <div className="page-body">
         <Header />
@@ -317,7 +97,7 @@ export default class Categories extends Component {
               <div className="col-sm-3">
                 <div className="panel-group">
                   <div className="panel panel-default">
-                    <a data-toggle="collapse" href="#collapse1">
+                    <a data-toggle="collapse" href="#collapse1" >
                       <div className="panel-heading" onClick={ this.handleClick }>
                         <span className="panel-title" >
                           All Brands
@@ -366,7 +146,7 @@ export default class Categories extends Component {
                           </div>
 
                           <div className="col-md-9">
-                            <Link href={`/${this.props.param1}/${product.slug}/`}>
+                            <Link href={`/${product.brand_slug}/${product.slug}/`}>
                               <a><h3>{product.name}</h3></a>
                             </Link>
 

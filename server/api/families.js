@@ -57,5 +57,16 @@ module.exports = function(app){
            return res.send(result) 
         })
     })
+    app.get("/api/getseriesbyfamily/:slug", (req, res) => {
+        const { slug } = req.params;
+        database.query("SELECT b.* FROM `product_heirarchy` as a, \
+        product_heirarchy as b \
+        WHERE a.slug = '"+slug+"' \
+        AND b.parent_ID = a.ID",
+        (error, result) => {
+            if(error) throw error;
+           return res.send(result) 
+        })
+    })
     
 }

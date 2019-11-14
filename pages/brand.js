@@ -19,7 +19,7 @@ export default class Categories extends Component {
         const products_by_page = await fetch(`http://localhost:3000/api/getproductsbybrand/${query.param1}/page/${query.page}`)
         const data_products_by_page = await products_by_page.json()
 
-        return { productsByPage:data_products_by_page,  brand: data_brand, products: data_products_by_brand, families: data_families_by_brand, param1: query.param1 };
+        return { productsByPage:data_products_by_page,  brand: data_brand, products: data_products_by_brand, families: data_families_by_brand, param1: query.param1, page: query.page };
     }
 
     constructor(props) {
@@ -27,7 +27,6 @@ export default class Categories extends Component {
         this.state = {
             icon: true,
         }
-
     }
     handleClick = e => {
         const { icon } = this.state;
@@ -35,9 +34,16 @@ export default class Categories extends Component {
     };
     render() {
         const { icon } = this.state;
-        const { brand, products, families, productsByPage } = this.props
+        const { brand, products, families, productsByPage, page } = this.props
         let PostLink;
+        let pageNumber;
+        if(page){
+            pageNumber = parseInt(page);
+        }else{
+            pageNumber = 1;
+        }
         let img;
+        let productCount = products.length;
         PostLink = props => (
             <Link href={`/${props.param1}/${props.param2}`}
                 params={{ cat: props.category, brand: props.id, param1: props.param1 }}
@@ -52,9 +58,7 @@ export default class Categories extends Component {
                     <div className="container content">
                         <div className="breadcrumbs">
                             <ul className="breadcrumbs">
-                                {/* {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> : <li><Link route="/"><a>Home</a></Link></li>}
-                {this.props.brand && this.props.bc_brandName ? <li><Link href={`/${this.props.bc_brandSlug}`}><a>{this.props.bc_brandName}</a></Link></li> : ''}
-                {this.props.bc_familyName && this.props.brand ? <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}`}><a>{this.props.bc_familyName}</a></Link></li> : ''} */}
+                                {this.props.bc_CategoryName ? <li><Link href={`/${this.props.bc_CategorySlug}`}><a>{this.props.bc_CategoryName}</a></Link></li> : <li><Link route="/"><a>Home</a></Link></li>}
                             </ul>
                         </div>
 

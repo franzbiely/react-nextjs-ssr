@@ -6,6 +6,7 @@ import Footer from '../components/partials/footer'
 import fetch from "isomorphic-unfetch";
 
 export default class Model extends Component {
+ 
   static getInitialProps = async ({query}) =>{
 
     const model = await fetch(`http://localhost:3000/api/getmodel/${query.param2}`)
@@ -16,11 +17,30 @@ export default class Model extends Component {
     const data_family_by_model = await family_by_model.json()
     const series_by_model = await fetch(`http://localhost:3000/api/getseriesbymodel/${query.param2}`)
     const data_series_by_model = await series_by_model.json()
+    const category_by_model = await fetch(`http://localhost:3000/api/getcategorybymodel/${query.param2}`)
+    const data_category_by_model = await category_by_model.json()
+    const models_by_series = await fetch(`http://localhost:3000/api/getmodelsbyseries/${data_series_by_model[0].slug}`)
+    const data_models_by_series = await models_by_series.json()
+    const variants_by_models = await fetch(`http://localhost:3000/api/getvariantsbymodel/${query.param2}`)
+    const data_variants_by_models = await variants_by_models.json()
 
-    return ({ model : data_model, brandByModel: data_brand_by_model, familyByModel: data_family_by_model, seriesByModel: data_series_by_model })
+    return ({ categoryByModel: data_category_by_model, model : data_model, brandByModel: data_brand_by_model, familyByModel: data_family_by_model, seriesByModel: data_series_by_model, modelsBySeries: data_models_by_series, variantsByModel: data_variants_by_models})
+  
+  }
+  constructor(props){
+    super(props)
+    
   }
   render() {
-    const { model, brandByModel, familyByModel, seriesByModel } = this.props
+    const { 
+      model, 
+      brandByModel, 
+      familyByModel, 
+      seriesByModel, 
+      categoryByModel, 
+      modelsBySeries,
+      variantsByModel 
+    } = this.props
     // return(
     //   <div className="page-body model-page"> 
     //     <Header />
@@ -138,10 +158,10 @@ export default class Model extends Component {
       <div className="container content">
           <div className="breadcrumbs">
             <ul className = "breadcrumbs">
-              <li><Link href={`/${this.props.bc_CategorySlug}/`}><a>{this.props.bc_CategoryName}</a></Link></li>
-              <li><Link href={`/${this.props.bc_brandSlug}/`}><a style={{ color: 'white'}}>{this.props.bc_brandName}</a></Link></li>
-              <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_familySlug}/`}><a style={{ color: 'white'}}>{this.props.bc_familyName}</a></Link></li>
-              <li><Link href={`/${this.props.bc_brandSlug}/${this.props.bc_seriesSlug}/`}><a style={{ color: 'white'}}>{this.props.bc_seriesName}</a></Link></li>
+              <li><Link href={`/${categoryByModel[0].slug}/`}><a>{categoryByModel[0].name}</a></Link></li>
+              <li><Link href={`/${brandByModel[0].slug}/`}><a style={{ color: 'white'}}>{brandByModel[0].name}</a></Link></li>
+              <li><Link href={`/${brandByModel[0].slug}/${familyByModel[0].slug}/`}><a style={{ color: 'white'}}>{familyByModel[0].name}</a></Link></li>
+              <li><Link href={`/${brandByModel[0].slug}/${seriesByModel[0].slug}/`}><a style={{ color: 'white'}}>{seriesByModel[0].name}</a></Link></li>
             </ul>
           </div>
         <div className="col-sm-12">
@@ -280,11 +300,11 @@ export default class Model extends Component {
           </div>
           <div className="col-sm-3 product_series_section">
             <div>
-              <h3>{this.props.bc_seriesName} {this.props.bc_CategoryName}</h3>
+              <h3>{seriesByModel[0].name} {categoryByModel[0].name}</h3>
               <ul type="none">
                 {
-                  this.props.series_models ? 
-                  this.props.series_models.map((value, key) => {
+                  modelsBySeries ? 
+                  modelsBySeries.map((value, key) => {
                     return <li key={key}><Link href={`/${this.props.bc_brandSlug}/${value.slug}`}><a>{value.name}</a></Link></li>
                   })
                   : 
@@ -301,15 +321,15 @@ export default class Model extends Component {
               <hr />
               <div className="compare-table">
                 {
-                  // (Array.isArray(variantContainer) && variantContainer.length > 0) ? 
+                  (Array.isArray(variantsByModel) && variantsByModel.length > 0) ? 
                   <table width="100%" border="1">
                   <thead>
                     <tr>
                       <th>&nbsp;</th>
                       {
-                        // variantContainer.map((values, key)=>{
-                        //   return <th key={key}>{values.name}</th>
-                        // })
+                        variantsByModel.map((values, key)=>{
+                          return <th key={key}>{values.name}</th>
+                        })
                       }
                     </tr>
                   </thead>
@@ -396,10 +416,10 @@ export default class Model extends Component {
                     </tr>
                   </tbody>
                 </table> 
-                // : //////     ELSE     ///////
-                //   <table>
-                //     <em>No Variants available for this model</em>
-                //   </table>
+                  : //////     ELSE     ///////
+                  <table>
+                    <em>No Variants available for this model</em>
+                  </table>
                 }
               </div>
             </div>

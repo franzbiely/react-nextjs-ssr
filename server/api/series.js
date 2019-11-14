@@ -14,4 +14,29 @@ module.exports = function(app){
            return res.send(result) 
         })
     })
+    app.get("/api/getmodelsbyseries/:slug", (req, res) => {
+        const { slug } = req.params;
+        database.query("SELECT b.* FROM product_heirarchy as a \
+        LEFT OUTER JOIN products as b \
+        ON a.id = b.parent_ID \
+        WHERE a.slug = '"+slug+"' \
+        LIMIT 200",    
+        (error, result) => {
+            if(error) throw error;
+           return res.send(result) 
+        })
+    })
+    app.get("/api/getmodelsbyseries/:slug/page/:page", (req, res) => {
+        const { slug, page } = req.params;
+        let pageNum = parseInt(page) - 1;
+        database.query(`SELECT b.* FROM product_heirarchy as a \
+        LEFT OUTER JOIN products as b \
+        ON a.id = b.parent_ID \
+        WHERE a.slug = '${slug}' \
+        LIMIT 20 OFFSET ${pageNum ? pageNum * 20 : 0}`,    
+        (error, result) => {
+            if(error) throw error;
+           return res.send(result) 
+        })
+    })
 }
