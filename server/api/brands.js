@@ -61,4 +61,20 @@ module.exports = function(app){
            return res.send(result) 
         })
     })
+    app.get("/api/getSimilarModelsByBrand/:slug", (req, res) => {
+        const { slug } = req.params;
+        database.query(`Select p.* from product_heirarchy as b
+        INNER JOIN product_heirarchy as f ON f.parent_ID = b.ID
+        INNER JOIN product_heirarchy as s ON s.parent_ID = f.ID
+        INNER JOIN products as p ON p.parent_ID = s.ID
+        WHERE b.slug='${ slug }'
+        AND b.type = 'brand'
+        AND f.type = 'family'
+        AND s.type = 'series'
+        LIMIT 200`,    
+        (error, result) => {
+            if(error) throw error;
+           return res.send(result) 
+        })
+    })
 }

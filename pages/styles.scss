@@ -171,11 +171,22 @@ ul.postLink{
   padding: 0;
 }
 .model-page .row .col-sm-9 table {
-  border-color: rgba(150, 150, 150, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  th, td{
+    padding: 5px 10px;
+  }
+  td{
+    vertical-align: top;
+  }
+  th{
+    background-color: #097972;
+    color: white;
+  }
+  
 }
 .model-page .row .col-sm-9 table * {
-  text-align: center;
-  border-color: rgba(150, 150, 150, 0.8);
+  text-align: left;
+  border-color: rgba(200, 200, 200, 0.5) !important;
 }
 .model-page .product-image-section .col-sm-12.product-gallery {
   display: flex;
@@ -269,12 +280,15 @@ ul.postLink{
   }
   .compare-table{
     display: block;
-    white-space: nowrap;
+    white-space: normal;
     overflow-x: auto;
       table {
         margin-bottom: 10px;
         th{
           min-width: 253px;;
+        }
+        th:first-child{
+          min-width: 150px;
         }
       }
   }

@@ -25,8 +25,10 @@ export default class Model extends Component {
     const data_variants_by_model = await variants_by_model.json()
     const variant_specs_by_model = await fetch(`http://localhost:3000/api/getspecsbymodel/${query.param2}`)
     const data_variant_specs_by_model = await variant_specs_by_model.json()
-
+    const similar_products_by_brand = await fetch(`http://localhost:3000/api/getSimilarModelsByBrand/${query.param1}`)
+    const data_similar_products_by_brand = await similar_products_by_brand.json()
     return ({ 
+      similarProductsByBrand : data_similar_products_by_brand,
       categoryByModel: data_category_by_model, 
       model : data_model, 
       brandByModel: data_brand_by_model, 
@@ -43,7 +45,7 @@ export default class Model extends Component {
     
   }
   assignBlank(container){
-    container.push('none')
+    container.push('not available')
   }
   assignSpecs(productMeta, spec, container, key){
     if(productMeta.meta_key === spec){
@@ -52,6 +54,7 @@ export default class Model extends Component {
       }
     }
   }
+
 
   render() {
     const { 
@@ -62,8 +65,24 @@ export default class Model extends Component {
       categoryByModel, 
       modelsBySeries,
       variantsByModel,
-      variantSpecsByModel 
+      variantSpecsByModel,
+      similarProductsByBrand 
     } = this.props
+    let similarProductsContainer = [];
+    // let arr = [];
+    let ttt = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let xxx = [2, 4, 9, 7]
+    let counter = 0;
+    // console.log(similarProductsByBrand[counter].name)
+    let arr = similarProductsByBrand;
+    let container = [];
+    arr.map( sp => {
+      modelsBySeries.map(ms => {
+        if( sp.name !== ms.name ){
+           container.push(sp.name)
+        }
+      })
+    }) 
 
     let 
     display_size = [],
@@ -285,7 +304,7 @@ export default class Model extends Component {
                   <table width="100%" border="1">
                   <thead>
                     <tr>
-                      <th>&nbsp;</th>
+                      <th>Specifications</th>
                       {
                         variantsByModel.map((values, key)=>{
                           return <th key={key}>{values.name}</th>
@@ -298,7 +317,7 @@ export default class Model extends Component {
                       <td>Display</td>
                       {
                         display_size.map((values, key) =>{
-                            return <th key={key}>{values}</th>
+                            return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -306,7 +325,7 @@ export default class Model extends Component {
                       <td>Processor</td>
                       {
                         processors.map((values, key) =>{
-                            return <th key={key}>{values}</th>
+                            return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -314,7 +333,7 @@ export default class Model extends Component {
                       <td>Ram</td>
                       {
                         ram.map((values, key) =>{
-                            return <th key={key}>{values}</th>
+                            return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -322,7 +341,7 @@ export default class Model extends Component {
                       <td>Storage</td>
                       {
                         storage.map((values, key) =>{
-                            return <th key={key}>{values}</th>
+                            return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -330,7 +349,7 @@ export default class Model extends Component {
                       <td>GPU</td>
                       {
                         gpu.map((values, key) =>{
-                            return <th key={key}>{values}</th>
+                            return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -338,7 +357,7 @@ export default class Model extends Component {
                       <td>Keyboard</td>
                       {
                         keyboard.map((values, key) =>{
-                            return <th key={key}>{values}</th>
+                            return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -346,7 +365,7 @@ export default class Model extends Component {
                       <td>WiFi</td>
                       {
                         wifi.map((values, key) =>{
-                            return <th key={key}>{values}</th>
+                            return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -354,7 +373,7 @@ export default class Model extends Component {
                       <td>Operating System</td>
                       {
                         operating_system.map((values, key) =>{
-                            return <th key={key}>{values}</th>
+                            return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -362,7 +381,7 @@ export default class Model extends Component {
                       <td>Weight</td>
                       {
                         weight.map((values, key) =>{
-                          return <th key={key}>{values}</th>
+                          return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -370,7 +389,7 @@ export default class Model extends Component {
                       <td>Where to buy</td>
                       { 
                         where_to_buy.map((values, key) =>{
-                            return <th key={key}>{values}</th>
+                            return <td key={key}>{values}</td>
                         })
                       }
                     </tr>
@@ -391,27 +410,27 @@ export default class Model extends Component {
         <div className="row">
           <div className="col-sm-9 product_description_section">
             <div>
-              <h3>{this.props.bc_CategoryName} similar to the {model[0].name}</h3>
+              <h3>{categoryByModel[0].name} similar to the {model[0].name}</h3>
               <hr />
               <div className="row similar-product-row">
                 {
-                  // filtered_similar_brands.map((value, key) => {
-                  //  let x = <div className ="col-sm-4">
-                  //             <Link href={`/${this.props.bc_brandSlug}/${value.slug}`}>
-                  //               <a>
-                  //               <div>
-                  //                 {
-                  //                   // value.image ?
-                  //                   // <img src={value.image} alt={value.name}></img> :
-                  //                   <img src="http://localhost:3000/static/images/default.png" alt={value.name}></img>
-                  //                 }
-                  //                 <span>{value.name}</span>
-                  //               </div>
-                  //              </a>
-                  //             </Link>
-                  //           </div>
-                  //      return x;     
-                  // })
+                  similarProductsContainer.slice(0,6).map((value, key) => {
+                   let x = <div className ="col-sm-4">
+                              <Link href={`/${this.props.bc_brandSlug}/${value.slug}`}>
+                                <a>
+                                <div>
+                                  {
+                                    // value.image ?
+                                    // <img src={value.image} alt={value.name}></img> :
+                                    <img src="http://localhost:3000/static/images/default.png" alt={value.name}></img>
+                                  }
+                                  <span>{value.name}</span>
+                                </div>
+                               </a>
+                              </Link>
+                            </div>
+                       return x;     
+                  })
                 }
               </div> 
               <h5>Brands with similar category</h5> 
